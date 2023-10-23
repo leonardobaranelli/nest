@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Immovable } from './immovable.model'; 
+import { Immovable } from '../immovable.model'; 
 
 @Controller('immovables')
 export class ImmovablesController {

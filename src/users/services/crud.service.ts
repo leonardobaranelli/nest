@@ -1,13 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
-import { User } from './user.model';
+import { Injectable } from '@nestjs/common';
+import { User } from '../user.model';
 
-@Controller('users')
-export class UsersController {
-    
-  @Get()
-  async getUsers() {
-    try {      
-      
+@Injectable()
+export class UsersService {
+
+    async getUsers() {
+    try {            
       const users = await User.findAll();
       return users;
     } catch (error) {
@@ -16,3 +14,4 @@ export class UsersController {
     }
   }
 }
+
