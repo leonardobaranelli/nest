@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ImmovablesService } from './services/crud.service';
-import { ImmovablesController } from './controller/crud.controller';
+import { CrudService } from './services/crud.service';
+import { CrudController } from './controller/crud.controller';
 
 @Module({
-  providers: [ImmovablesService],
-  controllers: [ImmovablesController]
+  providers: [CrudService],
+  controllers: [CrudController]
 })
 export class ImmovablesModule {}

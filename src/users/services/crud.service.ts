@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '../user.model';
 
 @Injectable()
-export class UsersService {
+export class CrudService {
 
     async getUsers() {
     try {            

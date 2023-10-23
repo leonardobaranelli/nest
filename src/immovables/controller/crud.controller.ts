@@ -1,17 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { Immovable } from '../immovable.model'; 
+import { CrudService } from '../services/crud.service';
 
 @Controller('immovables')
-export class ImmovablesController {
-    
-  @Get()
-  async getImmovables() {
-    try {      
-      const immovables = await Immovable.findAll();
-      return immovables;
-    } catch (error) {
-      console.error('Error when obtaining immovables from the database:', error);
-      return { error: 'Error when obtaining immovables from the database' };
-    }
-  }
+export class CrudController {
+  constructor(private readonly crudService: CrudService) {}
+
+  @Get('all')
+  getImmovables(): Promise<Immovable[] | { error: string; }> {
+    return this.crudService.getImmovables();
+  }   
 }

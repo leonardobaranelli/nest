@@ -1,13 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { User } from '../user.model';
-import { UsersService } from '../services/crud.service';
+import { CrudService } from '../services/crud.service';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class CrudController {
+  constructor(private readonly crudService: CrudService) {}
 
   @Get('all')
   getUsers(): Promise<User[] | { error: string; }> {
-    return this.usersService.getUsers();
+    return this.crudService.getUsers();
   }  
 }
