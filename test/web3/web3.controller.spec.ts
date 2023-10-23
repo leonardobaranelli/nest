@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from '../../src/users/controllers/crud.controller';
+import { Web3Controller } from '../../src/web3/contract.controller';
 
-describe('UsersController', () => {
-  let controller: UsersController;
+describe('Web3Controller', () => {
+  let controller: Web3Controller;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
+      controllers: [Web3Controller],
     }).compile();
 
-    controller = module.get<UsersController>(UsersController);
+    controller = module.get<Web3Controller>(Web3Controller);
   });
 
   it('should be defined', () => {
