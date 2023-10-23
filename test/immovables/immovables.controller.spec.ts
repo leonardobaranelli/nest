@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ImmovablesController } from '../../src/immovables/controller/crud.controller';
+import { ImmovablesController } from '../../src/immovables/immovables.controller';
 
 describe('ImmovablesController', () => {
   let controller: ImmovablesController;

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ImmovablesService } from '../../src/immovables/services/crud.service';
+import { ImmovablesService } from '../../src/immovables/immovables.service';
 
 describe('ImmovablesService', () => {
   let service: ImmovablesService;
