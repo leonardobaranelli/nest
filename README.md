@@ -1,3 +1,3 @@
-# README __NEST - Alquiler y Venta de Apartamentos__
+# __NEST - Alquiler y Venta de Apartamentos__
 
-:)
+Archivo markdown informativo :)
