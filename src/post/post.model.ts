@@ -1,7 +1,7 @@
 import { Table, Column, Model, PrimaryKey, DataType, Default, AllowNull } from 'sequelize-typescript';
 
 @Table
-export class Immovable extends Model {
+export class Post extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @AllowNull(false)

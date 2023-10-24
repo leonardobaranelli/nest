@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { sequelize } from '../sequelize.config'; 
+import { sequelize } from './shared/models/relations.config'; 
 
 async function bootstrap() {
   await sequelize.sync();  
