@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { User } from '../user.model';
+import { User } from '../../models/user.model';
 import { CrudService } from '../services/crud.service';
 
 @Controller('users')
