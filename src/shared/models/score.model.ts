@@ -9,9 +9,8 @@ enum scoreType {
 @Table
 export class Score extends Model {
   @PrimaryKey
-  @Default(DataType.UUIDV4)
-  @AllowNull(false)
-  @Column({allowNull: false, type: DataType.UUIDV4})
+  @AllowNull(false)  
+  @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
   @Column({allowNull: false, type: DataType.STRING})

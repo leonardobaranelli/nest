@@ -7,24 +7,28 @@ import { Score } from './score.model';
 
 // Crear una nueva instancia de Sequelize
 export const sequelize = new Sequelize({
-  // Configuración de la base de datos (puedes agregar tus detalles aquí)
+  database: 'nest', 
+  dialect: 'postgres',
+  username: 'postgres',
+  password: 'admin',
+  models: [Post, User, Rent, Comment, Score],
 });
 
 // Definir las relaciones
-User.hasMany(Post, { foreignKey: 'id' });
-Post.belongsTo(User, { foreignKey: 'id' });
+User.hasMany(Post, { foreignKey: 'userid' });
+Post.belongsTo(User, { foreignKey: 'userid' });
 
-User.hasMany(Score, { foreignKey: 'id' });
-Score.belongsTo(User, { foreignKey: 'id' });
+User.hasMany(Score, { foreignKey: 'userid' });
+Score.belongsTo(User, { foreignKey: 'userid' });
 
-Post.hasMany(Comment, { foreignKey: 'id' });
-Comment.belongsTo(Post, { foreignKey: 'id' });
+Post.hasMany(Comment, { foreignKey: 'postid' });
+Comment.belongsTo(Post, { foreignKey: 'postid' });
 
-Post.hasMany(Score, { foreignKey: 'id' });
-Score.belongsTo(Post, { foreignKey: 'id' });
+Post.hasMany(Score, { foreignKey: 'postid' });
+Score.belongsTo(Post, { foreignKey: 'postid' });
 
-Post.hasMany(Rent, { foreignKey: 'id' });
-Rent.belongsTo(Post, { foreignKey: 'id' });
+Post.hasMany(Rent, { foreignKey: 'postid' });
+Rent.belongsTo(Post, { foreignKey: 'postid' });
 
 
 // Agregar modelos a la instancia de Sequelize

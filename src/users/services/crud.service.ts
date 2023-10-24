@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '../../models/user.model';
+import { User } from '../../shared/models/relations.config'; 
 
 @Injectable()
 export class CrudService {

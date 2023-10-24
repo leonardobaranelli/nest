@@ -8,10 +8,9 @@ enum postType {
 @Table
 export class Post extends Model {
   @PrimaryKey
-  @Default(DataType.UUIDV4)
   @AllowNull(false)
-  @Column({allowNull: false, type: DataType.UUIDV4})
-  id: string;
+  @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })  
+  id: string;  
 
   @Column({type: DataType.INTEGER})
   days: number;
