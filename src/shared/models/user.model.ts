@@ -7,14 +7,19 @@ enum userType {
 
 @Table
 export class User extends Model {
-  @PrimaryKey
-  @Default(DataType.UUIDV4)
+  @PrimaryKey  
   @AllowNull(false)
-  @Column({allowNull: false, type: DataType.UUIDV4})
+  @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })  
   id: string;
 
-  @Column({allowNull: false, type: DataType.STRING(255)})
-  type: userType
+  // @Column({allowNull: false, type: DataType.STRING(255)})
+  // type: userType;
+
+  @Column({
+    type: DataType.STRING, // O el tipo de datos correcto para la columna 'type'
+    allowNull: false,
+  })
+  //type: string;
 
   @Column({allowNull: false, type: DataType.STRING(255)})
   email: string;
@@ -22,18 +27,17 @@ export class User extends Model {
   @Column({ allowNull:false, type: DataType.STRING(255) })  
   username: string;
 
-  @Column({ allowNull:false, type: DataType.STRING(255) })  
-  lastName: string;
+  // @Column({ allowNull:false, type: DataType.STRING(255) })  
+  // lastName: string;
 
   @Column({ allowNull:false, type: DataType.STRING(255) })  
   password: string;
 
-  @Column({unique: true})
-  phone: string;
+  // @Column({unique: true})
+  // phone: string;
 
-  @Column({ allowNull:false, type: DataType.STRING })  
-  identificationNumber: string;
-
+  // @Column({ allowNull:false, type: DataType.STRING })  
+  // identificationNumber: string;
   
 
 }

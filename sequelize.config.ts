@@ -9,6 +9,6 @@ export const sequelize = new Sequelize({
   database: 'nest',
   dialect: 'postgres',
   username: 'postgres',
-  password: 'Planvallejo88',
+  password: 'admin',
   models: [Post, User, Rent, Comment, Score],
 });
