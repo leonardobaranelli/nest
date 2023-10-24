@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Immovable } from '../immovable.model';
+import { Post } from '../post.model';
 
 @Injectable()
 export class CrudService {    
     
     async getImmovables() {
         try {      
-            const immovables = await Immovable.findAll();
-            return immovables;
+            const post = await Post.findAll();
+            return post;
         } catch (error) {
             console.error('Error when obtaining immovables from the database:', error);
             return { error: 'Error when obtaining immovables from the database' };

@@ -1,18 +1,18 @@
 import { sequelize } from '../sequelize.config';
-import { Immovable } from './immovables/immovable.model';
-import { User } from './users/user.model';
+import { Post } from './shared/models/relations.config'
+import { User } from './shared/models/relations.config'
 
 async function createTestRecords() {  
   await sequelize.sync();
 
-  await Immovable.create({
+  await Post.create({
     type: 'Casa',
     address: 'Calle Principal 123',
     price: 250000,
     //createdAt: new Date('2023-10-20T14:00:00Z'),
   });
 
-  await Immovable.create({
+  await Post.create({
     type: 'Apartamento',
     address: 'Avenida Secundaria 456',
     price: 90000,
