@@ -5,17 +5,42 @@ import { UpdatePostDto } from '../dto/update-post.dto';
 import * as fs from 'fs';
 import * as path from 'path';
 
-// Construye la ruta al archivo JSON
-const filePath = path.resolve(__dirname, 'data.json');
-
-// Lee el archivo JSON
-const rawData = fs.readFileSync(filePath);
-const jsonData = JSON.parse(rawData.toString());
-
-console.log(jsonData);
-
 @Injectable()
 export class CrudService {
+
+  private readonly filePath: string;
+  constructor() {    
+    this.filePath = path.resolve(__dirname, '../../../src/posts/data.json');    
+  }
+  
+  async filterByType(condition: string) {
+    try {      
+      if (condition !== 'sell' && condition !== 'rent') throw new Error('Invalid type');
+      
+      const rawData = fs.readFileSync(this.filePath);
+      const posts = JSON.parse(rawData.toString());      
+      const filteredPosts = posts.filter(post => post.condition === condition);
+      
+      return filteredPosts;
+    } catch (error) {
+      const message = error.message || 'Error when obtaining posts from the database';
+      return { error: message };
+    }
+  }
+  
+  // async filterByType(condition: string) {
+  //   try {
+  //     // Get posts by type from the database on sequelize
+  //     if (condition !== 'sell' && condition !== 'rent') throw new Error('Invalid type');
+  //     const posts = await Posts.findAll({ where: { condition } });
+  //     return posts;
+  //   } catch (error) {
+  //     const message =
+  //       error.message || 'Error when obtaining posts from the database';
+  //     return { error: message };
+  //   }
+  // }
+  
   async filterByCountry(country: string) {
     // Get post by country from the database on sequelize
     try {
@@ -25,33 +50,7 @@ export class CrudService {
       console.error('Error when obtaining posts from the database:', error);
       return { error: 'Error when obtaining posts from the database' };
     }
-  }
-
-  async filterByTypeHardcod(type: string) {
-    try {
-      // Get posts by type from the database on sequelize
-      if (type !== 'sell' && type !== 'rent') throw new Error('Invalid type');
-      const posts = jsonData;
-      return posts;
-    } catch (error) {
-      const message =
-        error.message || 'Error when obtaining posts from the database';
-      return { error: message };
-    }
-  }
-
-  async filterByType(type: string) {
-    try {
-      // Get posts by type from the database on sequelize
-      if (type !== 'sell' && type !== 'rent') throw new Error('Invalid type');
-      const posts = await Posts.findAll({ where: { type } });
-      return posts;
-    } catch (error) {
-      const message =
-        error.message || 'Error when obtaining posts from the database';
-      return { error: message };
-    }
-  }
+  } 
 
   async findAll() {
     // Get all posts from the database on sequelize

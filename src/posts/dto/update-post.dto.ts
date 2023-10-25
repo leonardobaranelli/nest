@@ -7,6 +7,9 @@ export class UpdatePostDto extends PartialType(CreatePostDto) {
   days?: number;
 
   @IsString()
+  condition?: string;
+
+  @IsString()
   image?: string;
 
   @IsString()
