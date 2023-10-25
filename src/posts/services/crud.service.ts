@@ -33,7 +33,7 @@ export class CrudService {
   async create(createPostDto: CreatePostDto) {
     // Add a new immovable to the database on sequelize
     try {
-      const post = await Posts.create(createPostDto);
+      const post = await Posts.create({createPostDto});
       return post;
     } catch (error) {
       console.error('Error when creating immovable on the database:', error);

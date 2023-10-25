@@ -8,7 +8,7 @@ export class CrudService {
   async create(createUserDto: CreateUserDto) {
     // Create a new user on the database on sequelize
     try {
-      const user = await User.create(createUserDto);
+      const user = await User.create({createUserDto});
       return user;
     } catch (error) {
       console.error('Error when creating user on the database:', error);

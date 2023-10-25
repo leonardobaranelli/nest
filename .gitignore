@@ -11,7 +11,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-sequelize.config.ts
+.env
 
 # OS
 .DS_Store
