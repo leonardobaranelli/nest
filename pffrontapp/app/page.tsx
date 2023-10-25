@@ -9,7 +9,7 @@ const count = useAppSelector((state) => state.counterReducer.value);
   const dispatch = useAppDispatch();
 
   return (
-    
+ 
             <div>
         <h4 style={{ marginBottom: 16 }}>{count}</h4>
         <button onClick={() => dispatch(increment())}>increment</button>
@@ -21,9 +21,6 @@ const count = useAppSelector((state) => state.counterReducer.value);
         </button>
         <button onClick={() => dispatch(reset())}>reset</button>
       </div>
-
-
-    
   )
 }
 
