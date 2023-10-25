@@ -1,31 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { CrudService } from '../services/crud.service';
+import { User } from '../../shared/models/relations.config';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { User } from '../../shared/models/relations.config'; 
-import { CrudService } from '../services/crud.service';
 
 @Controller('users')
 export class CrudController {
   constructor(private readonly crudService: CrudService) {}
 
   @Get('all')
-  getUsers(): Promise<User[] | { error: string; }> {
-    return this.crudService.getUsers();
-  }  
-
-  // @Get()
-  // findAll() {
-  //   return this.crudService.findAll();
-  // }
-
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.crudService.create(createUserDto);
-  } 
+  findAll(): Promise<User[] | { error: string }> {
+    return this.crudService.findAll();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.crudService.findOne(+id);
+  }
+
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.crudService.create(createUserDto);
   }
 
   @Patch(':id')

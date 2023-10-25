@@ -1,38 +1,73 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { User } from '../../shared/models/relations.config'; 
+import { User } from '../../shared/models/relations.config';
 
 @Injectable()
 export class CrudService {
-
-  async getUsers() {
-    try {            
-      const users = await User.findAll();
-      return users;
+  async create(createUserDto: CreateUserDto) {
+    // Create a new user on the database on sequelize
+    try {
+      const user = await User.create(createUserDto);
+      return user;
     } catch (error) {
-      console.error('Error getting users from database', error);
-      return { error: 'Error getting users from database' };
+      console.error('Error when creating user on the database:', error);
+      return { error: 'Error when creating user on the database' };
     }
   }
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new crud';
+  async findAll() {
+    // Get all users from the database on sequelize
+    try {
+      const users = await User.findAll();
+      return users;
+    } catch (error) {
+      console.error('Error when obtaining users from the database:', error);
+      return { error: 'Error when obtaining users from the database' };
+    }
   }
 
-  findAll() {
-    return `This action returns all crud`;
+  async findOne(id: number) {
+    // Get a detail of a user from the database on sequelize
+    try {
+      const user = await User.findOne({ where: { id } });
+      return user;
+    } catch (error) {
+      console.error('Error when obtaining user from the database:', error);
+      return { error: 'Error when obtaining user from the database' };
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} crud`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    // Update a user from the database on sequelize
+    try {
+      const user = await User.update(updateUserDto, { where: { id } });
+      return user;
+    } catch (error) {
+      console.error('Error when updating user from the database:', error);
+      return { error: 'Error when updating user from the database' };
+    }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} crud`;
+  async remove(id: number) {
+    // Delete a user from the database on sequelize
+    try {
+      const user = await User.destroy({ where: { id } });
+      return user;
+    } catch (error) {
+      console.error('Error when deleting user from the database:', error);
+      return { error: 'Error when deleting user from the database' };
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} crud`;
-  }  
+  async removeLogin(id: number) {
+    // Unactivate a user from the database on sequelize
+    try {
+      const user = await User.update({ active: false }, { where: { id } });
+      return user;
+    } catch (error) {
+      console.error('Error when unactivating user from the database:', error);
+      return { error: 'Error when unactivating user from the database' };
+    }
+  }
 }
