@@ -4,12 +4,15 @@ import { User } from './user.model';
 import { Rent } from './rent.model';
 import { Comment } from './comment.model';
 import { Score } from './score.model';
+import { config } from 'dotenv';
+
+config();
 
 export const sequelize = new Sequelize({
-  database: 'nest', 
   dialect: 'postgres',
-  username: 'postgres',
-  password: 'admin',
+  database: process.env.DB_NAME,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
   models: [Posts, User, Rent, Comment, Score],
 });
 

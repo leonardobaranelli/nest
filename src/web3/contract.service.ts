@@ -5,32 +5,32 @@ import Web3 from 'web3';
 export class ContractService {
   private web3: Web3;
 
-  constructor() {    
+  constructor() {
     this.web3 = new Web3('https://bsc-testnet-dataseed.bnbchain.org');
   }
 
   async getHiWorld(contractAddress: string): Promise<string> {
     try {
-        const ABIcontract = [
+      const ABIcontract = [
+        {
+          inputs: [],
+          name: 'sayHelloWorld',
+          outputs: [
             {
-              "inputs": [],
-              "name": "sayHelloWorld",
-              "outputs": [
-                {
-                  "internalType": "string",
-                  "name": "",
-                  "type": "string"
-                }
-              ],
-              "stateMutability": "pure",
-              "type": "function"
-            }
-          ];
+              internalType: 'string',
+              name: '',
+              type: 'string',
+            },
+          ],
+          stateMutability: 'pure',
+          type: 'function',
+        },
+      ];
 
       const contract = new this.web3.eth.Contract(ABIcontract, contractAddress);
 
       const result = await contract.methods.sayHelloWorld().call();
-      
+
       if (typeof result !== 'string') {
         console.warn('HelloWorld result is not a string:', result);
         return '';
@@ -40,6 +40,6 @@ export class ContractService {
     } catch (error) {
       console.error('Error getting helloworld:', error);
       throw error;
-    }  
+    }
   }
 }

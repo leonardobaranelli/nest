@@ -1,19 +1,50 @@
 import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class CreatePostDto {
+  // Data Transfer Object (DTO) for creating a post || Posts
+  @IsNotEmpty()
+  @IsNumber()
+  days: number;
+
   @IsNotEmpty()
   @IsString()
-  readonly type: string;
+  type: string;
 
-  @IsNotEmpty()  
+  @IsNotEmpty()
   @IsString()
-  readonly address: string;
+  image: string;
+
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+
+  @IsNotEmpty()
+  @IsString()
+  country: string;
+
+  @IsNotEmpty()
+  @IsString()
+  city: string;
+
+  @IsNotEmpty()
+  @IsString()
+  streetName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  streetNumber: string;
+
+  @IsString()
+  floorNumber: string;
+
+  @IsString()
+  aptNumber: string;
 
   @IsNotEmpty()
   @IsNumber()
-  readonly price: number; 
+  price: number;
 
   @IsNotEmpty()
   @IsString()
-  readonly condition: string; 
+  description: string;
 }

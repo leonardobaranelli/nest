@@ -4,7 +4,6 @@ import { ContractController } from './contract.controller';
 
 @Module({
   providers: [ContractService],
-  controllers: [ContractController]
+  controllers: [ContractController],
 })
 export class Web3Module {}
-
