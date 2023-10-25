@@ -1,17 +1,17 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { User } from '../../shared/models/relations.config'; 
+import { Posts } from '../../shared/models/relations.config'; 
 import { CrudService } from '../services/crud.service';
+import { CreatePostDto } from '../dto/create-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
 
-@Controller('users')
+@Controller('posts')
 export class CrudController {
   constructor(private readonly crudService: CrudService) {}
 
   @Get('all')
-  getUsers(): Promise<User[] | { error: string; }> {
-    return this.crudService.getUsers();
-  }  
+  getPosts(): Promise<Posts[] | { error: string; }> {
+    return this.crudService.getPosts();
+  }   
 
   // @Get()
   // findAll() {
@@ -19,8 +19,8 @@ export class CrudController {
   // }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.crudService.create(createUserDto);
+  create(@Body() createPostDto: CreatePostDto) {
+    return this.crudService.create(createPostDto);
   } 
 
   @Get(':id')
@@ -29,8 +29,8 @@ export class CrudController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.crudService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+    return this.crudService.update(+id, updatePostDto);
   }
 
   @Delete(':id')

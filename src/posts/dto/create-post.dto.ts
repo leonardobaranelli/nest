@@ -1,6 +1,6 @@
 import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
-export class CreateImmovableDto {
+export class CreatePostDto {
   @IsNotEmpty()
   @IsString()
   readonly type: string;

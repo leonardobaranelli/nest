@@ -1,5 +1,5 @@
-import { sequelize } from '../sequelize.config';
-import { Post } from './shared/models/relations.config'
+import { sequelize } from './shared/models/relations.config'
+import { Posts } from './shared/models/relations.config'
 import { User } from './shared/models/relations.config'
 import { Rent } from './shared/models/relations.config'
 import { Comment } from './shared/models/relations.config'
@@ -10,7 +10,7 @@ async function createTestRecords() {
  
   await User.create({
     // id: '4a',
-    email: 'test@example.com',
+    email: 'anonymous@example.com',
     username: 'testuser',
     password: 'testpassword',
     type: 'admin',
@@ -21,9 +21,9 @@ async function createTestRecords() {
 }
 
 createTestRecords().then(() => {
-  console.log('Registros de prueba creados con éxito.');
+  console.log('Test records created successfully');
   process.exit(0);
 }).catch(error => {
-  console.error('Error al crear registros de prueba:', error);
+  console.error('Error creating test records', error);
   process.exit(1);
 });

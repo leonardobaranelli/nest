@@ -1,38 +1,33 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Post } from './post.model';
+import { Posts } from './posts.model';
 import { User } from './user.model';
 import { Rent } from './rent.model';
 import { Comment } from './comment.model';
 import { Score } from './score.model';
 
-// Crear una nueva instancia de Sequelize
 export const sequelize = new Sequelize({
   database: 'nest', 
   dialect: 'postgres',
   username: 'postgres',
   password: 'admin',
-  models: [Post, User, Rent, Comment, Score],
+  models: [Posts, User, Rent, Comment, Score],
 });
 
-// Definir las relaciones
-User.hasMany(Post, { foreignKey: 'userid' });
-Post.belongsTo(User, { foreignKey: 'userid' });
+User.hasMany(Posts, { foreignKey: 'userId' });
+Posts.belongsTo(User, { foreignKey: 'userId' });
 
-User.hasMany(Score, { foreignKey: 'userid' });
-Score.belongsTo(User, { foreignKey: 'userid' });
+User.hasMany(Score, { foreignKey: 'userId' });
+Score.belongsTo(User, { foreignKey: 'userId' });
 
-Post.hasMany(Comment, { foreignKey: 'postid' });
-Comment.belongsTo(Post, { foreignKey: 'postid' });
+Posts.hasMany(Comment, { foreignKey: 'postsId' });
+Comment.belongsTo(Posts, { foreignKey: 'postsId' });
 
-Post.hasMany(Score, { foreignKey: 'postid' });
-Score.belongsTo(Post, { foreignKey: 'postid' });
+Posts.hasMany(Score, { foreignKey: 'postsId' });
+Score.belongsTo(Posts, { foreignKey: 'postsId' });
 
-Post.hasMany(Rent, { foreignKey: 'postid' });
-Rent.belongsTo(Post, { foreignKey: 'postid' });
+Posts.hasMany(Rent, { foreignKey: 'postsId' });
+Rent.belongsTo(Posts, { foreignKey: 'postsId' });
 
+sequelize.addModels([User, Posts, Rent, Comment, Score]);
 
-// Agregar modelos a la instancia de Sequelize
-sequelize.addModels([User, Post, Rent, Comment, Score]);
-
-// Exportar la instancia de Sequelize
-export { User, Post, Rent, Comment, Score };
+export { User, Posts, Rent, Comment, Score };

@@ -1,6 +1,8 @@
+import { PartialType } from '@nestjs/mapped-types';
+import { CreatePostDto } from "./create-post.dto";
 import { IsString, IsNumber } from 'class-validator';
 
-export class UpdateImmovableDto {
+export class UpdatePostDto extends PartialType(CreatePostDto) {
     @IsString()
     readonly type?: string;
   
@@ -14,3 +16,7 @@ export class UpdateImmovableDto {
     readonly condition?: string; 
   }
   
+
+
+
+

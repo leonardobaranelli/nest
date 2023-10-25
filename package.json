@@ -22,8 +22,10 @@
   "dependencies": {
     "@nestjs/common": "^10.2.7",
     "@nestjs/core": "^10.2.7",
+    "@nestjs/mapped-types": "^2.0.2",
     "@nestjs/platform-express": "^10.0.0",
     "class-validator": "^0.14.0",
+    "mapped-types": "^0.0.1",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
