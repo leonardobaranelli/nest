@@ -6,7 +6,7 @@ enum postType {
 }
 
 @Table
-export class Post extends Model {
+export class Posts extends Model {
   @PrimaryKey
   @AllowNull(false)
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })  

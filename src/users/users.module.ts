@@ -4,7 +4,7 @@ import { CrudService } from './services/crud.service';
 
 @Module({
   controllers: [CrudController],
-  providers: [CrudService]
+  providers: [CrudService],  
 })
 export class UsersModule {}
 
