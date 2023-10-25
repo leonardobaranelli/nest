@@ -8,7 +8,8 @@ export class ContractController {
   @Get(':adress')
   async getHiWorld(@Param('adress') contractAdress: string): Promise<any> {
     try {
-      const contractInfo = await this.contractService.getHiWorld(contractAdress);
+      const contractInfo =
+        await this.contractService.getHiWorld(contractAdress);
       return {
         contractAdress: contractAdress,
         contractInfo: contractInfo,

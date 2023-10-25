@@ -4,6 +4,6 @@ import { CrudController } from './controller/crud.controller';
 
 @Module({
   providers: [CrudService],
-  controllers: [CrudController]
+  controllers: [CrudController],  
 })
-export class ImmovablesModule {}
+export class PostsModule {}
