@@ -1,10 +1,17 @@
+'use client'
 import React from 'react'
+import Navbar from '@/app/components/Navbar/Navbar'
+
+
 
 function Home() {
+
   return (
     <div>
-        <h1>_Este  es  el  Home </h1>
-        <h3>esta  pagina  contine  algo  </h3>
+      <div >
+        <Navbar/>
+        <h2>Home</h2>
+      </div>
     </div>
   )
 }
