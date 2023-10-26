@@ -4,9 +4,11 @@ import {
   Model,
   PrimaryKey,
   DataType,
-  Default,
   AllowNull,
+  BelongsTo,
+  ForeignKey,
 } from 'sequelize-typescript';
+import { User, Post } from '.';
 
 enum scoreType {
   CLIENT = 'CLIENT',
@@ -29,4 +31,18 @@ export class Score extends Model {
 
   @Column({ allowNull: false, unique: true, type: DataType.STRING(1000) })
   feedBack: string;
+
+  @ForeignKey(() => User)
+  @Column({ allowNull: true, type: DataType.UUID })
+  userId: string;
+
+  @ForeignKey(() => Post)
+  @Column({ allowNull: true, type: DataType.UUID })
+  postId: string;
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @BelongsTo(() => Post)
+  post: Post;
 }

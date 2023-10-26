@@ -1,13 +1,24 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { PostsModule } from './posts/posts.module';
-import { SharedModule } from './shared/shared.module';
-import { Web3Module } from './web3/web3.module';
+import { AppController } from './app.controller';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Module } from '@nestjs/common';
+import { User, Post, Rent, Comment, Score } from './shared/models';
+import { config } from 'dotenv';
+
+config();
 
 @Module({
-  imports: [UsersModule, PostsModule, SharedModule, Web3Module],
+  imports: [
+    SequelizeModule.forRoot({
+      dialect: 'postgres',
+      host: 'localhost',
+      database: process.env.DB_NAME,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      port: 3001,
+      models: [User, Post, Rent, Comment, Score],
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

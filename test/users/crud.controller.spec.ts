@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CrudController } from '../../src/users/controllers/crud.controller';
-import { CrudService } from '../../src/users/services/crud.service'; 
+import { CrudController } from '../../src/users/controllers/user.controller';
+import { CrudService } from '../../src/users/services/user.service';
 
 describe('CrudController', () => {
   let controller: CrudController;
@@ -8,7 +8,7 @@ describe('CrudController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CrudController],
-      providers: [CrudService], 
+      providers: [CrudService],
     }).compile();
 
     controller = module.get<CrudController>(CrudController);

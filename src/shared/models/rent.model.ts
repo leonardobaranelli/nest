@@ -1,4 +1,12 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { Post, User } from '.';
 
 @Table
 export class Rent extends Model {
@@ -7,4 +15,18 @@ export class Rent extends Model {
 
   @Column({ allowNull: false, type: DataType.STRING })
   endDate: string;
+
+  @ForeignKey(() => Post)
+  @Column({ allowNull: false, type: DataType.UUID })
+  postId: string;
+
+  @ForeignKey(() => User)
+  @Column({ allowNull: false, type: DataType.UUID })
+  userId: string;
+
+  @BelongsTo(() => Post)
+  post: Post;
+
+  @BelongsTo(() => User)
+  user: User;
 }
