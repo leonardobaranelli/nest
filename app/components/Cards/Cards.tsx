@@ -2,21 +2,19 @@ import React from 'react';
 import Card from '../Card/Card';
 
 interface Property {
-  Días: number;
-  Tipo: string;
-  Imagenes: string[];
-  Titulo: string;
-  Pais: string;
-  Ciudad: string;
-  Calle: string;
-  Numero: string;
-  Piso: number;
-  NumeroDepto: string;
-  Precio: {
-    Monto: number;
-    Moneda: string;
-  };
-  Descripcion: string;
+  days: number;
+  type: string;
+  condition: string;
+  image: string;
+  title: string;
+  country: string;
+  city: string;
+  streetName: string;
+  streetNumber: string;
+  floorNumber: number;
+  aptNumber: string;
+  price: number;
+  description: string;
 }
 
 interface CardsProps {
