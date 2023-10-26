@@ -1,35 +1,35 @@
 import React from 'react';
 
 interface Property {
-  Días: number;
-  Tipo: string;
-  Imagenes: string[];
-  Titulo: string;
-  Pais: string;
-  Ciudad: string;
-  Calle: string;
-  Numero: string;
-  Piso: number;
-  NumeroDepto: string;
-  Precio: {
-    Monto: number;
-    Moneda: string;
-  };
-  Descripcion: string;
+  days: number;
+  type: string;
+  condition: string;
+  image: string;
+  title: string;
+  country: string;
+  city: string;
+  streetName: string;
+  streetNumber: string;
+  floorNumber: number;
+  aptNumber: string;
+  price: number;
+  description: string;
 }
 
 const Card: React.FC<Property> = (property) => {
   return (
     <div className="property-card">
-      <h2>{property.Titulo}</h2>
+      <h2>{property.title}</h2>
       <div className="property-images">
-        {property.Imagenes.map((imagen, index) => (
+      <img src={property.image} alt={`image`} />
+        {/* {property.Imagenes.map((imagen, index) => (
           <img key={index} src={imagen} alt={`Imagen ${index + 1}`} />
-        ))}
+        ))} */}
       </div>
-      <p>Tipo: {property.Tipo}</p>
-      <p>Precio: {property.Precio.Monto} {property.Precio.Moneda}</p>
-      <p>Descripción: {property.Descripcion}</p>
+      <p>Tipo: {property.type}</p>
+      <p>Precio: {property.price}</p>
+      {/* <p>Precio: {property.Precio.Monto} {property.Precio.Moneda}</p> */}
+      <p>Descripción: {property.description}</p>
     </div>
   );
 };
