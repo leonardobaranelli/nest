@@ -2,17 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Posts } from '../../shared/models/relations.config';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import * as fs from 'fs';
-import * as path from 'path';
+import { measureMemory } from 'vm';
 
-// Construye la ruta al archivo JSON
-const filePath = path.resolve(__dirname, 'data.json');
-
-// Lee el archivo JSON
-const rawData = fs.readFileSync(filePath);
-const jsonData = JSON.parse(rawData.toString());
-
-console.log(jsonData);
 
 @Injectable()
 export class CrudService {
@@ -27,18 +18,18 @@ export class CrudService {
     }
   }
 
-  async filterByTypeHardcod(type: string) {
-    try {
-      // Get posts by type from the database on sequelize
-      if (type !== 'sell' && type !== 'rent') throw new Error('Invalid type');
-      const posts = jsonData;
-      return posts;
-    } catch (error) {
-      const message =
-        error.message || 'Error when obtaining posts from the database';
-      return { error: message };
-    }
-  }
+  // async filterByTypeHardcod(type: string) {
+  //   try {
+  //     // Get posts by type from the database on sequelize
+  //     if (type !== 'sell' && type !== 'rent') throw new Error('Invalid type');
+  //     const posts = jsonData;
+  //     return posts;
+  //   } catch (error) {
+  //     const message =
+  //       error.message || 'Error when obtaining posts from the database';
+  //     return { error: message };
+  //   }
+  // }
 
   async filterByType(type: string) {
     try {
@@ -89,24 +80,24 @@ export class CrudService {
   async update(id: string, updatePostDto: UpdatePostDto) {
     // Update a post from the database on sequelize
     try {
-      const post = await Posts.update(updatePostDto, { where: { id } });
+      const [post] = await Posts.update(updatePostDto, { where: { id } });
       // Validate if the post updated
-      if (post[0] > 0) {
-        return post;        
-      }
-      return { error: 'Property not found' };
+      if (post === 0) throw new Error('Property not found');
+      return post;        
 
     } catch (error) {
-      console.error('Error when updating immovable from the database:', error);
-      return { error: 'Error when updating immovable from the database' };
+      const message =
+        error.message || 'Error when obtaining posts from the database';
+      return { error: message };
     }
   }
 
   async remove(id: string) {
     // Delete a post from the database on sequelize
     try {
-      const post = await Posts.destroy({ where: { id } });
-      return post;
+      const postDel = await Posts.destroy({ where: { id } });
+      if(!postDel) throw new Error('Post not found');
+      return postDel;
     } catch (error) {
       console.error('Error when deleting immovable from the database:', error);
       return { error: 'Error when deleting immovable from the database' };
