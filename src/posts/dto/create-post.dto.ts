@@ -1,7 +1,8 @@
-import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 
 export class CreatePostDto {
   // Data Transfer Object (DTO) for creating a post || Posts
+
   @IsNotEmpty()
   @IsNumber()
   days: number;
@@ -20,6 +21,7 @@ export class CreatePostDto {
 
   @IsNotEmpty()
   @IsString()
+  @MaxLength(255)
   title: string;
 
   @IsNotEmpty()
@@ -38,9 +40,11 @@ export class CreatePostDto {
   @IsString()
   streetNumber: string;
 
+  @IsOptional()
   @IsString()
   floorNumber: string;
 
+  @IsOptional()
   @IsString()
   aptNumber: string;
 
@@ -50,5 +54,10 @@ export class CreatePostDto {
 
   @IsNotEmpty()
   @IsString()
+  @MaxLength(1000)
   description: string;
+
+  @IsNotEmpty()
+  @IsString()
+  userId: string;
 }

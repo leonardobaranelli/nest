@@ -105,7 +105,8 @@ export class PostService {
       });
       // Validate if the post updated
       if (post === 0) throw new Error('Property not found');
-      return post;
+      else if (post === 1) return 'Property updated successfully';
+      else return `${post} Properties updated successfully`;
     } catch (error) {
       const message =
         error.message || 'Error when obtaining posts from the database';
@@ -118,7 +119,7 @@ export class PostService {
     try {
       const postDel = await this.postsModel.destroy({ where: { id } });
       if (!postDel) throw new Error('Post not found');
-      return postDel;
+      return 'Post deleted successfully';
     } catch (error) {
       console.error('Error when deleting immovable from the database:', error);
       return { error: 'Error when deleting immovable from the database' };

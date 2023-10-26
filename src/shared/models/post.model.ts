@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { User, Comment, Score, Rent } from '.';
 
-enum postType {
+enum conditionType {
   SELL = 'SELL',
   RENT = 'RENT',
 }
@@ -28,7 +28,10 @@ export class Post extends Model {
   days: number;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
-  type: postType;
+  condition: conditionType;
+
+  @Column({ allowNull: false, type: DataType.STRING(255) })
+  type: string;
 
   @Column({ allowNull: false })
   image: string;
@@ -61,7 +64,7 @@ export class Post extends Model {
   description: string;
 
   @ForeignKey(() => User)
-  @Column({ allowNull: false, type: DataType.UUID })
+  @Column({ allowNull: true, type: DataType.UUID })
   userId: string;
 
   @BelongsTo(() => User)
