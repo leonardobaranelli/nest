@@ -16,7 +16,10 @@ enum scoreType {
   POST = 'POST',
 }
 
-@Table
+@Table({ 
+  tableName: 'scores',
+  timestamps: false
+})
 export class Score extends Model {
   @PrimaryKey
   @AllowNull(false)
@@ -44,5 +47,5 @@ export class Score extends Model {
   user: User;
 
   @BelongsTo(() => Post)
-  post: Post;
+  posts: Post;
 }

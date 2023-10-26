@@ -14,7 +14,10 @@ enum userType {
   USER = 'USER',
 }
 
-@Table
+@Table({ 
+  tableName: 'users',
+  timestamps: false
+})
 export class User extends Model {
   @PrimaryKey
   @AllowNull(false)

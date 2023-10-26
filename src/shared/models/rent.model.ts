@@ -8,7 +8,10 @@ import {
 } from 'sequelize-typescript';
 import { Post, User } from '.';
 
-@Table
+@Table({
+  tableName: 'rents',
+  timestamps: false,
+})
 export class Rent extends Model {
   @Column({ allowNull: false, type: DataType.STRING })
   startDate: string;

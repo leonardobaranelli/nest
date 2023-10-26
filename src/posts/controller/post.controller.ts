@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { PostService } from '../services/post.service';
+import { PostService } from '../service/post.service';
 import { Post as PostModel } from '../../shared/models';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { UpdatePostDto } from '../dto/update-post.dto';
@@ -21,18 +21,22 @@ export class PostController {
     return this.postService.findAll();
   }
 
-  @Get('condition/:condition')
+  @Get('/condition/:condition')
   async filterByTypeHardcode(@Param('condition') condition: string) {
     const result = await this.postService.filterByTypeHardcode(condition);
     return result;
   }
 
   @Get('type/:type')
-  filterByType(@Param('type') condition: string): Promise<PostModel[] | { error: string }> {
-    return this.postService.filterByType(condition);
+  filterByType(
+    @Param('type') type: string,
+  ): Promise<PostModel[] | { error: string }> {
+    return this.postService.filterByType(type);
   }
 
-  @Get(':id')
+  @Get(
+    ':id[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}',
+  )
   findOne(@Param('id') id: string) {
     return this.postService.findOne(id);
   }

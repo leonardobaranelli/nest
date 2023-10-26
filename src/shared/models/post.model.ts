@@ -15,7 +15,10 @@ enum postType {
   RENT = 'RENT',
 }
 
-@Table
+@Table({
+  tableName: 'posts',
+  timestamps: false,
+})
 export class Post extends Model {
   @PrimaryKey
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
