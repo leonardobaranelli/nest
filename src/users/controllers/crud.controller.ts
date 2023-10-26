@@ -16,7 +16,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 export class CrudController {
   constructor(private readonly crudService: CrudService) {}
 
-  @Get('all')
+  @Get()
   findAll(): Promise<User[] | { error: string }> {
     return this.crudService.findAll();
   }

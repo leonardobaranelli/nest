@@ -8,6 +8,10 @@ export class CreatePostDto {
 
   @IsNotEmpty()
   @IsString()
+  condition: string;
+
+  @IsNotEmpty()
+  @IsString()
   type: string;
 
   @IsNotEmpty()

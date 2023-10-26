@@ -16,14 +16,25 @@ import { UpdatePostDto } from '../dto/update-post.dto';
 export class CrudController {
   constructor(private readonly crudService: CrudService) {}
 
-  @Get('all')
+  @Get()
   findAll(): Promise<Posts[] | { error: string }> {
     return this.crudService.findAll();
   }
 
+  @Get(':condition') 
+  async filterByType(@Param('condition') condition: string) {    
+    const result = await this.crudService.filterByType(condition);
+    return result;
+  }
+  
+  // @Get(':condition') 
+  // filterByType(@Param('condition') condition: string): Promise<Posts[] | { error: string }> {
+  //   return this.crudService.filterByType(condition);
+  // }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.crudService.findOne(+id);
+    return this.crudService.findOne(id);
   }
 
   @Post()
@@ -33,11 +44,11 @@ export class CrudController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.crudService.update(+id, updatePostDto);
+    return this.crudService.update(id, updatePostDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.crudService.remove(+id);
+    return this.crudService.remove(id);
   }
 }
