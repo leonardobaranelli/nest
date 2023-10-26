@@ -88,24 +88,24 @@ export class CrudService {
   async update(id: string, updatePostDto: UpdatePostDto) {
     // Update a post from the database on sequelize
     try {
-      const post = await Posts.update(updatePostDto, { where: { id } });
+      const [post] = await Posts.update(updatePostDto, { where: { id } });
       // Validate if the post updated
-      if (post[0] > 0) {
-        return post;        
-      }
-      return { error: 'Property not found' };
+      if (post === 0) throw new Error('Property not found');
+      return post;        
 
     } catch (error) {
-      console.error('Error when updating immovable from the database:', error);
-      return { error: 'Error when updating immovable from the database' };
+      const message =
+        error.message || 'Error when obtaining posts from the database';
+      return { error: message };
     }
   }
 
   async remove(id: string) {
     // Delete a post from the database on sequelize
     try {
-      const post = await Posts.destroy({ where: { id } });
-      return post;
+      const postDel = await Posts.destroy({ where: { id } });
+      if(!postDel) throw new Error('Post not found');
+      return postDel;
     } catch (error) {
       console.error('Error when deleting immovable from the database:', error);
       return { error: 'Error when deleting immovable from the database' };
