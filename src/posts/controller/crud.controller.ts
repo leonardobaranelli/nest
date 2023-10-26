@@ -21,14 +21,15 @@ export class CrudController {
     return this.crudService.findAll();
   }
 
-  @Get(':type') 
-  filterByTypeHardcod(@Param('type') type: string): Promise<Posts[] | { error: string }> {
-    return this.crudService.filterByType(type);
-  }  
+  @Get(':condition') 
+  async filterByType(@Param('condition') condition: string) {    
+    const result = await this.crudService.filterByType(condition);
+    return result;
+  }
   
-  // @Get(':type') 
-  // filterByType(@Param('type') type: string): Promise<Posts[] | { error: string }> {
-  //   return this.crudService.filterByType(type);
+  // @Get(':condition') 
+  // filterByType(@Param('condition') condition: string): Promise<Posts[] | { error: string }> {
+  //   return this.crudService.filterByType(condition);
   // }
 
   @Get(':id')
