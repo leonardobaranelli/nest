@@ -9,7 +9,7 @@ type CounterState = {
 };
 
 const initialState: CounterState = {
-  value: 0,
+  value: 30,
 };
 
 // Funciones que modifican el  estado 
