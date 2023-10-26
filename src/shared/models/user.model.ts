@@ -4,9 +4,10 @@ import {
   Model,
   PrimaryKey,
   DataType,
-  Default,
   AllowNull,
+  HasMany,
 } from 'sequelize-typescript';
+import { Post, Comment, Score, Rent } from '.';
 
 enum userType {
   ADMIN = 'ADMIN',
@@ -45,4 +46,16 @@ export class User extends Model {
 
   // @Column({ allowNull:false, type: DataType.STRING })
   // identificationNumber: string;
+
+  @HasMany(() => Post)
+  posts: Post[];
+
+  @HasMany(() => Comment)
+  comments: Comment[];
+
+  @HasMany(() => Score)
+  scores: Score[];
+
+  @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
+  rents: Rent[];
 }

@@ -4,9 +4,11 @@ import {
   Model,
   PrimaryKey,
   DataType,
-  Default,
-  AllowNull,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
+import { User, Comment, Score, Rent } from '.';
 
 enum postType {
   SELL = 'SELL',
@@ -14,7 +16,7 @@ enum postType {
 }
 
 @Table
-export class Posts extends Model {
+export class Post extends Model {
   @PrimaryKey
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
@@ -54,4 +56,20 @@ export class Posts extends Model {
 
   @Column({ allowNull: false, type: DataType.STRING(1000) })
   description: string;
+
+  @ForeignKey(() => User)
+  @Column({ allowNull: false, type: DataType.UUID })
+  userId: string;
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @HasMany(() => Comment)
+  comments: Comment[];
+
+  @HasMany(() => Score)
+  scores: Score[];
+
+  @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
+  rents: Rent[];
 }

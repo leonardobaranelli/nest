@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CrudService } from './services/crud.service';
-import { CrudController } from './controller/crud.controller';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Post } from 'src/shared/models';
+import { PostController } from './controller/post.controller';
+import { PostService } from './services/post.service';
 
 @Module({
-  providers: [CrudService],
-  controllers: [CrudController],  
+  imports: [SequelizeModule.forFeature([Post])],
+  controllers: [PostController],
+  providers: [PostService],
 })
-export class PostsModule {}
+export class PostModule {}

@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { User } from '../../shared/models/relations.config';
+import { User } from '../../shared/models';
 
 @Injectable()
-export class CrudService {
+export class UserService {
+  constructor(
+    @InjectModel(User)
+    private userModel: typeof User,
+  ) {}
   async create(createUserDto: CreateUserDto) {
     // Create a new user on the database on sequelize
     try {
-      const user = await User.create({ ...createUserDto });
+      const user = await this.userModel.create({ ...createUserDto });
       return user;
     } catch (error) {
       console.error('Error when creating user on the database:', error);
@@ -19,7 +24,7 @@ export class CrudService {
   async findAll() {
     // Get all users from the database on sequelize
     try {
-      const users = await User.findAll();
+      const users = await this.userModel.findAll();
       return users;
     } catch (error) {
       console.error('Error when obtaining users from the database:', error);
@@ -27,10 +32,10 @@ export class CrudService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     // Get a detail of a user from the database on sequelize
     try {
-      const user = await User.findOne({ where: { id } });
+      const user = await this.userModel.findOne({ where: { id } });
       return user;
     } catch (error) {
       console.error('Error when obtaining user from the database:', error);
@@ -38,10 +43,12 @@ export class CrudService {
     }
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     // Update a user from the database on sequelize
     try {
-      const user = await User.update(updateUserDto, { where: { id } });
+      const user = await this.userModel.update(updateUserDto, {
+        where: { id },
+      });
       return user;
     } catch (error) {
       console.error('Error when updating user from the database:', error);
@@ -49,10 +56,10 @@ export class CrudService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     // Delete a user from the database on sequelize
     try {
-      const user = await User.destroy({ where: { id } });
+      const user = await this.userModel.destroy({ where: { id } });
       return user;
     } catch (error) {
       console.error('Error when deleting user from the database:', error);
@@ -60,10 +67,13 @@ export class CrudService {
     }
   }
 
-  async removeLogin(id: number) {
+  async removeLogin(id: string) {
     // Unactivate a user from the database on sequelize
     try {
-      const user = await User.update({ active: false }, { where: { id } });
+      const user = await this.userModel.update(
+        { active: false },
+        { where: { id } },
+      );
       return user;
     } catch (error) {
       console.error('Error when unactivating user from the database:', error);
