@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CrudController } from '../../src/posts/controller/post.controller';
-import { CrudService } from '../../src/posts/services/post.service';
+import { CrudService } from '../../src/posts/service/post.service';
 
 describe('CrudController', () => {
   let controller: CrudController;

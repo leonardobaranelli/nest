@@ -13,7 +13,7 @@ export class PostService {
     @InjectModel(Post)
     private postsModel: typeof Post,
   ) {
-    this.filePath = path.resolve(__dirname, '../../../src/posts/data.json');
+    this.filePath = path.resolve(__dirname, '../data.json');
   }
 
   async filterByTypeHardcode(condition: string) {

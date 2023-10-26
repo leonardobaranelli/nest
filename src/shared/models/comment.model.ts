@@ -8,7 +8,10 @@ import {
 } from 'sequelize-typescript';
 import { Post, User } from '.';
 
-@Table
+@Table({ 
+  tableName: 'comments',
+  timestamps: false
+})
 export class Comment extends Model {
   @Column({ allowNull: false, type: DataType.STRING(1000) })
   comment: string;
@@ -22,5 +25,5 @@ export class Comment extends Model {
   postId: string;
 
   @BelongsTo(() => Post)
-  post: Post;
+  posts: Post;
 }
