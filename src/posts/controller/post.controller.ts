@@ -35,7 +35,7 @@ export class PostController {
   }
 
   @Get(
-    ':id[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}',
+    /* ':id[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}' */":id",
   )
   findOne(@Param('id') id: string) {
     return this.postService.findOne(id);

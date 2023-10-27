@@ -16,8 +16,7 @@ export class CreatePostDto {
   type: string;
 
   @IsNotEmpty()
-  @IsString()
-  image: string;
+  images: Array<string>;
 
   @IsNotEmpty()
   @IsString()
