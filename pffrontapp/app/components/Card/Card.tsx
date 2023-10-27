@@ -17,7 +17,7 @@ interface Property {
   };
   Descripcion: string;
 }
-
+// Aca se debe linkear con el DETAIL
 const Card: React.FC<Property> = (property) => {
   return (
     <div className="property-card">

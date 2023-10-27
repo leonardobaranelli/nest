@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 
-type User = {
+type Inmovalbles = {
   id: number;
   name: string;
   usuario:string
@@ -15,20 +15,20 @@ export const immovablesApi = createApi({
   refetchOnFocus: true, 
   // Configuración de la función base para las solicitudes HTTP
   baseQuery: fetchBaseQuery({
-    baseUrl: "el punto", // URL base de la API
+    baseUrl: "http://localhost:3001 ", // URL base de la API
   }),
   // Definición de los puntos finales de la API
   endpoints: (builder) => ({
     // Consulta para obtener una lista de usuarios
-    getUsers: builder.query<User[], null>({
-      query: () => "users",
+    getInmovables: builder.query<Inmovalbles[], null>({
+      query: () => "post",
     }),
     // Consulta para obtener un usuario por su ID
-    getUserById: builder.query<User, { id: string }>({
-      query: ({ id }) => `users/${id}`,
+    getInmovablesById: builder.query<Inmovalbles, { id: string }>({
+      query: ({ id }) => `post/${id}`,
     }),
   }),
 });
 
 // Exportación de los ganchos generados automáticamente para cada punto final
-export const { useGetUsersQuery, useGetUserByIdQuery } = immovablesApi;
+export const { useGetInmovablesQuery, useGetInmovablesByIdQuery } = immovablesApi;
