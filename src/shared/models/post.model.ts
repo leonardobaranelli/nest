@@ -33,8 +33,8 @@ export class Post extends Model {
   @Column({ allowNull: false, type: DataType.STRING(255) })
   type: string;
 
-  @Column({ allowNull: false })
-  image: string;
+  @Column({allowNull: false ,type: DataType.ARRAY(DataType.STRING)})
+  images: Array<string>;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
   title: string;
