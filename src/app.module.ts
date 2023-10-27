@@ -13,12 +13,18 @@ config();
   imports: [
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'localhost',
-      database: process.env.DB_NAME,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME, 
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       port: 5432,
       models: [User, Post, Rent, Comment, Score],
+      dialectOptions: {
+        ssl: {
+          require: true,
+          //rejectUnauthorized: false, 
+        },
+      },
     }),
     PostModule,
     UsersModule,
