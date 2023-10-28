@@ -35,4 +35,3 @@ const Card: React.FC<Property> = (property) => {
 };
 
 export default Card;
-

@@ -1,59 +1,63 @@
-import React from 'react';
+"use client";
+
+import React, { useEffect } from 'react';
+import Cards from '@/app/components/Cards/Cards';
+import Link from 'next/link';
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useGetPostsByConditionQuery } from "@/redux/features/PostSlice"; 
 import Navbar from '@/app/components/Navbar/Navbar';
-import Cards from '../../components/Cards/Cards'; 
 
-function Home() {
-  const properties = [
-    {
-      "Días": 30,
-      "Tipo": "Alquiler",
-      "Imagenes": [
-        "https://i.pinimg.com/474x/ff/f8/94/fff8945a0c476cdd12e06c8a07dcc8f1.jpg",
-      ],
-      "Titulo": "La Hermosa casa en la playa que tendre XD",
-      "Pais": "España",
-      "Ciudad": "Barcelona",
-      "Calle": "Calle de la Playa",
-      "Numero": "123",
-      "Piso": 2,
-      "NumeroDepto": "B",
-      "Precio": {
-        "Monto": 1500,
-        "Moneda": "EUR"
-      },
-      "Descripcion": "Esta encantadora casa de playa ofrece vistas panorámicas al mar, una ubicación conveniente y una amplia terraza para disfrutar del sol y el sonido de las olas. Cuenta con 3 habitaciones, 2 baños y una cocina totalmente equipada."
-    },    {
-      "Días": 30,
-      "Tipo": "Alquiler",
-      "Imagenes": [
-        "https://i.pinimg.com/564x/ed/b1/a3/edb1a3ad47d3410c0581f2685ea5bc57.jpg"
-      ],
-      "Titulo": "Hermosa casa en la playa",
-      "Pais": "España",
-      "Ciudad": "Barcelona",
-      "Calle": "Calle de la Playa",
-      "Numero": "123",
-      "Piso": 2,
-      "NumeroDepto": "B",
-      "Precio": {
-        "Monto": 1500,
-        "Moneda": "EUR"
-      },
-      "Descripcion": "Esta encantadora casa de playa ofrece vistas panorámicas al mar, una ubicación conveniente y una amplia terraza para disfrutar del sol y el sonido de las olas. Cuenta con 3 habitaciones, 2 baños y una cocina totalmente equipada."
-    },
+const Home = () => {
+  const dispatch = useAppDispatch();
 
-  ];
+  // Consulta para "sell"
+  const { data: sellData, isLoading: isSellLoading, isError: isSellError } = useGetPostsByConditionQuery("sell");
+
+  // Consulta para "rent"
+  const { data: rentData, isLoading: isRentLoading, isError: isRentError } = useGetPostsByConditionQuery("rent");
+
+  // Mostrar solo las primeras 3 propiedades
+  const sellDataLimited = sellData?.slice(0, 3);
+  const rentDataLimited = rentData?.slice(0, 3);
+
+  useEffect(() => {
+    if (!isSellLoading && !isSellError) {
+      console.log("Sell Data from API:", sellDataLimited);
+    }
+    if (!isRentLoading && !isRentError) {
+      console.log("Rent Data from API:", rentDataLimited);
+    }
+  }, [isSellLoading, isSellError, isRentLoading, isRentError, dispatch, sellDataLimited, rentDataLimited]);
 
   return (
     <div>
-      <div>
+    <div>
         <Navbar />
         <h2>Home</h2>
       </div>
-
-      <Cards properties={properties} />
+      <div>
+        <h2>Sell Properties</h2>
+        {isSellLoading ? (
+          <p>Loading Sell properties...</p>
+        ) : isSellError ? (
+          <p>Error al obtener datos de venta</p>
+        ) : (
+          <Cards properties={sellDataLimited as Post[]} />
+        )}
+      </div>
+      <div>
+        <h2>Rent Properties</h2>
+        {isRentLoading ? (
+          <p>Loading Rent properties...</p>
+        ) : isRentError ? (
+          <p>Error al obtener datos de alquiler</p>
+        ) : (
+          <Cards properties={rentDataLimited as Post[]} />
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default Home;
+
