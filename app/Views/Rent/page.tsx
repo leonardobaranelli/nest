@@ -17,10 +17,11 @@ const Page = () => {
   }, [isLoading, isError, dispatch]);
 
   return (
-    <div>
-      <button>
-        <Link href="/Views/home">Home</Link>
-      </button>
+    <div className='flex flex-col gap-20'>
+        <div className=" p-4 bg-[#fc9a84] flex items-center justify-around">
+            <Link href="../../Views/home" className="font-medium text-gray-500 hover:text-gray-900">Home</Link>
+            <Link href="" className=" font-medium text-indigo-600 hover:text-indigo-500">Log in</Link>
+        </div>
       {isLoading ? (
         <p>Loading...</p>
       ) : isError ? (
