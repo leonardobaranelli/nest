@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import Cards from '@/app/components/Cards/Cards';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useGetPostsByConditionQuery } from "@/redux/features/Post"; 
+import { useGetPostsByConditionQuery } from "@/redux/features/PostSlice"; 
 import Navbar from '@/app/components/Navbar/Navbar';
 
 const Home = () => {

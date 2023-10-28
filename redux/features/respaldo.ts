@@ -1,3 +1,4 @@
+/*
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Post {
@@ -29,3 +30,4 @@ export const postsApi = createApi({
 });
 
 export const { useGetPostsByConditionQuery } = postsApi;
+*/
