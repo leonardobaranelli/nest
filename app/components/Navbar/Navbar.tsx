@@ -1,5 +1,5 @@
 import React from 'react'
-import Search from '../Search/Search'
+import Search from '../Search/SearchBar'
 import Link from 'next/link'
 
 const Navbar = () => {
