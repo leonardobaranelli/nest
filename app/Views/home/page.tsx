@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import Cards from '@/app/components/Cards/Cards';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useGetPostsByConditionQuery } from "@/redux/features/PostSlice"; 
+import { useGetPostsByConditionQuery } from "@/redux/features/Post"; 
 import Navbar from '@/app/components/Navbar/Navbar';
 
 const Home = () => {
@@ -17,8 +17,8 @@ const Home = () => {
   const { data: rentData, isLoading: isRentLoading, isError: isRentError } = useGetPostsByConditionQuery("rent");
 
   // Mostrar solo las primeras 3 propiedades
-  const sellDataLimited = sellData?.slice(0, 3);
-  const rentDataLimited = rentData?.slice(0, 3);
+  const sellDataLimited = sellData;
+  const rentDataLimited = rentData;
 
   useEffect(() => {
     if (!isSellLoading && !isSellError) {
@@ -60,4 +60,3 @@ const Home = () => {
 };
 
 export default Home;
-

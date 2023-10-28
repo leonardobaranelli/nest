@@ -1,30 +1,15 @@
-"use client";
-import React from "react";
-import data from "./data.json";
+// import React from 'react';
+// import { useRouter } from 'next/router';
 
-const Detail = (/* aca tiene que recibir un parametro que buscar */) => { 
+// const Detail = () => {
+//   const router = useRouter();
+//   const { title } = router.query;
 
-  const properties = data; //esto se cambia cuando haya conexion con el estado global
+  // En lugar de buscar la propiedad en el objeto query, puedes buscarla en tus datos.
+  // Por ejemplo, en un arreglo de propiedades.
 
-  interface Pfind {
-    days: number;
-    type: string;
-    condition: string;
-    image: string;
-    title: string;
-    country: string;
-    city: string;
-    streetName: string;
-    streetNumber: string;
-    floorNumber: string;
-    aptNumber: string;
-    price: number;
-    description: string;
-  }
-
-  const property = properties.find(
-    (p: Pfind) => p.title === "Cozy Apartment in Downtown" //esto esta HARCODEADO, SE CONECTA CON EL PARAMETRO
-  );
+//   const properties = /* Tu arreglo de propiedades */;
+//   const property = properties.find((p) => p.Titulo === title);
 
   if (!property) {
     return <div>Propiedad no encontrada</div>;

@@ -9,7 +9,6 @@ import { useGetPostsByConditionQuery } from "@/redux/features/PostSlice";
 const Page = () => {
   const dispatch = useAppDispatch();
   const { data, isLoading, isError } = useGetPostsByConditionQuery("sell");
-
   useEffect(() => {
     if (!isLoading && !isError) {
       console.log("Data from API:", data); // Agregar el console.log aquí
