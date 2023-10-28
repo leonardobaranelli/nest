@@ -1,5 +1,6 @@
-import React from 'react'
-
+"use client";
+import { useState, ChangeEvent, KeyboardEvent } from "react";
+//
 const Search = () => {
     return (
         <div>
@@ -9,4 +10,4 @@ const Search = () => {
     )
 }
 
-export default Search
+export default Search;
