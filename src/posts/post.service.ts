@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Post } from '../../shared/models';
-import { CreatePostDto } from '../dto/create-post.dto';
-import { UpdatePostDto } from '../dto/update-post.dto';
-import * as fs from 'fs';
-import * as path from 'path';
+import { Post } from '../shared/models';
+import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostService {
@@ -12,30 +10,9 @@ export class PostService {
   constructor(
     @InjectModel(Post)
     private postsModel: typeof Post,
-  ) {
-    this.filePath = path.resolve(__dirname, '../data.json');
-  }
+  ) {} 
 
-  async filterByTypeHardcode(condition: string) {
-    try {
-      if (condition !== 'sell' && condition !== 'rent')
-        throw new Error('Invalid type');
-
-      const rawData = fs.readFileSync(this.filePath);
-      const posts = JSON.parse(rawData.toString());
-      const filteredPosts = posts.filter(
-        (post) => post.condition === condition,
-      );
-
-      return filteredPosts;
-    } catch (error) {
-      const message =
-        error.message || 'Error when obtaining posts from the database';
-      return { error: message };
-    }
-  }
-
-  async filterByType(condition: string) {
+  async filterByCondition(condition: string) {
     try {
       // Get posts by type from the database on sequelize
       if (condition !== 'sell' && condition !== 'rent')

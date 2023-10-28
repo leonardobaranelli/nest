@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Post } from 'src/shared/models';
-import { PostController } from './controller/post.controller';
-import { PostService } from './service/post.service';
+import { PostController } from './post.controller';
+import { PostService } from './post.service';
 
 @Module({
   imports: [SequelizeModule.forFeature([Post])],
