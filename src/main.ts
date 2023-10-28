@@ -1,11 +1,17 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { sequelize } from '../sequelize.config'; 
+import { Sequelize } from 'sequelize-typescript';
 
 async function bootstrap() {
-  await sequelize.sync();  
-
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
+  const sequelize = app.get(Sequelize);
+  await sequelize.sync({ alter: true });
+  await app.listen(3001);
 }
 bootstrap();
