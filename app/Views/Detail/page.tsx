@@ -68,13 +68,13 @@ const Detail = (/* aca tiene que recibir un parametro que buscar */) => {
       <div className="property-details">
         <h2>{property.country}</h2>
       </div>
-      <div className="property-location">
+      <div className="">
         <h2>Ciudad</h2>
       </div>
-      <div className="property-details">
+      <div className="">
         <h2>{property.city}</h2>
       </div>
-      <div className="property-location">
+      <div className="">
         <h2>Calle</h2>
       </div>
       <div className="property-details">
