@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Post } from '../../shared/models';
-import { CreatePostDto } from '../dto/create-post.dto';
-import { UpdatePostDto } from '../dto/update-post.dto';
-import * as fs from 'fs';
-import * as path from 'path';
+import { Post, Rent } from '../shared/models';
+import { CreatePostDto } from './dto/create-post.dto';
+import { CreateRentDto } from './dto/create-rent.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostService {
@@ -12,30 +11,11 @@ export class PostService {
   constructor(
     @InjectModel(Post)
     private postsModel: typeof Post,
-  ) {
-    this.filePath = path.resolve(__dirname, '../data.json');
-  }
+    @InjectModel(Rent)
+    private rentModel: typeof Rent,
+  ) {} 
 
-  async filterByTypeHardcode(condition: string) {
-    try {
-      if (condition !== 'sell' && condition !== 'rent')
-        throw new Error('Invalid type');
-
-      const rawData = fs.readFileSync(this.filePath);
-      const posts = JSON.parse(rawData.toString());
-      const filteredPosts = posts.filter(
-        (post) => post.condition === condition,
-      );
-
-      return filteredPosts;
-    } catch (error) {
-      const message =
-        error.message || 'Error when obtaining posts from the database';
-      return { error: message };
-    }
-  }
-
-  async filterByType(condition: string) {
+  async filterByCondition(condition: string) {
     try {
       // Get posts by type from the database on sequelize
       if (condition !== 'sell' && condition !== 'rent')
@@ -123,6 +103,26 @@ export class PostService {
     } catch (error) {
       console.error('Error when deleting immovable from the database:', error);
       return { error: 'Error when deleting immovable from the database' };
+    }
+  }
+
+  async createRent(createRentDto: CreateRentDto) {    
+    try {
+      const rent = await this.rentModel.create({ ...createRentDto });
+      return rent;
+    } catch (error) {
+      console.error('Error when creating rent on the database:', error);
+      return { error: 'Error when creating rent on the database' };
+    }
+  }
+
+  async findAllRents() {    
+    try {
+      const rents = await this.rentModel.findAll();
+      return rents;
+    } catch (error) {
+      console.error('Error when obtaining rents from the database:', error);
+      return { error: 'Error when obtaining rents from the database' };
     }
   }
 }

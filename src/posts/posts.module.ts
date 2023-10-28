@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Post } from 'src/shared/models';
-import { PostController } from './controller/post.controller';
-import { PostService } from './service/post.service';
+import { Post, Rent } from 'src/shared/models';
+import { PostController } from './post.controller';
+import { PostService } from './post.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Post])],
+  imports: [SequelizeModule.forFeature([Post, Rent])],
   controllers: [PostController],
   providers: [PostService],
 })
