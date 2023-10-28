@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Landing from "./components/Landing/Landing";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";

@@ -2,9 +2,9 @@
 import React from "react";
 import data from "./data.json";
 
-const Detail = (/* aca tiene que recibir un parametro que busca */) => { 
+const Detail = (/* aca tiene que recibir un parametro que buscar */) => { 
 
-  const properties = data; //esto se cambia cuando haya conexion
+  const properties = data; //esto se cambia cuando haya conexion con el estado global
 
   interface Pfind {
     days: number;
@@ -31,7 +31,7 @@ const Detail = (/* aca tiene que recibir un parametro que busca */) => {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="md:container md:mx-auto mx-auto">
       <div className="property-location">
       <div className="property-location">
         <h2>Imagen</h2>
