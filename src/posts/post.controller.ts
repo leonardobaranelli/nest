@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { Post as PostModel } from '../shared/models';
+import { Rent as RentModel } from '../shared/models';
 
 @Controller('posts')
 export class PostController {
@@ -25,6 +26,11 @@ export class PostController {
   ): Promise<PostModel[] | { error: string }> {
     return this.postService.filterByCondition(condition);
   }
+
+  @Get('rent')
+  findAllRents(): Promise<RentModel[] | { error: string }> {
+    return this.postService.findAllRents();
+  } 
 
   // @Get('type/:type')
   // filterByType(
@@ -45,6 +51,11 @@ export class PostController {
     return this.postService.create(createPostDto);
   }
 
+  @Post('rent')
+  createRent(@Body() createRentDto) {
+    return this.postService.createRent(createRentDto);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto) {
     return this.postService.update(id, updatePostDto);
@@ -54,4 +65,5 @@ export class PostController {
   remove(@Param('id') id) {
     return this.postService.remove(id);
   }
+
 }
