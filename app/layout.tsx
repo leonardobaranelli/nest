@@ -1,5 +1,5 @@
 import { Providers } from "@/redux/provider";
-
+import "./globals.css"
 
 export const metadata = {
   title: "Create Next App",
@@ -13,8 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <div className="container mx-auto">
+      <body className="bg-[#f5ebe9]">
+        <div>
           <Providers>{children}</Providers>
         </div>
       </body>
