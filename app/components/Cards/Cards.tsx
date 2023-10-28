@@ -24,10 +24,14 @@ interface CardsProps {
 const Cards: React.FC<CardsProps> = ({ properties }) => {
   return (
     <div className="property-cards">
-      {properties.map((property, index) => (
+    {Array.isArray(properties) ? (
+      properties.map((property, index) => (
         <Card key={index} {...property} />
-      ))}
-    </div>
+      ))
+    ) : (
+      <p>No properties to display.</p>
+    )}
+  </div>
   );
 };
 

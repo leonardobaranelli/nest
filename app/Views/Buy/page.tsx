@@ -4,12 +4,11 @@ import React, { useEffect } from 'react';
 import Cards from '@/app/components/Cards/Cards';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useGetPostsByConditionQuery } from "@/redux/features/Post";
+import { useGetPostsByConditionQuery } from "@/redux/features/PostSlice";
 
 const Page = () => {
   const dispatch = useAppDispatch();
   const { data, isLoading, isError } = useGetPostsByConditionQuery("sell");
-
   useEffect(() => {
     if (!isLoading && !isError) {
       console.log("Data from API:", data); // Agregar el console.log aquí

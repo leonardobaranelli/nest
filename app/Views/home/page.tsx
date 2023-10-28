@@ -17,8 +17,8 @@ const Home = () => {
   const { data: rentData, isLoading: isRentLoading, isError: isRentError } = useGetPostsByConditionQuery("rent");
 
   // Mostrar solo las primeras 3 propiedades
-  const sellDataLimited = sellData?.slice(0, 3);
-  const rentDataLimited = rentData?.slice(0, 3);
+  const sellDataLimited = sellData;
+  const rentDataLimited = rentData;
 
   useEffect(() => {
     if (!isSellLoading && !isSellError) {
