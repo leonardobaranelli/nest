@@ -33,10 +33,9 @@ const Home = () => {
     <div>
     <div>
         <Navbar />
-        <h2>Home</h2>
       </div>
       <div>
-        <h2>Sell Properties</h2>
+        <h2 className='text-center m-10 text-xl'>Propiedades en venta</h2>
         {isSellLoading ? (
           <p>Loading Sell properties...</p>
         ) : isSellError ? (
@@ -46,7 +45,7 @@ const Home = () => {
         )}
       </div>
       <div>
-        <h2>Rent Properties</h2>
+        <h2 className='text-center m-10 text-xl'>Propiedades en alquiler</h2>
         {isRentLoading ? (
           <p>Loading Rent properties...</p>
         ) : isRentError ? (

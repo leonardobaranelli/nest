@@ -5,7 +5,7 @@ interface Property {
   days: number;
   type: string;
   condition: string;
-  image: string;
+  image: string[];
   title: string;
   country: string;
   city: string;
@@ -23,7 +23,7 @@ interface CardsProps {
 
 const Cards: React.FC<CardsProps> = ({ properties }) => {
   return (
-    <div className="property-cards">
+    <div className='flex justify-center aling-center gap-10 flex-wrap'>
     {Array.isArray(properties) ? (
       properties.map((property, index) => (
         <Card key={index} {...property} />
