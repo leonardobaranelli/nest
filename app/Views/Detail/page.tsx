@@ -4,7 +4,7 @@ import data from "./data.json";
 
 const Detail = (/* aca tiene que recibir un parametro que buscar */) => { 
 
-  const properties = data; //esto se cambia cuando haya conexion con el estado global
+  const properties = data; //esto  cuando haya conexion con el estado global
 
   interface Pfind {
     days: number;
