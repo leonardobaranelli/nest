@@ -25,30 +25,31 @@ export const postsApi = createApi({
       query: (condition) => `posts/condition/${condition}`,
     }),
     getPosts: builder.query<Post[], void>({
-      query: () => "posts",
+      query: () => "post",
     }),
     createPost: builder.mutation<Post, Partial<Post>>({
       query: (newPost) => ({
-        url: "posts",
+        url: "post",
         method: "POST",
         body: newPost,
       }),
     }),
     getPost: builder.query<Post, number>({
-      query: (id) => `posts/${id}`, 
+      query: (id) => `post/${id}`,
     }),
     updatePost: builder.mutation<Post, { id: number; updatedPost: Partial<Post> }>({
       query: ({ id, updatedPost }) => ({
-        url: `posts/${id}`,
+        url: `post/${id}`,
         method: "PATCH",
         body: updatedPost,
       }),
     }),
     deletePost: builder.mutation<void, number>({
       query: (id) => ({
-        url: `posts/${id}`,
+        url: `post/${id}`,
         method: "DELETE",
       }),
+  
     }),
   }),
 });
@@ -60,5 +61,5 @@ export const {
   useGetPostQuery, // GET one
   useUpdatePostMutation, // PATCH (Update)
   useDeletePostMutation, // DELETE
-} = postsApi;
 
+} = postsApi;
