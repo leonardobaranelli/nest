@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface Property {
+  id: string | number;
   days: number;
   type: string;
   condition: string;
@@ -33,9 +35,9 @@ const Card: React.FC<Property> = (property) => {
     }
   }
   
-  console.log(property)
-  return (
+  return (  
     <div className="w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
+      <Link href={`/Views/${property.id}`}>Detalle</Link>
         <div className="h-52 w-90 relative">
           {property.images?.map((imagen, index) =>(
             <img src={imagen} alt={`image`} className={`rounded h-full w-full object-cover object-center absolute top-0 left-0 transition-opacity duration-300 ${

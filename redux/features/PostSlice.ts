@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export interface Post {
   days: number | null;
@@ -16,6 +17,8 @@ export interface Post {
   description: string;
 }
 
+
+
 export const postsApi = createApi({
   reducerPath: "postsApi",
   refetchOnFocus: true,
@@ -24,7 +27,7 @@ export const postsApi = createApi({
     getPostsByCondition: builder.query<Post[], string>({
       query: (condition) => `posts/condition/${condition}`,
     }),
-    getPosts: builder.query<Post[], void>({
+    getPosts: builder.query<Post[], string>({
       query: () => "posts",
     }),
     createPost: builder.mutation<Post, Partial<Post>>({
@@ -53,6 +56,7 @@ export const postsApi = createApi({
   }),
 });
 
+
 export const {
   useGetPostsByConditionQuery,
   useGetPostsQuery, // GET all
@@ -61,4 +65,5 @@ export const {
   useUpdatePostMutation, // PATCH (Update)
   useDeletePostMutation, // DELETE
 } = postsApi;
+
 

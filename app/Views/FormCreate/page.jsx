@@ -4,18 +4,18 @@ import { useState, useEffect } from 'react'
 import 'tailwindcss/tailwind.css';
 import validate from '@/app/Handlers/validation';
 import { useCreatePostMutation, useGetPostsQuery } from '@/redux/features/PostSlice';
-import { create } from 'domain';
+import { useAppDispatch } from '@/redux/hooks';
+
 
 export default function Formulario() {
 
-
-
+    const dispatch = useAppDispatch()
     const [errors, setErrors] = useState({});
     const initialFormValues = {
       days: "",
       condition: '',
       type: '',
-      image: null,
+      images: [],
       title: '',
       country: '',
       city: '',
@@ -30,8 +30,8 @@ export default function Formulario() {
     const [values, setValues] = useState(
       initialFormValues
     )
-    const [createPost, { isError, isLoading }] = useCreatePostMutation();
-/*     const { data: posts, refetch } = useGetPostsQuery(); */
+    const { data: posts, isLoading, isError, refetch } = useGetPostsQuery();
+    const createPost = useCreatePostMutation(values);
 
     const disable = () => {
       let disabled = true;
@@ -57,20 +57,27 @@ export default function Formulario() {
         })
     );
     }
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      console.log('Submit button clicked');
     
-      try {
-        const result = await createPost(values).unwrap();
-        console.log('Post creado con éxito:', result);
-        setValues(initialFormValues);
-      } catch (error) {
-        console.error('Error creando post:', error);
-        // Puedes mostrar mensajes de error o tomar otras medidas aquí
-      }
-    };
+    const handleImages = (e) => {
+      e.preventDefault();
+      setValues({
+      ...values,
+      images: [...values.images, e.target.value],
+  });
+      setErrors(
+          validate({
+              ...values,
+              [e.target.name]: e.target.value,
+          })
+      );
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    }
+
+  
+  
     
     
 
@@ -308,15 +315,15 @@ export default function Formulario() {
             <label className="block text-gray-700 font-bold mb-2">Image: </label>
             <input
               type="text"
-              name="image"
-              onChange={handleChange}
+              name="images"
+              onChange={(e) => handleImages(e)}
               className="border p-2 w-full rounded-lg"
             />
               <div className="mb-2">
-                  {errors.image && (
+                  {errors.images && (
                   <span className="text-red-500 text-sm"
                   >
-                      {errors.image}
+                      {errors.images}
                   </span>
                   )}
               </div>
@@ -326,7 +333,7 @@ export default function Formulario() {
             type="submit"
             className="bg-indigo-600 text-white py-2 px-4 hover:bg-indigo-500 rounded-lg"
             onClick={handleSubmit}
-            /* disabled={disable()} */
+            disabled={disable()}
           >
             {isLoading ? 'Submitting...' : 'Submit'}
           </button>
