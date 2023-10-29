@@ -1,33 +1,29 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
+import { createPost } from "../features/PostSlice"; // Ajusta la ruta correctamente
 
-export const fetchUserData = createAsyncThunk("user/fetchUserData", async () => {
-  const response = await axios.get("http://localhost:3001/posts/condition/sell"); // Reemplaza con la URL de tu servidor
-  return response.data;
-});
 
-const userSlice = createSlice({
-  name: "user",
+const postsSlice = createSlice({
+  name: 'posts',
   initialState: {
-    data: null, // Inicializa data como null
-    loading: "idle",
-    error: null, // Inicializa error como null
+    posts: [],
+    status: 'idle',
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserData.pending, (state) => {
-        state.loading = "pending";
+      .addCase(createPost.pending, (state) => {
+        state.status = 'loading';
       })
-      .addCase(fetchUserData.fulfilled, (state, action) => {
-        state.loading = "fulfilled";
-        state.data = action.payload; // Asigna el valor solo si no es undefined
+      .addCase(createPost.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.posts.push(action.payload); // Agregar el nuevo post al array de posts
       })
-      .addCase(fetchUserData.rejected, (state, action) => {
-        state.loading = "rejected";
-        state.error = action.error.message; // Asigna el valor solo si no es undefined
+      .addCase(createPost.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
 
-export default userSlice.reducer;
+export default postsSlice.reducer;
