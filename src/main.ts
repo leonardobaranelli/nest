@@ -16,6 +16,7 @@ async function bootstrap() {
     credentials: true,
   });
   const sequelize = app.get(Sequelize);
+  //await sequelize.sync({ force: true });
   await sequelize.sync({ alter: true });
   await app.listen(3001);
 }
