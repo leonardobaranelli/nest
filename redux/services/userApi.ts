@@ -15,7 +15,7 @@ export const userApi = createApi({
   refetchOnFocus: true, 
   // Configuración de la función base para las solicitudes HTTP
   baseQuery: fetchBaseQuery({
-    baseUrl: "el punto", // URL base de la API
+    baseUrl: "https://localhost:3001", // URL base de la API
   }),
   // Definición de los puntos finales de la API
   endpoints: (builder) => ({

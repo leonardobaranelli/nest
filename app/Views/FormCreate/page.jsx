@@ -4,17 +4,18 @@ import { useState, useEffect } from 'react'
 import 'tailwindcss/tailwind.css';
 import validate from '@/app/Handlers/validation';
 import { useCreatePostMutation, useGetPostsQuery } from '@/redux/features/PostSlice';
+import { useAppDispatch } from '@/redux/hooks';
+
 
 export default function Formulario() {
 
-
-
+    const dispatch = useAppDispatch()
     const [errors, setErrors] = useState({});
     const initialFormValues = {
       days: "",
       condition: '',
       type: '',
-      image: null,
+      images: [],
       title: '',
       country: '',
       city: '',
@@ -29,8 +30,8 @@ export default function Formulario() {
     const [values, setValues] = useState(
       initialFormValues
     )
-    const [createPost, { isError, isLoading }] = useCreatePostMutation();
-    const { data: posts, refetch } = useGetPostsQuery();
+    const { data: posts, isLoading, isError, refetch } = useGetPostsQuery();
+    const createPost = useCreatePostMutation(values);
 
     const disable = () => {
       let disabled = true;
@@ -56,27 +57,27 @@ export default function Formulario() {
         })
     );
     }
-
-    const handleSubmit = async (e) => {
+    
+    const handleImages = (e) => {
       e.preventDefault();
-      console.log('Submit button clicked');
-    
-      try {
-        // Realizar la mutación para crear un nuevo post
-        const result = await createPost(values).unwrap();
-    
-        // Si todo va bien, result contendrá los datos del nuevo post
-        console.log('Post creado con éxito:', result);
-    
-        // Limpiar el formulario después de la creación exitosa
-        setValues(initialFormValues);
-    
-        // Volver a cargar la lista de posts (opcional, depende de tus necesidades)
-        refetch();
-      } catch (error) {
-        console.log('Error creando post:', error);
-      }
-    };
+      setValues({
+      ...values,
+      images: [...values.images, e.target.value],
+  });
+      setErrors(
+          validate({
+              ...values,
+              [e.target.name]: e.target.value,
+          })
+      );
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    }
+
+  
+  
     
 
     useEffect(() => {
@@ -313,15 +314,15 @@ export default function Formulario() {
             <label className="block text-gray-700 font-bold mb-2">Image: </label>
             <input
               type="text"
-              name="image"
-              onChange={handleChange}
+              name="images"
+              onChange={(e) => handleImages(e)}
               className="border p-2 w-full rounded-lg"
             />
               <div className="mb-2">
-                  {errors.image && (
+                  {errors.images && (
                   <span className="text-red-500 text-sm"
                   >
-                      {errors.image}
+                      {errors.images}
                   </span>
                   )}
               </div>
@@ -331,7 +332,6 @@ export default function Formulario() {
             type="submit"
             className="bg-indigo-600 text-white py-2 px-4 hover:bg-indigo-500 rounded-lg"
             onClick={handleSubmit}
-            disabled={disable()}
           >
             {isLoading ? 'Submitting...' : 'Submit'}
           </button>

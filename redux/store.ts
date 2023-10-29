@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { postsApi } from "./features/Post"; 
+import { postsApi } from "./features/PostSlice"; 
+import { setupListeners } from "@reduxjs/toolkit/query";
 
 export const store = configureStore({
   reducer: {
@@ -9,6 +10,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([postsApi.middleware]), // Agrega el middleware de  la API
 });
+setupListeners(store.dispatch)
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
