@@ -1,12 +1,12 @@
 "use client";
 import { useState, ChangeEvent, KeyboardEvent } from "react";
-import { useGetPostsByConditionQuery } from "@/redux/features/PostSlice";
+import { useGetPostsQuery } from "@/redux/features/PostSlice";
 
 interface Property {
   days: number | null;
   type: string;
   condition: string;
-  images: string[];
+  image: string[];
   title: string;
   country: string;
   city: string;
@@ -20,7 +20,7 @@ interface Property {
 const Search = () => {
   const [inputValue, setInputValue] = useState("");
   const [valueServer, setValueServer] = useState<Property[] | undefined>(undefined);
-  const { data } = useGetPostsByConditionQuery("sell");
+  const { data } = useGetPostsQuery("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const values = event.target.value;
@@ -36,7 +36,7 @@ const Search = () => {
       }
     };
     console.log(valueServer);
-
+    
   return (
     <div>
       <input
