@@ -7,6 +7,7 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  AllowNull,
 } from 'sequelize-typescript';
 import { User, Comment, Score, Rent } from '.';
 
@@ -24,7 +25,7 @@ export class Post extends Model {
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
-  @Column({ type: DataType.INTEGER })
+  @Column({ allowNull:true,type: DataType.INTEGER })
   days: number;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
@@ -39,10 +40,10 @@ export class Post extends Model {
   @Column({ allowNull: false, type: DataType.STRING(255) })
   title: string;
 
-  @Column({ allowNull: false, unique: true, type: DataType.STRING })
+  @Column({ allowNull: false, unique: false, type: DataType.STRING })
   country: string;
 
-  @Column({ allowNull: false, unique: true, type: DataType.STRING })
+  @Column({ allowNull: false, unique: false, type: DataType.STRING })
   city: string;
 
   @Column({ allowNull: false, type: DataType.STRING })
