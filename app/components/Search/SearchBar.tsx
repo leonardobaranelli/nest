@@ -1,12 +1,12 @@
 "use client";
 import { useState, ChangeEvent, KeyboardEvent } from "react";
-import { useGetPostsByConditionQuery } from "@/redux/features/Post";
+import { useGetPostsByConditionQuery } from "@/redux/features/PostSlice";
 
 interface Property {
   days: number | null;
   type: string;
   condition: string;
-  image: string[];
+  images: string[];
   title: string;
   country: string;
   city: string;
