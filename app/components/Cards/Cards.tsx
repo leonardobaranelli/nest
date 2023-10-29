@@ -22,6 +22,7 @@ interface CardsProps {
 }
 
 const Cards: React.FC<CardsProps> = ({ properties }) => {
+  
   return (
     <div className='flex justify-center aling-center gap-10 flex-wrap'>
     {Array.isArray(properties) ? (
