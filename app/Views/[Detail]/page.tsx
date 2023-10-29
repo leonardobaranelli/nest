@@ -1,16 +1,17 @@
-"use client";
+'use client'
+
 import React from "react";
-import data from "./data.json";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useGetPostQuery } from "@/redux/features/PostSlice";
 
-const Detail = (/* aca tiene que recibir un parametro que buscar */) => { 
-
-  const properties = data; //esto  cuando haya conexion con el estado global
-
+const Detail = () => {
   interface Pfind {
-    days: number;
+    id: string | number;
+    days: number | null;
     type: string;
     condition: string;
-    image: string;
+    images: string[];
     title: string;
     country: string;
     city: string;
@@ -22,9 +23,18 @@ const Detail = (/* aca tiene que recibir un parametro que buscar */) => {
     description: string;
   }
 
-  const property = properties.find(
-    (p: Pfind) => p.title === "Cozy Apartment in Downtown" //esto esta HARCODEADO, SE CONECTA CON EL PARAMETRO
-  );
+  const {Detail} = useParams();
+  console.log(Detail);
+  const [property, setPropertyServer] = useState<Pfind | undefined>(undefined);
+  
+  const { data } = useGetPostQuery(Detail);
+  console.log(data);
+  
+
+  useEffect(() => {
+    setPropertyServer(data);
+
+  }, [data]);
 
   if (!property) {
     return <div>Propiedad no encontrada</div>;
@@ -33,12 +43,12 @@ const Detail = (/* aca tiene que recibir un parametro que buscar */) => {
   return (
     <div className="md:container md:mx-auto mx-auto">
       <div className="property-location">
-      <div className="property-location">
-        <h2>Imagen</h2>
-      </div>
-      <div className="property-details">
-        <img src={property.image} alt="" />
-      </div>
+        {property.images?.map((imagen, index) => (
+          <img
+            src={imagen}
+            alt=''
+          />
+        ))}
         <h2>Dias</h2>
       </div>
       <div className="property-details">

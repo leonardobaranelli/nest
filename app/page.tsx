@@ -10,11 +10,12 @@ function page() {
 
 
   return (
-      <div>
-        <Landing/>
+    <div>
+      <Landing />
 
-      </div>
-  )
+
+    </div>
+  );
 }
 
 export default page
