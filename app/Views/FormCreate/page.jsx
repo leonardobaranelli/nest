@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import 'tailwindcss/tailwind.css';
 import validate from '@/app/Handlers/validation';
 import { useCreatePostMutation, useGetPostsQuery } from '@/redux/features/PostSlice';
+import { create } from 'domain';
 
 export default function Formulario() {
 
@@ -30,7 +31,7 @@ export default function Formulario() {
       initialFormValues
     )
     const [createPost, { isError, isLoading }] = useCreatePostMutation();
-    const { data: posts, refetch } = useGetPostsQuery();
+/*     const { data: posts, refetch } = useGetPostsQuery(); */
 
     const disable = () => {
       let disabled = true;
@@ -62,21 +63,15 @@ export default function Formulario() {
       console.log('Submit button clicked');
     
       try {
-        // Realizar la mutación para crear un nuevo post
         const result = await createPost(values).unwrap();
-    
-        // Si todo va bien, result contendrá los datos del nuevo post
         console.log('Post creado con éxito:', result);
-    
-        // Limpiar el formulario después de la creación exitosa
         setValues(initialFormValues);
-    
-        // Volver a cargar la lista de posts (opcional, depende de tus necesidades)
-        refetch();
       } catch (error) {
-        console.log('Error creando post:', error);
+        console.error('Error creando post:', error);
+        // Puedes mostrar mensajes de error o tomar otras medidas aquí
       }
     };
+    
     
 
     useEffect(() => {
@@ -84,8 +79,8 @@ export default function Formulario() {
         console.error('Error fetching posts:', isError);
       }
       // Se ejecuta cuando la lista de publicaciones cambia
-      console.log('Posts:', posts);
-    }, [isError, isLoading, posts]);
+/*       console.log('Posts:', posts); */
+    }, [isError, isLoading/* , posts */]);
 
     return (
         <form className="bg-white p-10 rounded-lg shadow-md max-w-3xl" onSubmit={(e) => handleSubmit(e)}>        
@@ -331,7 +326,7 @@ export default function Formulario() {
             type="submit"
             className="bg-indigo-600 text-white py-2 px-4 hover:bg-indigo-500 rounded-lg"
             onClick={handleSubmit}
-            disabled={disable()}
+            /* disabled={disable()} */
           >
             {isLoading ? 'Submitting...' : 'Submit'}
           </button>
