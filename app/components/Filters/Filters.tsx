@@ -15,7 +15,7 @@ function PrecioFilters({ setFilterPrice }: PrecioFiltersProps) {
 
   return (
     <div>
-      <label htmlFor="priceFilter">Selecciona un Precio:</label>
+      <label htmlFor="priceFilter">Precio:</label>
       <select id="priceFilter" value={selectedFilter} onChange={handleFilterChange}>
         <option value="lessThan1000">Menor a $1000</option>
         <option value="greaterThan1000">Mayor a $1000</option>

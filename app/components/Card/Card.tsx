@@ -37,7 +37,7 @@ const Card: React.FC<Property> = (property) => {
   
   return (  
     <div className="w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
-      <Link href={`/Views/${property.id}`}>Detalle</Link>
+      {/* <Link href={`/Views/${property.id}`}>Detalle</Link> */}
         <div className="h-52 w-90 relative">
           {property.images?.map((imagen, index) =>(
             <img src={imagen} alt={`image`} className={`rounded h-full w-full object-cover object-center absolute top-0 left-0 transition-opacity duration-300 ${
@@ -57,7 +57,7 @@ const Card: React.FC<Property> = (property) => {
         </div>
         <div className='flex flex-col justify-around gap-8'>
           <div>
-              <h2 className="text-xl font-bold text-center">{property.title}</h2>
+              <h2 className="text-xl font-bold text-center"><Link href={`/Views/${property.id}`}>{property.title}</Link></h2>
               <h2 className='text-center mt-5 text-xl text-center font-semibold'>${property.price}</h2>
           </div>
           <div className="p-4">

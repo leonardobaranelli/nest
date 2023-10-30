@@ -71,14 +71,16 @@ const Home = () => {
   return (
     <div>
       <Navbar busqueda={setBusqueda}/>
-      <UbicacionFilters setFilterUbicacion={setFilterUbicacion} />
-      <PrecioFilters setFilterPrice={setFilterPrice} />
-      <TipoInmuebleFilters setFilterTipoInmueble={setFilterTipoInmueble} />
+      <div className="flex gap-10 justify-center">
+        <UbicacionFilters setFilterUbicacion={setFilterUbicacion} />
+        <PrecioFilters setFilterPrice={setFilterPrice} />
+        <TipoInmuebleFilters setFilterTipoInmueble={setFilterTipoInmueble} />
+      </div>
       <h2 className="text-center m-10 text-xl">Propiedades</h2>
       {isSellLoading ? (
-        <p>Loading Sell properties...</p>
+        <p className="flex justify-center">Loading Sell properties...</p>
       ) : isSellError ? (
-        <p>Error al obtener datos de venta</p>
+        <p className="flex justify-center">Error al obtener datos de venta</p>
       ) : (
         <Cards properties={filteredData} busqueda = {busqueda}/>
       )}
