@@ -16,34 +16,36 @@ const Navbar = ({busqueda}) => {
             </ul>
         </div> */
     <div className=" p-4 bg-[#fc9a84]">
-      <Search busqueda ={busqueda}/>
-      <nav className=" flex items-center justify-between sm:h-10 lg:justify-start">
-        <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-          <Link
-            href="../../Views/Buy"
-            className="font-medium text-gray-500 hover:text-gray-900"
-          >
-            Venta
-          </Link>
-          <Link
-            href="../../Views/Rent"
-            className="font-medium text-gray-500 hover:text-gray-900"
-          >
-            Alquiler
-          </Link>
-          <Link
-            href="../../Views/FormCreate"
-            className="font-medium text-gray-500 hover:text-gray-900"
-          >
-            Publicar Inmueble
-          </Link>
-          <Link
-            href=""
-            className=" font-medium text-indigo-600 hover:text-indigo-500"
-          >
-            Log in
-          </Link>
+      <nav className=" flex items-center justify-between sm:h-10">
+        <div>
+          <Search busqueda ={busqueda}/>
         </div>
+          <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+            <Link
+              href="../../Views/Buy"
+              className="font-medium text-gray-500 hover:text-gray-900"
+            >
+              Venta
+            </Link>
+            <Link
+              href="../../Views/Rent"
+              className="font-medium text-gray-500 hover:text-gray-900"
+            >
+              Alquiler
+            </Link>
+            <Link
+              href="../../Views/FormCreate"
+              className="font-medium text-gray-500 hover:text-gray-900"
+            >
+              Publicar Inmueble
+            </Link>
+            <Link
+              href=""
+              className=" font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Log in
+            </Link>
+          </div>
       </nav>
     </div>
   );

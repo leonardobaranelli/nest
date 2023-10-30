@@ -79,14 +79,15 @@ export default function Formulario() {
   
   
     
+    
 
     useEffect(() => {
       if (isError) {
         console.error('Error fetching posts:', isError);
       }
       // Se ejecuta cuando la lista de publicaciones cambia
-      console.log('Posts:', posts);
-    }, [isError, isLoading, posts]);
+/*       console.log('Posts:', posts); */
+    }, [isError, isLoading/* , posts */]);
 
     return (
         <form className="bg-white p-10 rounded-lg shadow-md max-w-3xl" onSubmit={(e) => handleSubmit(e)}>        
@@ -332,6 +333,7 @@ export default function Formulario() {
             type="submit"
             className="bg-indigo-600 text-white py-2 px-4 hover:bg-indigo-500 rounded-lg"
             onClick={handleSubmit}
+            disabled={disable()}
           >
             {isLoading ? 'Submitting...' : 'Submit'}
           </button>

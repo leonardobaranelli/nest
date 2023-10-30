@@ -40,20 +40,22 @@ const Page = () => {
     <div className='flex flex-col gap-20'>
       <div className="p-4 bg-[#fc9a84] flex items-center justify-around">
         <Link href="../../Views/home" className="font-medium text-gray-500 hover:text-gray-900">Home</Link>
+        <Link href="../../Views/Buy" className="font-medium text-gray-500 hover:text-gray-900">Venta</Link>
         <Link href="" className="font-medium text-indigo-600 hover:text-indigo-500">Log in</Link>
       </div>
 
-     
-      <UbicacionFilters setFilterUbicacion={setFilterUbicacion} />
-      <PrecioFilters setFilterPrice={setFilterPrice} />
-      <TipoInmuebleFilters setFilterTipoInmueble={setFilterTipoInmueble} />
+      <div className="flex gap-10 justify-center">
+        <UbicacionFilters setFilterUbicacion={setFilterUbicacion} />
+        <PrecioFilters setFilterPrice={setFilterPrice} />
+        <TipoInmuebleFilters setFilterTipoInmueble={setFilterTipoInmueble} />
+      </div>
 
       {isLoading ? (
-        <p>Loading...</p>
+        <p className="flex justify-center">Loading...</p>
       ) : isError ? (
-        <p>Error al obtener datos</p>
+        <p className="flex justify-center">Error al obtener datos</p>
       ) : filteredData.length === 0 ? (
-        <p>No hay publicaciones</p>
+        <p className="flex justify-center">No hay publicaciones</p>
       ) : (
         <Cards properties={filteredData} />
       )}

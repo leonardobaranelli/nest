@@ -21,7 +21,7 @@ function UbicacionFilters({ setFilterUbicacion }: UbicacionFiltersProps) {
 
   return (
     <div>
-      <label htmlFor="ubicacionFilter">Selecciona una Ubicación:</label>
+      <label htmlFor="ubicacionFilter">Ubicación:</label>
       <select id="ubicacionFilter" value={selectedUbicacion} onChange={handleUbicacionChange}>
         <option value="all">Todos</option>
         {ubicacionesData.map((ubicacion) => (
