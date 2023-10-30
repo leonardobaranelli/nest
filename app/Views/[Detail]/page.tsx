@@ -4,6 +4,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGetPostQuery } from "@/redux/features/PostSlice";
+import { log } from "console";
 
 const Detail = () => {
   interface Pfind {
@@ -31,7 +32,7 @@ const Detail = () => {
   useEffect(() => {
     setPropertyServer(data);
   }, [data]);
-
+  
   if (!property) {
     return <div>Propiedad no encontrada</div>;
   }
