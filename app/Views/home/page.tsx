@@ -21,7 +21,8 @@ const Home = () => {
 
   // Nuevo estado para los datos filtrados
   const [filteredData, setFilteredData] = useState<Post[]>([]);
-
+  const [busqueda, setBusqueda] = useState({})
+ 
   useEffect(() => {
     // Filtrar por precio
     const filterByPrice = (data: Post[], priceFilter: string) => {
