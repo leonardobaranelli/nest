@@ -1,28 +1,36 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import Cards from '@/app/components/Cards/Cards';
+import React, { useEffect, useState } from "react";
+import Cards from "@/app/components/Cards/Cards";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetPostsByConditionQuery, Post } from "@/redux/features/PostSlice";
-import Navbar from '@/app/components/Navbar/Navbar';
-import PrecioFilters from '@/app/components/Filters/Filters';
-import UbicacionFilters from '@/app/components/Filters/UbicacionFilters';
-import TipoInmuebleFilters from '@/app/components/Filters/TipoInmuebleFilters';
+import Navbar from "@/app/components/Navbar/Navbar";
+import PrecioFilters from "@/app/components/Filters/Filters";
+import UbicacionFilters from "@/app/components/Filters/UbicacionFilters";
+import TipoInmuebleFilters from "@/app/components/Filters/TipoInmuebleFilters";
 
 const Home = () => {
   const dispatch = useAppDispatch();
 
-  const { data: sellData, isLoading: isSellLoading, isError: isSellError } = useGetPostsByConditionQuery("sell");
-  const { data: rentData, isLoading: isRentLoading, isError: isRentError } = useGetPostsByConditionQuery("rent");
+  const {
+    data: sellData,
+    isLoading: isSellLoading,
+    isError: isSellError,
+  } = useGetPostsByConditionQuery("sell");
+  const {
+    data: rentData,
+    isLoading: isRentLoading,
+    isError: isRentError,
+  } = useGetPostsByConditionQuery("rent");
 
   const [filterPrice, setFilterPrice] = useState<string>("all");
   const [filterUbicacion, setFilterUbicacion] = useState<string>("all");
   const [filterTipoInmueble, setFilterTipoInmueble] = useState<string>("all");
+  const [busqueda, setBusqueda] = useState({})
 
   // Nuevo estado para los datos filtrados
   const [filteredData, setFilteredData] = useState<Post[]>([]);
-  const [busqueda, setBusqueda] = useState({})
- 
+
   useEffect(() => {
     // Filtrar por precio
     const filterByPrice = (data: Post[], priceFilter: string) => {
@@ -58,35 +66,22 @@ const Home = () => {
 
     // Actualizar los datos filtrados
     setFilteredData(filteredPosts);
-
   }, [filterPrice, filterUbicacion, filterTipoInmueble, sellData, rentData]);
 
   return (
     <div>
-      <div>
-        <Navbar  busqueda = {setBusqueda}/>
-  
-      </div>
-      <div>
-        <h2 className="text-center m-10 text-xl">Propiedades en venta</h2>
-        {isSellLoading ? (
-          <p>Loading Sell properties...</p>
-        ) : isSellError ? (
-          <p>Error al obtener datos de venta</p>
-        ) : (
-          <Cards properties={sellDataLimited as Post[]} busqueda = {busqueda}/>
-        )}
-      </div>
-      <div>
-        <h2 className="text-center m-10 text-xl">Propiedades en alquiler</h2>
-        {isRentLoading ? (
-          <p>Loading Rent properties...</p>
-        ) : isRentError ? (
-          <p>Error al obtener datos de alquiler</p>
-        ) : (
-          <Cards properties={rentDataLimited as Post[]} busqueda = {busqueda}/>
-        )}
-      </div>
+      <Navbar busqueda={setBusqueda}/>
+      <UbicacionFilters setFilterUbicacion={setFilterUbicacion} />
+      <PrecioFilters setFilterPrice={setFilterPrice} />
+      <TipoInmuebleFilters setFilterTipoInmueble={setFilterTipoInmueble} />
+      <h2 className="text-center m-10 text-xl">Propiedades</h2>
+      {isSellLoading ? (
+        <p>Loading Sell properties...</p>
+      ) : isSellError ? (
+        <p>Error al obtener datos de venta</p>
+      ) : (
+        <Cards properties={filteredData} busqueda = {busqueda}/>
+      )}
     </div>
   );
 };
