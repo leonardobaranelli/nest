@@ -2,7 +2,7 @@ import React from "react";
 import Search from "../Search/SearchBar";
 import Link from "next/link";
 
-const Navbar = () => {
+const Navbar = ({busqueda}) => {
   return (
     /*         <div style={{display:'flex', justifyContent:"space-around", alignItems:"center", background:"#ffefeb"}}>
             <h2>Logo</h2>
@@ -16,7 +16,7 @@ const Navbar = () => {
             </ul>
         </div> */
     <div className=" p-4 bg-[#fc9a84]">
-      <Search/>
+      <Search busqueda ={busqueda}/>
       <nav className=" flex items-center justify-between sm:h-10 lg:justify-start">
         <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
           <Link
