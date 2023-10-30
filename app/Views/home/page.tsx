@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Cards from "@/app/components/Cards/Cards";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -10,7 +10,7 @@ import Navbar from "@/app/components/Navbar/Navbar";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-
+const [busqueda,setBusqueda] = useState({})
   // Consulta para "sell"
   const {
     data: sellData,
@@ -49,7 +49,7 @@ const Home = () => {
   return (
     <div>
       <div>
-        <Navbar />
+        <Navbar  busqueda = {setBusqueda}/>
   
       </div>
       <div>
@@ -59,7 +59,7 @@ const Home = () => {
         ) : isSellError ? (
           <p>Error al obtener datos de venta</p>
         ) : (
-          <Cards properties={sellDataLimited as Post[]} />
+          <Cards properties={sellDataLimited as Post[]} busqueda = {busqueda}/>
         )}
       </div>
       <div>
@@ -69,7 +69,7 @@ const Home = () => {
         ) : isRentError ? (
           <p>Error al obtener datos de alquiler</p>
         ) : (
-          <Cards properties={rentDataLimited as Post[]} />
+          <Cards properties={rentDataLimited as Post[]} busqueda = {busqueda}/>
         )}
       </div>
     </div>
