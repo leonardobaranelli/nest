@@ -6,6 +6,8 @@ import { User, Post, Rent, Comment, Score } from './shared/models';
 import { config } from 'dotenv';
 import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { ConfigModule } from '@nestjs/config'; // Hace que las variables de entorno sean globales
 
 config();
 
@@ -28,6 +30,8 @@ config();
     }),
     PostModule,
     UsersModule,
+    CloudinaryModule,
+    ConfigModule.forRoot({ isGlobal: true })   // <-- .env global
   ],
   controllers: [AppController],
   providers: [AppService],
