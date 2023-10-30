@@ -17,9 +17,8 @@ interface Property {
   price: number;
   description: string;
 }
-const Search = () => {
+const Search = ({busqueda}) => {
   const [inputValue, setInputValue] = useState("");
-  const [valueServer, setValueServer] = useState<Property[] | undefined>(undefined);
   const { data } = useGetPostsQuery("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -32,18 +31,20 @@ const Search = () => {
       const filterData = data?.filter((dataSearch: Property) =>
         dataSearch.title.toLowerCase().includes(inputValue.toLowerCase())
         );
-        setValueServer(filterData);
+        busqueda(filterData)
+        console.log(filterData);
       }
     };
-    console.log(valueServer);
     
   return (
     <div>
       <input
         type="text"
         value={inputValue}
+        placeholder="Buscar propiedad"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        className="relative bg-gray-50ring-0 outline-none border border-neutral-500 text-neutral-900 placeholder-violet-700 text-sm rounded-lg focus:ring-violet-500  focus:border-violet-500 block w-64 p-1 checked:bg-emerald-500"
       ></input>
     </div>
   );

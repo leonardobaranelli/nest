@@ -53,13 +53,13 @@ export default function Formulario() {
     const formErrors = validate(values);
     setErrors(formErrors);
 
+
       try {        
         const response = await axios.post("http://localhost:3001/posts", values);
         console.log("Respuesta de la solicitud POST:", response.data);
 
       } catch (error) {
         console.error("Error al realizar la solicitud POST:", error);
-
       }
     //}
   };
@@ -239,6 +239,7 @@ export default function Formulario() {
         </div>
       </div>
 
+
       <div className="mb-5">
         <label className="block text-gray-700 font-bold mb-2">Imagen: </label>
         <input
@@ -253,6 +254,7 @@ export default function Formulario() {
           )}
         </div>
       </div>
+
 
       <button
         type="submit"

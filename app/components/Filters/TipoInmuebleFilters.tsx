@@ -21,7 +21,7 @@ function TipoInmuebleFilters({ setFilterTipoInmueble }: TipoInmuebleFiltersProps
 
   return (
     <div>
-      <label htmlFor="tipoInmuebleFilter">Selecciona un Tipo de Inmueble:</label>
+      <label htmlFor="tipoInmuebleFilter">Inmueble:</label>
       <select id="tipoInmuebleFilter" value={selectedTipoInmueble} onChange={handleTipoInmuebleChange}>
         <option value="all">Todos</option>
         {tiposInmuebleData.map((tipoInmueble) => (
