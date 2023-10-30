@@ -32,24 +32,24 @@ export const postsApi = createApi({
     }),
     createPost: builder.mutation<Post, Partial<Post>>({
       query: (newPost) => ({
-        url: "post",
+        url: "posts",
         method: "POST",
         body: newPost,
       }),
     }),
     getPost: builder.query<Post, number>({
-      query: (id) => `post/${id}`,
+      query: (id) => `posts/${id}`,
     }),
     updatePost: builder.mutation<Post, { id: number; updatedPost: Partial<Post> }>({
       query: ({ id, updatedPost }) => ({
-        url: `post/${id}`,
+        url: `posts/${id}`,
         method: "PATCH",
         body: updatedPost,
       }),
     }),
     deletePost: builder.mutation<void, number>({
       query: (id) => ({
-        url: `post/${id}`,
+        url: `posts/${id}`,
         method: "DELETE",
       }),
   
