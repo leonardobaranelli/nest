@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Cards from "@/app/components/Cards/Cards";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useGetPostsByConditionQuery, Post } from "@/redux/features/PostSlice";
+import { useGetPostsByConditionQuery, Post, useGetPostsQuery } from "@/redux/features/PostSlice";
 import Navbar from "@/app/components/Navbar/Navbar";
 import PrecioFilters from "@/app/components/Filters/Filters";
 import UbicacionFilters from "@/app/components/Filters/UbicacionFilters";
@@ -22,6 +22,12 @@ const Home = () => {
     isLoading: isRentLoading,
     isError: isRentError,
   } = useGetPostsByConditionQuery("rent");
+  const {
+    data: allData,
+    /* isLoading: isRentLoading,
+    isError: isRentError, */
+  } = useGetPostsQuery("all");
+  console.log(allData)
 
   const [filterPrice, setFilterPrice] = useState<string>("all");
   const [filterUbicacion, setFilterUbicacion] = useState<string>("all");
@@ -59,14 +65,14 @@ const Home = () => {
     };
 
     // Aplicar todos los filtros
-    let filteredPosts = sellData || [];
+    let filteredPosts = allData || [];
     filteredPosts = filterByPrice(filteredPosts, filterPrice);
     filteredPosts = filterByUbicacion(filteredPosts, filterUbicacion);
     filteredPosts = filterByTipoInmueble(filteredPosts, filterTipoInmueble);
 
     // Actualizar los datos filtrados
     setFilteredData(filteredPosts);
-  }, [filterPrice, filterUbicacion, filterTipoInmueble, sellData, rentData]);
+  }, [filterPrice, filterUbicacion, filterTipoInmueble, sellData, rentData, allData]);
 
   return (
     <div>
