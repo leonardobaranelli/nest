@@ -1,13 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectStripe } from 'nestjs-stripe';
 import Stripe from 'stripe';
+import { Client } from 'coinbase';
 
 @Injectable()
 export class PaymentService {
-  constructor(@InjectStripe() private readonly stripeClient: Stripe) {}
+  private coinbaseClient: Client;
 
-  async getCharges(): Promise<any> {    
-    const charges = await this.stripeClient.charges.list();
-    return charges.data;
+  constructor(@InjectStripe() private readonly stripeClient: Stripe) {    
+    this.coinbaseClient = new Client({
+      apiKey: process.env.COINBASE_API_KEY,
+      apiSecret: process.env.COINBASE_API_SECRET,
+    });
+  }
+
+  async getCharges(): Promise<any> {
+    
+    const stripeCharges = await this.stripeClient.charges.list();
+    
+    const coinbaseAccounts = await this.coinbaseClient.getAccounts();
+
+    return {
+      stripeCharges: stripeCharges.data,
+      coinbaseAccounts: coinbaseAccounts,
+    };
   }
 }
