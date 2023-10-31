@@ -8,6 +8,7 @@ import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ConfigModule } from '@nestjs/config'; // Hace que las variables de entorno sean globales
+import { AuthModule } from './auth/auth.module';
 
 config();
 
@@ -31,7 +32,8 @@ config();
     PostModule,
     UsersModule,
     CloudinaryModule,
-    ConfigModule.forRoot({ isGlobal: true })   // <-- .env global
+    ConfigModule.forRoot({ isGlobal: true }), // <-- .env global
+    AuthModule   
   ],
   controllers: [AppController],
   providers: [AppService],

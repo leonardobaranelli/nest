@@ -10,6 +10,7 @@ export class UserService {
     @InjectModel(User)
     private userModel: typeof User,
   ) {}
+
   async create(createUserDto: CreateUserDto) {
     // Create a new user on the database on sequelize
     try {
@@ -20,6 +21,18 @@ export class UserService {
       return { error: 'Error when creating user on the database' };
     }
   }
+
+  async findOneByEmail(email: string) {
+    // verify if the user exists in the database 
+    try {
+      const user = await this.userModel.findOne({ where: { email } });
+      return user;
+    } catch (error) {
+      console.error('Error when obtaining user from the database:', error);
+      return { error: 'Error when obtaining user from the database' };
+    }
+  }
+
 
   async findAll() {
     // Get all users from the database on sequelize
