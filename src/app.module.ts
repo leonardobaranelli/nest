@@ -8,8 +8,12 @@ import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ConfigModule } from '@nestjs/config'; // Hace que las variables de entorno sean globales
+
+import { AuthModule } from './auth/auth.module';
+
 import { StripeModule } from 'nestjs-stripe';
 import { PaymentModule } from './payment/payment.module';
+
 
 config();
 
@@ -32,7 +36,8 @@ config();
     }),
     PostModule,
     UsersModule,
-    CloudinaryModule,
+    CloudinaryModule,    
+    AuthModule,   
     ConfigModule.forRoot({ isGlobal: true }),   // <-- .env global
     StripeModule.forRoot({
       apiKey: process.env.STRIPE_API_KEY,
