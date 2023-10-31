@@ -40,7 +40,7 @@ config();
     AuthModule,   
     ConfigModule.forRoot({ isGlobal: true }),   // <-- .env global
     StripeModule.forRoot({
-      apiKey: process.env.STRIPE_API_KEY,
+      apiKey: process.env.STRIPE_API_SECRET,
       apiVersion: '2020-08-27',
     }), PaymentModule,
     // StripeModule.forRootAsync({
