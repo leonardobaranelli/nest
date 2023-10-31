@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../shared/models';
 
+
 @Injectable()
 export class UserService {
   constructor(
@@ -29,7 +30,7 @@ export class UserService {
       return user;
     } catch (error) {
       console.error('Error when obtaining user from the database:', error);
-      return { error: 'Error when obtaining user from the database' };
+      return undefined;
     }
   }
 

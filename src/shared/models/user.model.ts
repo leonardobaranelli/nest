@@ -18,9 +18,6 @@ export class User extends Model {
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
-  // @Column({ allowNull: false, type: DataType.STRING(255) })
-  // type: string;
-
   @Column({ allowNull: false, type: DataType.STRING(255) })
   username: string;
 

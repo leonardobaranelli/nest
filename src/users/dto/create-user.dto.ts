@@ -1,10 +1,10 @@
-import { IsString, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsDate } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsString, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsDate, MinLength } from 'class-validator';
+
 
 export class CreateUserDto {
-  // @IsNotEmpty()
-  // @IsString()
-  // type: string;
-
+  
+  @Transform(({ value }) => value.trim())  // esta validación es para que no se pueda registrar un usuario con espacios en blanco
   @IsNotEmpty()
   @IsString()
   username: string;
@@ -13,14 +13,18 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
+  @Transform(({ value }) => value.trim())  
   @IsNotEmpty()
   @IsString()
+  @MinLength(6)
   password: string;
 
+  @Transform(({ value }) => value.trim()) 
   @IsNotEmpty()
   @IsString()
   firstName: string;
 
+  @Transform(({ value }) => value.trim()) 
   @IsNotEmpty()
   @IsString()
   lastName: string;
@@ -33,9 +37,9 @@ export class CreateUserDto {
   @IsNumber()
   personalId: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  rol: string;
+  rol?: string;
 
   @IsOptional()
   @IsDate()
