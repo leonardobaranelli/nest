@@ -6,8 +6,11 @@ export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Get('charges')
-  async getStripeCharges(): Promise<any> {    
-    const charges = await this.paymentService.getCharges();
-    return { charges };
+  async getCharges(): Promise<any> {    
+    const { stripeCharges, coinbaseAccounts } = await this.paymentService.getCharges();
+    return {
+      stripeCharges,
+      coinbaseAccounts,
+    };
   }
 }
