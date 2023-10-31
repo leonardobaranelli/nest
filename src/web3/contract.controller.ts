@@ -5,19 +5,30 @@ import { ContractService } from './contract.service';
 export class ContractController {
   constructor(private readonly contractService: ContractService) {}
 
-  @Get(':adress')
-  async getHiWorld(@Param('adress') contractAdress: string): Promise<any> {
+  @Get(':address/:startDate/:endDate/:postID/:userID/:callbackURL')
+  async interactWithContract(
+    @Param('address') contractAddress: string,
+    @Param('startDate') startDate: string,
+    @Param('endDate') endDate: string,
+    @Param('postID') postID: string,
+    @Param('userID') userID: string,
+    @Param('callbackURL') callbackURL: string,
+  ): Promise<any> {
     try {
-      const contractInfo =
-        await this.contractService.getHiWorld(contractAdress);
+      const contractInfo = await this.contractService.interactWithContract(
+        contractAddress,
+        startDate,
+        endDate,
+        postID,
+        userID,
+        callbackURL,
+      );
       return {
-        contractAdress: contractAdress,
+        contractAddress: contractAddress,
         contractInfo: contractInfo,
       };
     } catch (error) {
-      return `Error getting contract information: ${error.message}`;
+      return `Error interacting with the contract: ${error.message}`;
     }
   }
 }
-
-//0x971ed179866ade77a823007f32dfecb7b9d4007b
