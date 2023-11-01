@@ -11,7 +11,6 @@ import { ConfigModule } from '@nestjs/config'; // Hace que las variables de ento
 
 import { AuthModule } from './auth/auth.module';
 
-import { StripeModule } from 'nestjs-stripe';
 import { PaymentModule } from './payment/payment.module';
 
 
@@ -21,8 +20,7 @@ config();
   imports: [
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      //host: process.env.DB_HOST,
-       //host: process.env.DB_HOST,
+      // host: process.env.DB_HOST,      
       // database: process.env.DB_NAME, 
       // username: process.env.DB_USER,
       // password: process.env.DB_PASS,
@@ -44,17 +42,7 @@ config();
     CloudinaryModule,    
     AuthModule,   
     ConfigModule.forRoot({ isGlobal: true }),   // <-- .env global
-    StripeModule.forRoot({
-      apiKey: process.env.STRIPE_API_SECRET,
-      apiVersion: '2020-08-27',
-    }), PaymentModule,
-    // StripeModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   useFactory: (configService: ConfigService) => ({
-    //     apiKey: configService.get('stripe_key'),
-    //     apiVersion: '2020-08-27',
-    //   }),
-    // }),
+    PaymentModule,   
   ],
   controllers: [AppController],
   providers: [AppService],
