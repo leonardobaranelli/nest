@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useGetPostQuery } from "@/redux/features/PostSlice";
-import { log } from "console";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Detail = () => {
   interface Pfind {
@@ -26,13 +25,35 @@ const Detail = () => {
 
   const { Detail } = useParams();
   const [property, setPropertyServer] = useState<Pfind | undefined>(undefined);
-
   const { data } = useGetPostQuery(Detail);
 
   useEffect(() => {
     setPropertyServer(data);
   }, [data]);
-  
+  const handlePayment = async () => {
+    
+      try {                
+        const response = await fetch('http://localhost:3001/payment/createCheckoutSession', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: property.title, price: property.price * 100, currency: 'usd' }),
+        });
+        
+        const { sessionId } = await response.json();        
+        
+        const stripe = await loadStripe('pk_test_51O7Lk5E3EgztbbKV6X267MvDtNptBoyO9IgVGszAyV7eeNGWnZopkkWSvhml1PEBUqCQRdDnvS3vVpuEexT7qEek00t8b9jX5J');    
+        const result = await stripe.redirectToCheckout({ sessionId });
+        
+        if (result.error) {
+          console.error(result.error.message);
+        }
+      } catch (error) {
+        console.error('Error al procesar el pago:', error);
+      }
+  };
+
   if (!property) {
     return <div>Propiedad no encontrada</div>;
   }
@@ -83,15 +104,14 @@ const Detail = () => {
             </p>
             <p className="md:w-96 text-base leading-normal text-gray-600 dark:text-gray-300 mt-4">
               Domicilio: {property.streetName} {property.streetNumber} {property.aptNumber}
-              
             </p>
           </div>
           <div>
             <div className="border-t border-b py-4 mt-7 border-gray-200">
-              <div
-                data-menu
-                className="flex justify-between items-center cursor-pointer"
-              ></div>
+              {/* Añadido el formulario para el botón de reserva */}
+              <form action="#" method="POST" onSubmit={handlePayment}>
+                <button type="submit">Reservar</button>
+              </form>
             </div>
           </div>
         </div>
