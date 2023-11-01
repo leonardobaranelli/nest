@@ -18,6 +18,9 @@ export class User extends Model {
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
+  @Column({allowNull: false, type: DataType.STRING, defaultValue: 'user' })
+  rol: string;
+
   @Column({ allowNull: false, type: DataType.STRING(255) })
   username: string;
 
@@ -38,9 +41,6 @@ export class User extends Model {
 
   @Column({ unique: true, allowNull: false, type: DataType.BIGINT })
   personalId: number;
-
-  @Column({allowNull: false, type: DataType.STRING, defaultValue: 'user' })
-  rol: string;
 
   @DeletedAt // si un usuario se quiere eliminar lo eliminamos pero aun va a permanecer en la base de datos para mantener un registro
   deletedAt: Date; //se rellenará automáticamente con la fecha en la que se elimina un registro.

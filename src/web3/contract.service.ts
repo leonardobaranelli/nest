@@ -9,36 +9,62 @@ export class ContractService {
     this.web3 = new Web3('https://bsc-testnet-dataseed.bnbchain.org');
   }
 
-  async getHiWorld(contractAddress: string): Promise<string> {
+  async interactWithContract(
+    contractAddress: string,
+    startDate: string,
+    endDate: string,
+    postID: string,
+    userID: string,
+    callbackURL: string,
+  ): Promise<string> {
     try {
       const ABIcontract = [
         {
-          inputs: [],
-          name: 'sayHelloWorld',
+          inputs: [
+            { type: 'string', name: '_startDate' },
+            { type: 'string', name: '_endDate' },
+            { type: 'string', name: '_postID' },
+            { type: 'string', name: '_userID' },
+            { type: 'string', name: '_callbackURL' },
+          ],
+          name: 'RentalContract',
           outputs: [
             {
-              internalType: 'string',
-              name: '',
               type: 'string',
+              name: '',
             },
           ],
-          stateMutability: 'pure',
+          stateMutability: 'nonpayable',
+          type: 'constructor',
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: 'checkEndDate',
+          outputs: [
+            {
+              type: 'string',
+              name: '', 
+            },
+          ],
+          payable: false,
+          stateMutability: 'view',
           type: 'function',
         },
       ];
 
       const contract = new this.web3.eth.Contract(ABIcontract, contractAddress);
-
-      const result = await contract.methods.sayHelloWorld().call();
-
-      if (typeof result !== 'string') {
-        console.warn('HelloWorld result is not a string:', result);
-        return '';
-      }
+      
+      await contract.deploy({
+        data: '0xBBc000C296761f92917760479fC4049bE2517C66',
+        arguments: [startDate, endDate, postID, userID, callbackURL],
+      } as any);
+      
+      const result = await contract.methods.checkEndDate().call() as string;
 
       return result;
     } catch (error) {
-      console.error('Error getting helloworld:', error);
+      console.error('Error interacting with the contract:', error);
       throw error;
     }
   }
