@@ -45,6 +45,7 @@
     "sequelize": "^6.33.0",
     "sequelize-typescript": "^2.1.5",
     "streamifier": "^0.1.1",
+    "stripe": "^14.2.0",
     "web3": "^4.2.0"
   },
   "devDependencies": {
