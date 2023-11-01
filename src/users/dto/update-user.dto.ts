@@ -6,10 +6,6 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsUUID(4)
   id: string;
 
-  // @IsOptional()
-  // @IsString()
-  // type?: string;
-
   @IsOptional()
   @IsString()
   username?: string;
