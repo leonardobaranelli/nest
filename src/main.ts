@@ -15,8 +15,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
-  const sequelize = app.get(Sequelize);
-  //await sequelize.sync({ force: true });
+  const sequelize = app.get(Sequelize);  
   await sequelize.sync({ alter: true });
   await app.listen(3001);
 }
