@@ -19,6 +19,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get('email/:email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.userService.findOneByEmail(email);
+  }
+
+
   @Get(':id')
   findOne(@Param('id') id) {
     return this.userService.findOne(id);
