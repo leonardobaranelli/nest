@@ -1,5 +1,5 @@
-import { Controller, Get, Post } from '@nestjs/common';
-import { PaymentService } from './payment.service';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { PaymentService, ProductData } from './payment.service';
 
 @Controller('payment')
 export class PaymentController {
@@ -7,17 +7,23 @@ export class PaymentController {
 
   @Get('charges')
   async getCharges(): Promise<any> {    
-    //const { stripeCharges, coinbaseAccounts } = await this.paymentService.getCharges();
     const { stripeCharges } = await this.paymentService.getCharges();
     return {
       stripeCharges,
-      //coinbaseAccounts,
+    };
+  }
+
+  @Get('prices')
+  async getPrices(): Promise<any> {    
+    const { stripePrices } = await this.paymentService.getPrices();
+    return {
+      stripePrices,
     };
   }
 
   @Post('createProduct')
-  async createProduct(): Promise<any> {
-    const product = await this.paymentService.createProduct('Casa de campo');
+  async createProduct(@Body() productData: ProductData): Promise<any> {
+    const product = await this.paymentService.createProduct(productData);
     return {
       product,
     };
@@ -29,5 +35,11 @@ export class PaymentController {
     return {
       products,
     };
+  }
+
+  @Post('createCheckoutSession')
+  async createCheckoutSession(@Body() productData: { name: string, price: number, currency: string }) {
+    const sessionId = await this.paymentService.createCheckoutSession(productData);
+    return { sessionId };
   }
 }
