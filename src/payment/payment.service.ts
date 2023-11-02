@@ -13,15 +13,8 @@ export interface ProductData {
 @Injectable()
 export class PaymentService {
   private coinbaseClient: Client;
-  private stripeClient: Stripe;
-  
-  //constructor(@InjectStripe() private readonly stripeClient: Stripe) {
-  constructor() {    
-    this.stripeClient = new Stripe(process.env.STRIPE_API_SECRET, {
-      // Configuración adicional de Stripe (si es necesario)
-      // apiVersion: '2020-08-27',
-    });
 
+  constructor(@InjectStripe() private readonly stripeClient: Stripe) {
     this.coinbaseClient = new Client({
       apiKey: process.env.COINBASE_API_KEY,
       apiSecret: process.env.COINBASE_API_SECRET,
@@ -30,11 +23,12 @@ export class PaymentService {
 
   async getCharges(): Promise<any> {
     const stripeCharges = await this.stripeClient.charges.list();
-    //const coinbaseAccounts = await this.coinbaseClient.getAccounts();
+
+    const coinbaseAccounts = await this.coinbaseClient.getAccounts();
 
     return {
       stripeCharges: stripeCharges.data,
-      //coinbaseAccounts: coinbaseAccounts,
+      coinbaseAccounts: coinbaseAccounts,
     };
   }
 

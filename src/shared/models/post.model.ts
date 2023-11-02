@@ -25,7 +25,7 @@ export class Post extends Model {
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
-  @Column({ allowNull:true,type: DataType.INTEGER })
+  @Column({ allowNull: true, type: DataType.INTEGER })
   days: number;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
@@ -34,7 +34,7 @@ export class Post extends Model {
   @Column({ allowNull: false, type: DataType.STRING(255) })
   type: string;
 
-  @Column({allowNull: false ,type: DataType.ARRAY(DataType.STRING)})
+  @Column({ allowNull: false, type: DataType.ARRAY(DataType.STRING) })
   images: Array<string>;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
