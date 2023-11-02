@@ -24,7 +24,6 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
-  
   @Get('google')
   async googleUrl(@Res({ passthrough: true }) res: Response) {
     await this.authService
@@ -45,7 +44,4 @@ export class AuthController {
 
     res.redirect('http://localhost:3001/exito'); // Frontend url
   }
-
-  
-  
 }
