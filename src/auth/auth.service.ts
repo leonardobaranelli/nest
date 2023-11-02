@@ -3,24 +3,32 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { validate } from 'class-validator';
 import { HttpService } from '@nestjs/axios';
 import { UserService } from 'src/users/user.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginUserDto } from './dto/loginUserDto';
+import { plainToClass } from 'class-transformer';
+import { FacebookUserDto } from './dto/facebookUserDto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
-import { join } from 'path';
 
-interface GithubData {
-  id: number;
-  login: string;
+
+
+interface FacebookData {
+  id: string;
   email: string;
-  name: string;
-  avatar_url: string;
+  first_name: string;
+  last_name: string;
+  picture: {
+    data: {
+      url: string;
+    };
+  };
 }
 
-interface GithubResponse {
-  data: GithubData;
+interface FacebookResponse {
+  data: FacebookData;
 }
 
 interface GoogleData {
@@ -85,72 +93,7 @@ export class AuthService {
     };
   }
 
-  async githubUrl() {
-    // Aqui vamos a redireccionar al usuario a la página de github para que inicie sesión
-    const githubAuthUrl = 'https://github.com/login/oauth/authorize';
-    const queryParams = new URLSearchParams({
-      client_id: process.env.GITHUB_CLIENT_ID,
-      scope: 'read:user',
-    });
-
-    const githubAuthRedirectUrl = `${githubAuthUrl}?${queryParams.toString()}`;
-    return githubAuthRedirectUrl;
-  }
-
-  async githubLogin(code: string) { //CAMBIAMOS A FACEBOOK
-    // Intercambia el código de autorización por un token de acceso
-    const response = await this.httpService
-      .post(
-        'https://github.com/login/oauth/access_token',
-        {
-          client_id: process.env.GITHUB_CLIENT_ID,
-          client_secret: process.env.GITHUB_CLIENT_SECRET,
-          code: code,
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-          },
-        },
-      )
-      .toPromise();
-
-    const accessToken = response.data.access_token;
-    // Usa el token de acceso para obtener la información del perfil del usuario
-    const { data }: GithubResponse = await this.httpService
-      .get('https://api.github.com/user', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .toPromise();
-    
-    const { id: githubId, login, email, name, avatar_url } = data;
-    // Aquí puedes buscar al usuario en tu base de datos por su nombre de usuario de GitHub
-    // Si el usuario no existe, puedes crear un nuevo usuario con la información de GitHub
-    if (!this.userService.findOneByEmail(email)) {
-      await this.userService.create({
-        username: login,
-        email: email,
-        firstName: name.split(' ')[0],
-        lastName: name.split(' ')[1],
-        password: githubId.toString(), // Esto no es seguro, provisorio
-        // avatar: picture,
-      });
-    } else {
-      await this.userService.findOneByEmail(email).then(user => {
-        if(user.password !== githubId.toString()) throw new BadRequestException('Wrong authentication');
-      });
-    }
-
-    // Generamos un JWT y devolvemos al usuario
-    const payload = { email };
-    const token = await this.jwtService.signAsync(payload);
-    return {
-      token,
-      email,
-    };
-  }
+  
 
   async googleUrl() {
     // Aqui vamos a redireccionar al usuario a la página de google para que inicie sesión
@@ -227,4 +170,81 @@ export class AuthService {
       email
     };
   }
+
+  async facebookUrl() {
+    // Aquí vamos a redireccionar al usuario a la página de Facebook para que inicie sesión
+
+    const facebookAuthUrl = 'https://www.facebook.com/v11.0/dialog/oauth';
+    const queryParams = new URLSearchParams({
+      client_id: process.env.FACEBOOK_CLIENT_ID,
+      redirect_uri: 'http://localhost:3001/auth/facebook/callback',
+      response_type: 'code',
+      scope: 'email',
+    });
+
+    const facebookAuthRedirectUrl = `${facebookAuthUrl}?${queryParams.toString()}`;
+    return facebookAuthRedirectUrl;
+  }
+
+  async facebookLogin(code: string) {
+    // Intercambia el código de autorización por un token de acceso
+    const response = await this.httpService
+      .get(
+        'https://graph.facebook.com/v11.0/oauth/access_token',
+        {
+          params: {
+            client_id: process.env.FACEBOOK_CLIENT_ID,
+            client_secret: process.env.FACEBOOK_CLIENT_SECRET,
+            code: code,
+            redirect_uri: 'http://localhost:3001/auth/facebook/callback', // Reemplaza esto con tu URI de redirección
+          },
+        },
+      )
+      .toPromise();
+
+    const accessToken = response.data.access_token;
+    // Usa el token de acceso para obtener la información del perfil del usuario
+    const { data: user }: FacebookResponse = await this.httpService
+      .get('https://graph.facebook.com/v11.0/me', {
+        params: {
+          fields: 'id,email,first_name,last_name,picture',
+          access_token: accessToken,
+        },
+      })
+      .toPromise();
+
+    const facebookUserDto = plainToClass(FacebookUserDto, user);
+    const errors = await validate(facebookUserDto);
+    if (errors.length > 0) {
+      throw new BadRequestException(errors);
+    }
+
+    // Buscamos al usuario en la base de datos por su email
+    // Si el usuario no existe, puedes crear un nuevo usuario con la información de Facebook
+    const email = facebookUserDto.email;
+    if (!await this.userService.findOneByEmail(email)) {
+      await this.userService.create({
+        username: `${facebookUserDto.first_name}${facebookUserDto.last_name}`,
+        email: email,
+        firstName: facebookUserDto.first_name,
+        lastName: facebookUserDto.last_name,
+        password: facebookUserDto.id, // Esto no es seguro, provisorio
+        // avatar: facebookUserDto.picture.data.url,
+      });
+    } else {
+      await this.userService.findOneByEmail(email).then(user => {
+        if(user.password !== facebookUserDto.id) throw new BadRequestException('Wrong authentication');
+      });
+    }
+
+    // Generamos un JWT y devolvemos al usuario
+    const payload = { email };
+    const token = await this.jwtService.signAsync(payload);
+
+    return {
+      token,
+      email
+    };
+  }
+
 }
