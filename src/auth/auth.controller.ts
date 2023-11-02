@@ -24,28 +24,7 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
-  @Get('github')
-  async githubUrl(@Res({ passthrough: true }) res: Response) {
-    await this.authService
-      .githubUrl()
-      .then((url) => res.redirect(url))
-      .catch((err) => console.log(err));
-  }
-
-  // Aqui llego con el codigo de autorizacion y lo cambio por un token de acceso
-  @Get('github/callback')
-  async githubLogin(
-    @Query('code') code: string,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const { token, email } = await this.authService.githubLogin(code);
-
-    res.cookie('token', token, { httpOnly: true });
-    // res.cookie('email', email);
-
-    res.redirect('http://localhost:3001/exito'); // Frontend url
-  }
-
+  
   @Get('google')
   async googleUrl(@Res({ passthrough: true }) res: Response) {
     await this.authService
@@ -66,4 +45,7 @@ export class AuthController {
 
     res.redirect('http://localhost:3001/exito'); // Frontend url
   }
+
+  
+  
 }
