@@ -8,11 +8,8 @@ import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ConfigModule } from '@nestjs/config'; // Hace que las variables de entorno sean globales
-
 import { AuthModule } from './auth/auth.module';
-
 import { PaymentModule } from './payment/payment.module';
-
 
 config();
 
