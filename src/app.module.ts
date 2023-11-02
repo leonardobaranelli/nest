@@ -10,7 +10,6 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ConfigModule } from '@nestjs/config'; // Hace que las variables de entorno sean globales
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
-import { StripeModule } from 'nestjs-stripe';
 
 config();
 
@@ -40,22 +39,7 @@ config();
     CloudinaryModule,    
     AuthModule,   
     ConfigModule.forRoot({ isGlobal: true }),   // <-- .env global
-    PaymentModule,   
-    CloudinaryModule,
-    AuthModule,
-    ConfigModule.forRoot({ isGlobal: true }), // <-- .env global
-    StripeModule.forRoot({
-      apiKey: process.env.STRIPE_API_KEY,
-      apiVersion: '2020-08-27',
-    }),
-    PaymentModule,
-    // StripeModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   useFactory: (configService: ConfigService) => ({
-    //     apiKey: configService.get('stripe_key'),
-    //     apiVersion: '2020-08-27',
-    //   }),
-    // }),
+    PaymentModule,       
   ],
   controllers: [AppController],
   providers: [AppService],
