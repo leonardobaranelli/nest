@@ -6,4 +6,8 @@ export class AppService {
   constructor(
     private sequelize: Sequelize,    
   ) {}
+
+  getCookie(req: Request): string {
+    return req.cookies;
+  }
 }
