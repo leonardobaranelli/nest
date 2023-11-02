@@ -13,8 +13,6 @@ import { FacebookUserDto } from './dto/facebookUserDto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
 
-
-
 interface FacebookData {
   id: string;
   email: string;
@@ -93,8 +91,6 @@ export class AuthService {
     };
   }
 
-  
-
   async googleUrl() {
     // Aqui vamos a redireccionar al usuario a la página de google para que inicie sesión
 
@@ -140,13 +136,20 @@ export class AuthService {
       })
       .toPromise();
 
-    const { id: googleId, email, given_name, family_name, picture, verified_email } = user;
-    
-    if(!verified_email) throw new BadRequestException('Email not verified');
-    
+    const {
+      id: googleId,
+      email,
+      given_name,
+      family_name,
+      picture,
+      verified_email,
+    } = user;
+
+    if (!verified_email) throw new BadRequestException('Email not verified');
+
     // Buscamos al usuario en la base de datos por su email
     // Si el usuario no existe, puedes crear un nuevo usuario con la información de Google
-    if (!await this.userService.findOneByEmail(email)) {
+    if (!(await this.userService.findOneByEmail(email))) {
       await this.userService.create({
         username: `${given_name}${family_name}`,
         email: email,
@@ -156,8 +159,9 @@ export class AuthService {
         // avatar: picture,
       });
     } else {
-      await this.userService.findOneByEmail(email).then(user => {
-        if(user.password !== googleId) throw new BadRequestException('Wrong authentication');
+      await this.userService.findOneByEmail(email).then((user) => {
+        if (user.password !== googleId)
+          throw new BadRequestException('Wrong authentication');
       });
     }
 
@@ -167,7 +171,7 @@ export class AuthService {
 
     return {
       token,
-      email
+      email,
     };
   }
 
@@ -189,17 +193,14 @@ export class AuthService {
   async facebookLogin(code: string) {
     // Intercambia el código de autorización por un token de acceso
     const response = await this.httpService
-      .get(
-        'https://graph.facebook.com/v11.0/oauth/access_token',
-        {
-          params: {
-            client_id: process.env.FACEBOOK_CLIENT_ID,
-            client_secret: process.env.FACEBOOK_CLIENT_SECRET,
-            code: code,
-            redirect_uri: 'http://localhost:3001/auth/facebook/callback', // Reemplaza esto con tu URI de redirección
-          },
+      .get('https://graph.facebook.com/v11.0/oauth/access_token', {
+        params: {
+          client_id: process.env.FACEBOOK_CLIENT_ID,
+          client_secret: process.env.FACEBOOK_CLIENT_SECRET,
+          code: code,
+          redirect_uri: 'http://localhost:3001/auth/facebook/callback', // Reemplaza esto con tu URI de redirección
         },
-      )
+      })
       .toPromise();
 
     const accessToken = response.data.access_token;
@@ -222,7 +223,7 @@ export class AuthService {
     // Buscamos al usuario en la base de datos por su email
     // Si el usuario no existe, puedes crear un nuevo usuario con la información de Facebook
     const email = facebookUserDto.email;
-    if (!await this.userService.findOneByEmail(email)) {
+    if (!(await this.userService.findOneByEmail(email))) {
       await this.userService.create({
         username: `${facebookUserDto.first_name}${facebookUserDto.last_name}`,
         email: email,
@@ -232,8 +233,9 @@ export class AuthService {
         // avatar: facebookUserDto.picture.data.url,
       });
     } else {
-      await this.userService.findOneByEmail(email).then(user => {
-        if(user.password !== facebookUserDto.id) throw new BadRequestException('Wrong authentication');
+      await this.userService.findOneByEmail(email).then((user) => {
+        if (user.password !== facebookUserDto.id)
+          throw new BadRequestException('Wrong authentication');
       });
     }
 
@@ -243,8 +245,7 @@ export class AuthService {
 
     return {
       token,
-      email
+      email,
     };
   }
-
 }

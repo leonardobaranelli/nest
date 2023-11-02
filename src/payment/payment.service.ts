@@ -12,12 +12,10 @@ export interface ProductData {
 @Injectable()
 export class PaymentService {
   private coinbaseClient: Client;
-  private stripeClient: Stripe;  
-  
-  constructor() {    
-    this.stripeClient = new Stripe(
-      process.env.STRIPE_API_SECRET, {        
-    });
+  private stripeClient: Stripe;
+
+  constructor() {
+    this.stripeClient = new Stripe(process.env.STRIPE_API_SECRET, {});
     this.coinbaseClient = new Client({
       apiKey: process.env.COINBASE_API_KEY,
       apiSecret: process.env.COINBASE_API_SECRET,
@@ -32,7 +30,11 @@ export class PaymentService {
     };
   }
 
-  async createStripeCS(productData: { name: string, price: number, currency: string }): Promise<string> {
+  async createStripeCS(productData: {
+    name: string;
+    price: number;
+    currency: string;
+  }): Promise<string> {
     const session = await this.stripeClient.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -40,7 +42,7 @@ export class PaymentService {
           price_data: {
             currency: productData.currency,
             product_data: {
-              name: productData.name, 
+              name: productData.name,
             },
             unit_amount: productData.price,
           },
@@ -51,7 +53,7 @@ export class PaymentService {
       success_url: 'http://localhost:3000/',
       cancel_url: 'http://localhost:3000/',
     });
-  
+
     return session.id;
   }
 }

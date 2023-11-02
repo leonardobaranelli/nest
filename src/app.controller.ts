@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('exito')
-  getCookie(@Req() req: Request) {
+  async getCookie(@Req() req: Request) {
     return this.appService.getCookie(req);
   }
 }

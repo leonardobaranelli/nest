@@ -36,10 +36,10 @@ config();
     }),
     PostModule,
     UsersModule,
-    CloudinaryModule,    
-    AuthModule,   
-    ConfigModule.forRoot({ isGlobal: true }),   // <-- .env global
-    PaymentModule,       
+    CloudinaryModule,
+    AuthModule,
+    ConfigModule.forRoot({ isGlobal: true }), // <-- .env global
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
