@@ -7,7 +7,7 @@ import { Client } from 'coinbase';
 export class PaymentService {
   private coinbaseClient: Client;
 
-  constructor(@InjectStripe() private readonly stripeClient: Stripe) {    
+  constructor(@InjectStripe() private readonly stripeClient: Stripe) {
     this.coinbaseClient = new Client({
       apiKey: process.env.COINBASE_API_KEY,
       apiSecret: process.env.COINBASE_API_SECRET,
@@ -15,9 +15,8 @@ export class PaymentService {
   }
 
   async getCharges(): Promise<any> {
-    
     const stripeCharges = await this.stripeClient.charges.list();
-    
+
     const coinbaseAccounts = await this.coinbaseClient.getAccounts();
 
     return {

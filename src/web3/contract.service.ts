@@ -44,7 +44,7 @@ export class ContractService {
           outputs: [
             {
               type: 'string',
-              name: '', 
+              name: '',
             },
           ],
           payable: false,
@@ -54,13 +54,13 @@ export class ContractService {
       ];
 
       const contract = new this.web3.eth.Contract(ABIcontract, contractAddress);
-      
+
       await contract.deploy({
         data: '0xBBc000C296761f92917760479fC4049bE2517C66',
         arguments: [startDate, endDate, postID, userID, callbackURL],
       } as any);
-      
-      const result = await contract.methods.checkEndDate().call() as string;
+
+      const result = (await contract.methods.checkEndDate().call()) as string;
 
       return result;
     } catch (error) {

@@ -14,40 +14,39 @@ import { AuthModule } from './auth/auth.module';
 import { StripeModule } from 'nestjs-stripe';
 import { PaymentModule } from './payment/payment.module';
 
-
 config();
 
 @Module({
   imports: [
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      //host: process.env.DB_HOST,
-       //host: process.env.DB_HOST,
-      // database: process.env.DB_NAME, 
-      // username: process.env.DB_USER,
-      // password: process.env.DB_PASS,
-      host: process.env.DEV_DB_HOST,
-      database: process.env.DEV_DB_NAME, 
-      username: process.env.DEV_DB_USER,
-      password: process.env.DEV_DB_PASS,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      // host: process.env.DEV_DB_HOST,
+      // database: process.env.DEV_DB_NAME,
+      // username: process.env.DEV_DB_USER,
+      // password: process.env.DEV_DB_PASS,
       port: 5432,
       models: [User, Post, Rent, Comment, Score],
       dialectOptions: {
         ssl: {
           require: true,
-          //rejectUnauthorized: false, 
+          //rejectUnauthorized: false,
         },
       },
     }),
     PostModule,
     UsersModule,
-    CloudinaryModule,    
-    AuthModule,   
-    ConfigModule.forRoot({ isGlobal: true }),   // <-- .env global
+    CloudinaryModule,
+    AuthModule,
+    ConfigModule.forRoot({ isGlobal: true }), // <-- .env global
     StripeModule.forRoot({
       apiKey: process.env.STRIPE_API_KEY,
       apiVersion: '2020-08-27',
-    }), PaymentModule,
+    }),
+    PaymentModule,
     // StripeModule.forRootAsync({
     //   inject: [ConfigService],
     //   useFactory: (configService: ConfigService) => ({
