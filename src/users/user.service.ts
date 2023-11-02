@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../shared/models';
-
+import { CreateAuthUserDto } from './dto/create-3th-auth.dto';
 
 @Injectable()
 export class UserService {
@@ -12,7 +12,7 @@ export class UserService {
     private userModel: typeof User,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto | CreateAuthUserDto) {
     // Create a new user on the database on sequelize
     try {
       const user = await this.userModel.create({ ...createUserDto });
@@ -24,7 +24,7 @@ export class UserService {
   }
 
   async findOneByEmail(email: string) {
-    // verify if the user exists in the database 
+    // verify if the user exists in the database
     try {
       const user = await this.userModel.findOne({ where: { email } });
       return user;
@@ -33,7 +33,6 @@ export class UserService {
       return undefined;
     }
   }
-
 
   async findAll() {
     // Get all users from the database on sequelize

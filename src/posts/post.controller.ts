@@ -30,7 +30,7 @@ export class PostController {
   @Get('rent')
   findAllRents(): Promise<RentModel[] | { error: string }> {
     return this.postService.findAllRents();
-  } 
+  }
 
   // @Get('type/:type')
   // filterByType(
@@ -40,7 +40,7 @@ export class PostController {
   // }
 
   @Get(
-    /* ':id[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}' */":id",
+    /* ':id[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}' */ ':id',
   )
   findOne(@Param('id') id) {
     return this.postService.findOne(id);
@@ -65,5 +65,4 @@ export class PostController {
   remove(@Param('id') id) {
     return this.postService.remove(id);
   }
-
 }
