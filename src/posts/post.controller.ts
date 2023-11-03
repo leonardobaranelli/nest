@@ -6,14 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { Post as PostModel } from '../shared/models';
 import { Rent as RentModel } from '../shared/models';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Controller('posts')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) { }
 
   @Get()
   findAll(): Promise<PostModel[] | { error: string }> {
@@ -50,6 +57,13 @@ export class PostController {
   create(@Body() createPostDto) {
     return this.postService.create(createPostDto);
   }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return this.cloudinaryService.uploadFile(file)
+  }
+
 
   @Post('rent')
   createRent(@Body() createRentDto) {
