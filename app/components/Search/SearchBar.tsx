@@ -1,23 +1,12 @@
 "use client";
 import { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useGetPostsQuery } from "@/redux/features/PostSlice";
+import { Post } from "@/redux/features/PostSlice";
 
-interface Property {
-  days: number | null;
-  type: string;
-  condition: string;
-  image: string[];
-  title: string;
-  country: string;
-  city: string;
-  streetName: string;
-  streetNumber: string;
-  floorNumber: string;
-  aptNumber: string;
-  price: number;
-  description: string;
+interface NavbarProps {  
+  busqueda: React.Dispatch<React.SetStateAction<Post[]>>;  
 }
-const Search = ({busqueda}) => {
+const Search: React.FC<NavbarProps> = ({ busqueda }) => {
   const [inputValue, setInputValue] = useState("");
   const { data } = useGetPostsQuery("");
 
@@ -28,10 +17,10 @@ const Search = ({busqueda}) => {
 
   const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      const filterData = data?.filter((dataSearch: Property) =>
+      const filterData = data?.filter((dataSearch: Post) =>
         dataSearch.title.toLowerCase().includes(inputValue.toLowerCase())
         );
-        busqueda(filterData)
+        if(filterData) busqueda(filterData)
         console.log(filterData);
       }
     };
