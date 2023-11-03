@@ -12,7 +12,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: 'http://localhost:3000', // Frontend url //
+    origin: 'https://nest-refj.onrender.com', // Frontend url //
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
