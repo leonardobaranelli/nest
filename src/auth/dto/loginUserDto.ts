@@ -1,8 +1,13 @@
 import { Transform } from 'class-transformer';
-import { IsString, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsDate, MinLength, ValidateIf } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  MinLength,
+} from 'class-validator';
 
 export class LoginUserDto {
-  
   @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
@@ -13,10 +18,9 @@ export class LoginUserDto {
   // @ValidateIf((o) => !o.username, { message: 'Either username or email must be provided' })
   email: string;
 
-  @Transform(({ value }) => value.trim())  
+  @Transform(({ value }) => value.trim())
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
   password: string;
-
 }

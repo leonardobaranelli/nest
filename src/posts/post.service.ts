@@ -13,7 +13,7 @@ export class PostService {
     private postsModel: typeof Post,
     @InjectModel(Rent)
     private rentModel: typeof Rent,
-  ) {} 
+  ) {}
 
   async filterByCondition(condition: string) {
     try {
@@ -106,7 +106,7 @@ export class PostService {
     }
   }
 
-  async createRent(createRentDto: CreateRentDto) {    
+  async createRent(createRentDto: CreateRentDto) {
     try {
       const rent = await this.rentModel.create({ ...createRentDto });
       return rent;
@@ -116,7 +116,7 @@ export class PostService {
     }
   }
 
-  async findAllRents() {    
+  async findAllRents() {
     try {
       const rents = await this.rentModel.findAll();
       return rents;

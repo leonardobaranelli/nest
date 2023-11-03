@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Sequelize } from 'sequelize-typescript';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,13 +12,13 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: 'http://localhost:3000', // Frontend url //
+    origin: 'https://nest-refj.onrender.com', // Frontend url //
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
   const sequelize = app.get(Sequelize);
-  //await sequelize.sync({ force: true });
   await sequelize.sync({ alter: true });
+  app.use(cookieParser());
   await app.listen(3001);
 }
 bootstrap();

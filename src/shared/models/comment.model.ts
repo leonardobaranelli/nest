@@ -8,9 +8,9 @@ import {
 } from 'sequelize-typescript';
 import { Post, User } from '.';
 
-@Table({ 
+@Table({
   tableName: 'comments',
-  timestamps: false
+  timestamps: false,
 })
 export class Comment extends Model {
   @Column({ allowNull: false, type: DataType.STRING(1000) })

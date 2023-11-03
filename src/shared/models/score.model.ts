@@ -16,9 +16,9 @@ enum scoreType {
   POST = 'POST',
 }
 
-@Table({ 
+@Table({
   tableName: 'scores',
-  timestamps: false
+  timestamps: false,
 })
 export class Score extends Model {
   @PrimaryKey

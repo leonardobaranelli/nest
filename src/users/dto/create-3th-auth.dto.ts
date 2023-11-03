@@ -9,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateAuthUserDto {
   @Transform(({ value }) => value.trim()) // esta validación es para que no se pueda registrar un usuario con espacios en blanco
   @IsNotEmpty()
   @IsString()

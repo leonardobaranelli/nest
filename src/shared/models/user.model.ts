@@ -5,7 +5,7 @@ import {
   DeletedAt,
   PrimaryKey,
   DataType,
-  HasMany
+  HasMany,
 } from 'sequelize-typescript';
 import { Post, Comment, Score, Rent } from '.';
 
@@ -18,13 +18,13 @@ export class User extends Model {
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
-  @Column({allowNull: false, type: DataType.STRING, defaultValue: 'user' })
+  @Column({ allowNull: false, type: DataType.STRING, defaultValue: 'user' })
   rol: string;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
   username: string;
 
-  @Column({ allowNull: false, type: DataType.STRING(255) })
+  @Column({ unique: true, allowNull: false, type: DataType.STRING(255) })
   email: string;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
@@ -36,10 +36,10 @@ export class User extends Model {
   @Column({ allowNull: false, type: DataType.STRING(255) })
   lastName: string;
 
-  @Column({ unique: true, allowNull: false, type: DataType.BIGINT })
+  @Column({ unique: true, allowNull: true, type: DataType.BIGINT })
   phone: number;
 
-  @Column({ unique: true, allowNull: false, type: DataType.BIGINT })
+  @Column({ unique: true, allowNull: true, type: DataType.BIGINT }) //sin esto no se puede publicar una propiedad ni hacer una reserva
   personalId: number;
 
   @DeletedAt // si un usuario se quiere eliminar lo eliminamos pero aun va a permanecer en la base de datos para mantener un registro
