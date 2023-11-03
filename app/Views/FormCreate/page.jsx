@@ -6,7 +6,7 @@ import validate from "@/app/Handlers/validation";
 import axios from "axios";
 
 export default function Formulario() {
-  const [file, setFile] = useState(null);
+  const [files, setFile] = useState([]);
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     days: "",
@@ -35,49 +35,51 @@ export default function Formulario() {
     );
   }
 
-/*   const handleSubmitImage = async (event) => {
-    event.preventDefault();
-    setFile(event.target.files[0])
-    const formFile = new FormData();
-    formFile.append('file', file);
-    console.log(formFile)
-    try {
-      const response = await axios.post("http://localhost:3001/posts/upload", formFile);
-      console.log("Respuesta de la solicitud POST:", response.data);
-
-    } catch (error) {
-      console.error("Error al realizar la solicitud POST:", error);
-    }
-  } */
+  /*   const handleSubmitImage = async (event) => {
+      event.preventDefault();
+      setFile(event.target.files[0])
+      const formFile = new FormData();
+      formFile.append('file', file);
+      console.log(formFile)
+      try {
+        const response = await axios.post("http://localhost:3001/posts/upload", formFile);
+        console.log("Respuesta de la solicitud POST:", response.data);
+  
+      } catch (error) {
+        console.error("Error al realizar la solicitud POST:", error);
+      }
+    } */
 
   const handleImages = async (event) => {
     event.preventDefault();
-    setFile(event.target.files[0])
+    setFile(event.target.files[0]);
     const formFile = new FormData();
-    formFile.append('file', file);
-    console.log(formFile)
+    formFile.append('files', event.target.files[0]);
+
     try {
       const response = await axios.post("http://localhost:3001/posts/upload", formFile);
-      console.log(response)
-      console.log("Respuesta de la solicitud POST:", response.data);
+      const newImage = response.data; // Obtén el valor de response.data
 
+      // Actualiza el estado images con el nuevo valor
+      setValues((prevValues) => ({
+        ...prevValues,
+        images: [...prevValues.images, newImage],
+      }));
+
+      setErrors(
+        validate({
+          ...values,
+          [event.target.name]: event.target.value,
+        })
+      );
     } catch (error) {
       console.error("Error al realizar la solicitud POST:", error);
     }
-
-    /* setValues({
-      ...values,
-      images: [...values.images, event.target.files],
-    });
-    setErrors(
-      validate({
-        ...values,
-        [event.target.name]: event.target.value,
-      })
-    ); */
   };
 
+
   const handleSubmit = async (event) => {
+    console.log(event.target.files)
     event.preventDefault();
     const formErrors = validate(values);
     setErrors(formErrors);
@@ -90,7 +92,7 @@ export default function Formulario() {
     }
     //}
   };
-  
+
   useEffect(() => {
   }, []);
 
