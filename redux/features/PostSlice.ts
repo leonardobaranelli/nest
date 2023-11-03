@@ -17,8 +17,6 @@ export interface Post {
   description: string;
 }
 
-
-
 export const postsApi = createApi({
   reducerPath: "postsApi",
   refetchOnFocus: true,
