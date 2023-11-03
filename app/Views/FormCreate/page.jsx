@@ -261,7 +261,6 @@ export default function Formulario() {
         className="bg-indigo-600 text-white py-2 px-4 hover:bg-indigo-500 rounded-lg"
         onClick={handleSubmit}
       >
-        {/* {isLoading ? 'Submitting...' : 'Submit'} */}
         Crear
       </button>
     </form>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import { useGetPostsByConditionQuery, Post } from "@/redux/features/PostSlice";
 
 interface TipoInmuebleFiltersProps {
@@ -49,3 +49,54 @@ function extractTiposInmuebleFromData(sellData: Post[] | undefined, rentData: Po
 
   return ["all", ...Array.from(tiposInmueble)];
 }
+
+*/
+
+
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateState } from "@/redux/features/GlobalSlice"; 
+
+const CountryFilter: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.selec.properties);
+
+  const [selectedCountry, setLocalSelectedCountry] = useState<string>("");
+
+  useEffect(() => {
+    // Filtra los posts cuando el país seleccionado cambia
+    let filtered = posts;
+    if (selectedCountry) {
+      filtered = posts.filter((post) => post.country === selectedCountry);
+    }
+    dispatch(updateState(filtered)); 
+    console.log("Respuesta de filtered", filtered); 
+  }, [selectedCountry, posts, dispatch]);
+
+  const uniqueCountries = Array.from(new Set(posts.map((post) => post.country)));
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCountry = e.target.value;
+    setLocalSelectedCountry(newCountry);
+  };
+
+  return (
+    <div>
+      <label htmlFor="selectedCountry">Filtrar por País:</label>
+      <select
+        id="selectedCountry"
+        value={selectedCountry}
+        onChange={handleCountryChange}
+      >
+        <option value="">Selecciona un país</option>
+        {uniqueCountries.map((country) => (
+          <option key={country} value={country}>
+            {country}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+export default CountryFilter;

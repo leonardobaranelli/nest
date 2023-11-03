@@ -3,12 +3,11 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useGetPostQuery } from "@/redux/features/PostSlice";
+import { useGetPostQuery } from "@/redux/services/api";
 import { log } from "console";
 
 const Detail = () => {
   interface Pfind {
-    id: string | number;
     days: number | null;
     type: string;
     condition: string;
@@ -22,6 +21,7 @@ const Detail = () => {
     aptNumber: string;
     price: number;
     description: string;
+  
   }
 
   const { Detail } = useParams();

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { createAsyncThunk } from '@reduxjs/toolkit';
+
 
 export interface Post {
   days: number | null;
@@ -27,6 +27,7 @@ export const postsApi = createApi({
     getPostsByCondition: builder.query<Post[], string>({
       query: (condition) => `posts/condition/${condition}`,
     }),
+    
     getPosts: builder.query<Post[], string>({
       query: () => "posts",
     }),
@@ -52,6 +53,7 @@ export const postsApi = createApi({
         url: `posts/${id}`,
         method: "DELETE",
       }),
+
   
     }),
   }),
@@ -67,5 +69,3 @@ export const {
   useDeletePostMutation, // DELETE
 
 } = postsApi;
-
-

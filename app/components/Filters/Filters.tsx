@@ -1,28 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateState } from "@/redux/features/GlobalSlice"; // Importa la acción updateState
 
-interface PrecioFiltersProps {
-  setFilterPrice: (priceFilter: string) => void;
-}
+const PriceFilter: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.selec.properties);
 
-function PrecioFilters({ setFilterPrice }: PrecioFiltersProps) {
-  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedPriceRange, setLocalSelectedPriceRange] = useState<string>("");
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const priceFilter = event.target.value;
-    setSelectedFilter(priceFilter);
-    setFilterPrice(priceFilter);
+  useEffect(() => {
+
+    let filtered = posts;
+    if (selectedPriceRange === "lessThan1000") {
+      filtered = posts.filter((post) => post.price < 1000);
+    } else if (selectedPriceRange === "1000To10000") {
+      filtered = posts.filter((post) => post.price >= 1000 && post.price <= 10000);
+    } else if (selectedPriceRange === "greaterThan10000") {
+      filtered = posts.filter((post) => post.price > 10000);
+    }
+    dispatch(updateState(filtered)); 
+    console.log("Respuesta de filtered", filtered); 
+  }, [selectedPriceRange, posts, dispatch]);
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPriceRange = e.target.value;
+    setLocalSelectedPriceRange(newPriceRange);
   };
 
   return (
     <div>
-      <label htmlFor="priceFilter">Precio:</label>
-      <select id="priceFilter" value={selectedFilter} onChange={handleFilterChange}>
-        <option value="lessThan1000">Menor a $1000</option>
-        <option value="greaterThan1000">Mayor a $1000</option>
-        <option value="all">Todos</option>
+      <label htmlFor="selectedPriceRange">Filtrar por Precio:</label>
+      <select
+        id="selectedPriceRange"
+        value={selectedPriceRange}
+        onChange={handlePriceChange}
+      >
+        <option value="">Selecciona un rango de precio</option>
+        <option value="lessThan1000">Menor que 1000</option>
+        <option value="1000To10000">Entre 1000 y 10000</option>
+        <option value="greaterThan10000">Mayor que 10000</option>
       </select>
     </div>
   );
-}
+};
 
-export default PrecioFilters;
+export default PriceFilter;

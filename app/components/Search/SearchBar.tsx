@@ -1,4 +1,5 @@
 "use client";
+/*
 import { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useGetPostsQuery } from "@/redux/features/PostSlice";
 
@@ -46,6 +47,34 @@ const Search = ({busqueda}) => {
         onKeyDown={handleKeyDown}
         className="relative bg-gray-50ring-0 outline-none border border-neutral-500 text-neutral-900 placeholder-violet-700 text-sm rounded-lg focus:ring-violet-500  focus:border-violet-500 block w-64 p-1 checked:bg-emerald-500"
       ></input>
+    </div>
+  );
+};
+
+export default Search;
+*/
+
+import React, { useState } from "react";
+import { search } from "@/redux/services/getPost"; 
+import { useAppDispatch } from "@/redux/hooks";
+
+const Search = () => {
+  const [searchText, setSearchText] = useState("");
+  const dispatch = useAppDispatch();
+
+  const handleSearch = () => {
+    dispatch(search(searchText));
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        id="searchText"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+      <button onClick={handleSearch}>Buscar</button>
     </div>
   );
 };
