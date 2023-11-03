@@ -15,6 +15,7 @@ async function bootstrap() {
     origin: 'https://nest-frontend-pearl.vercel.app', // Frontend url //
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
+    optionsSuccessStatus: 204,
   });
   const sequelize = app.get(Sequelize);
   await sequelize.sync({ alter: true });
