@@ -1,25 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Post } from '@/redux/features/PostSlice';
 
-interface Property {
-  id: string | number;
-  days: number;
-  type: string;
-  condition: string;
-  images: string[];
-  title: string;
-  country: string;
-  city: string;
-  streetName: string;
-  streetNumber: string;
-  floorNumber: number;
-  aptNumber: string;
-  price: number;
-  description: string;
-}
-
-const Card: React.FC<Property> = (property) => {
+const Card: React.FC<Post> = (property) => {
 
   const [currentImage, setCurrentImage] = useState(0)
 
@@ -40,7 +24,7 @@ const Card: React.FC<Property> = (property) => {
       {/* <Link href={`/Views/${property.id}`}>Detalle</Link> */}
         <div className="h-52 w-90 relative">
           {property.images?.map((imagen, index) =>(
-            <img src={imagen} alt={`image`} className={`rounded h-full w-full object-cover object-center absolute top-0 left-0 transition-opacity duration-300 ${
+            <img key={index} src={imagen} alt={`image`} className={`rounded h-full w-full object-cover object-center absolute top-0 left-0 transition-opacity duration-300 ${
               index === currentImage ? 'opacity-100' : 'opacity-0'
             }`} />
           ))}

@@ -6,27 +6,13 @@ import { useGetPostQuery } from "@/redux/features/PostSlice";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import Swal from 'sweetalert2'
+import { Post } from "@/redux/features/PostSlice";
 
 const Detail = () => {
-  interface Pfind {
-    id: string | number;
-    days: number | null;
-    type: string;
-    condition: string;
-    images: string[];
-    title: string;
-    country: string;
-    city: string;
-    streetName: string;
-    streetNumber: string;
-    floorNumber: string;
-    aptNumber: string;
-    price: number;
-    description: string;
-  }
 
-  const { Detail } = useParams();
-  const [property, setPropertyServer] = useState<Pfind | undefined>(undefined);
+
+  const { Detail } = useParams<{Detail: string }>();
+  const [property, setPropertyServer] = useState<Post | undefined>(undefined);  
   const { data } = useGetPostQuery(Detail);
 
   function swapImages(imageIndex: number) {
@@ -51,16 +37,16 @@ const Detail = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ name: property.title, price: property.price * 100, currency: 'usd' }),
+          body: JSON.stringify({ name: property?.title, price: Number(property?.price) * 100, currency: 'usd' }),
         });
         
         const { sessionId } = await response.json();        
         
         //const stripe = await loadStripe(process.env.STRIPE_API_KEY);    
         const stripe = await loadStripe('pk_test_51O7Lk5E3EgztbbKV6X267MvDtNptBoyO9IgVGszAyV7eeNGWnZopkkWSvhml1PEBUqCQRdDnvS3vVpuEexT7qEek00t8b9jX5J');    
-        const result = await stripe.redirectToCheckout({ sessionId });
+        const result = await stripe?.redirectToCheckout({ sessionId });
         
-        if (result.error) {
+        if (result?.error) {
           console.error(result.error.message);
         }
       } catch (error) {

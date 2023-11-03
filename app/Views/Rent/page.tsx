@@ -57,7 +57,7 @@ const Page = () => {
       ) : filteredData.length === 0 ? (
         <p className="flex justify-center">No hay publicaciones</p>
       ) : (
-        <Cards properties={filteredData} />
+        <Cards properties={filteredData} busqueda={filteredData} />
       )}
     </div>
   );
