@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UploadedFiles,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { Post as PostModel } from '../shared/models';
@@ -59,9 +60,18 @@ export class PostController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return this.cloudinaryService.uploadFile(file)
+  @UseInterceptors(FilesInterceptor('files'))
+  async uploadFile (@UploadedFiles() files: Array<Express.Multer.File>) {
+    console.log(files)
+    
+    const uploadPromises = files.map(async (file) => {
+      const result = await this.cloudinaryService.uploadFile(file);
+      console.log(result.secure_url);
+      return result.secure_url;
+    });
+  
+    const uploadedFiles = await Promise.all(uploadPromises);
+    return uploadedFiles;
   }
 
 
