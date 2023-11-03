@@ -12,6 +12,8 @@ import { plainToClass } from 'class-transformer';
 import { FacebookUserDto } from './dto/facebookUserDto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
+import { AppMailerService } from 'src/mailer/mailer.service';
+import { User } from 'src/shared/models';
 
 interface FacebookData {
   id: string;
@@ -48,6 +50,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly httpService: HttpService,
+    private readonly mailerService: AppMailerService,
   ) {}
 
   async register(createUserDto: CreateUserDto) {
@@ -57,10 +60,22 @@ export class AuthService {
       throw new BadRequestException('User already exists');
     }
 
-    await this.userService.create({
-      ...createUserDto,
-      password: await bcryptjs.hashSync(createUserDto.password, 10),
-    });
+    await this.userService
+      .create({
+        ...createUserDto,
+        password: await bcryptjs.hashSync(createUserDto.password, 10),
+      })
+      .then((user) => {
+        if (user instanceof User) {
+          console.log('Dentro de mailer');
+          this.mailerService.enviarCorreoCreated({
+            emailTo: user.email,
+            emailFrom: 'mailer.nest.app@gmail.com',
+            firstName: user.firstName,
+            code: user.id,
+          });
+        }
+      });
 
     return this.login({
       email: createUserDto.email,
@@ -69,8 +84,9 @@ export class AuthService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const user: CreateUserDto | undefined =
+    const user: CreateUserDto =
       await this.userService.findOneByEmail(loginUserDto.email);
+   
     if (!user) {
       throw new UnauthorizedException('email is wrong');
     }
@@ -147,17 +163,27 @@ export class AuthService {
 
     if (!verified_email) throw new BadRequestException('Email not verified');
 
-    // Buscamos al usuario en la base de datos por su email
-    // Si el usuario no existe, puedes crear un nuevo usuario con la información de Google
     if (!(await this.userService.findOneByEmail(email))) {
-      await this.userService.create({
-        username: `${given_name}${family_name}`,
-        email: email,
-        firstName: given_name,
-        lastName: family_name,
-        password: googleId, // Esto no es seguro, provisorio
-        // avatar: picture,
-      });
+      await this.userService
+        .create({
+          username: `${given_name}${family_name}`,
+          email: email,
+          firstName: given_name,
+          lastName: family_name,
+          password: googleId, // Esto no es seguro, provisorio
+          // avatar: picture,
+        })
+        .then((user) => {
+          if (user instanceof User) {
+            console.log('Dentro de mailer');
+            this.mailerService.enviarCorreoCreated({
+              emailTo: user.email,
+              emailFrom: 'mailer.nest.app@gmail.com',
+              firstName: user.firstName,
+              code: user.id,
+            });
+          }
+        });
     } else {
       await this.userService.findOneByEmail(email).then((user) => {
         if (user.password !== googleId)

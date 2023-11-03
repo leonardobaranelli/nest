@@ -9,19 +9,31 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(
+  async register(
     @Body()
     createUserDto: CreateUserDto,
+    @Res({ passthrough: true }) res: Response,
   ) {
-    return this.authService.register(createUserDto);
+    const { token, email } = await this.authService.register(createUserDto);
+
+    res.cookie('token', token, { httpOnly: true });
+    res.cookie('email', email);
+
+    res.redirect('http://localhost:3001/exito'); // Frontend url
   }
 
   @Post('login')
-  login(
+  async login(
     @Body()
     loginUserDto: LoginUserDto,
+    @Res({ passthrough: true }) res: Response,
   ) {
-    return this.authService.login(loginUserDto);
+    const { token, email } = await this.authService.login(loginUserDto);
+
+    res.cookie('token', token, { httpOnly: true });
+    res.cookie('email', email);
+
+    res.redirect('http://localhost:3001/exito'); // Frontend url
   }
 
   @Get('google')

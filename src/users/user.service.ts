@@ -25,13 +25,11 @@ export class UserService {
 
   async findOneByEmail(email: string) {
     // verify if the user exists in the database
-    try {
-      const user = await this.userModel.findOne({ where: { email } });
-      return user;
-    } catch (error) {
-      console.error('Error when obtaining user from the database:', error);
-      return undefined;
-    }
+    const user = await this.userModel.findOne({ where: { email } })
+      .catch(error => {
+        throw new Error('Error when obtaining user from the database');
+      })
+    return user;
   }
 
   async findAll() {
@@ -71,26 +69,19 @@ export class UserService {
 
   async remove(id: string) {
     // Delete a user from the database on sequelize
-    try {
-      const user = await this.userModel.destroy({ where: { id } });
-      return user;
-    } catch (error) {
-      console.error('Error when deleting user from the database:', error);
-      return { error: 'Error when deleting user from the database' };
-    }
+    const user = await this.userModel.destroy({ where: { id } })
+      .catch(err => { error: err })
+      .then(user => user === 0 ? { error:'User not found' } : "Deleted Successfully");
+    return user;
   }
 
   async removeLogin(id: string) {
     // Unactivate a user from the database on sequelize
-    try {
-      const user = await this.userModel.update(
-        { active: false },
-        { where: { id } },
-      );
-      return user;
-    } catch (error) {
-      console.error('Error when unactivating user from the database:', error);
-      return { error: 'Error when unactivating user from the database' };
-    }
+    const user = await this.userModel.update(
+      { active: false },
+      { where: { id } },
+    )
+    .catch(err => { error: err })
+    return user;
   }
 }
