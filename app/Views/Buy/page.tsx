@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Cards from '@/app/components/Cards/Cards';
 import Link from 'next/link';
 import { useGetPostsByConditionQuery, Post } from "@/redux/features/PostSlice";
-
 import PrecioFilters from '@/app/components/Filters/Filters';
 import UbicacionFilters from '@/app/components/Filters/UbicacionFilters';
 import TipoInmuebleFilters from '@/app/components/Filters/TipoInmuebleFilters';
@@ -58,7 +57,7 @@ const Page = () => {
       ) : filteredData.length === 0 ? (
         <p className="flex justify-center">No hay publicaciones</p>
       ) : (
-        <Cards properties={filteredData} />
+        <Cards properties={filteredData} busqueda={filteredData} />
       )}
     </div>
   );

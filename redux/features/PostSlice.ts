@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export interface Post {
+  id: string;
   days: number | null;
   type: string;
   condition: string;
@@ -20,7 +21,7 @@ export interface Post {
 export const postsApi = createApi({
   reducerPath: "postsApi",
   refetchOnFocus: true,
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://nest-refj.onrender.com" }),
   endpoints: (builder) => ({
     getPostsByCondition: builder.query<Post[], string>({
       query: (condition) => `posts/condition/${condition}`,
@@ -35,7 +36,7 @@ export const postsApi = createApi({
         body: newPost,
       }),
     }),
-    getPost: builder.query<Post, number>({
+    getPost: builder.query<Post, string>({
       query: (id) => `posts/${id}`,
     }),
     updatePost: builder.mutation<Post, { id: number; updatedPost: Partial<Post> }>({

@@ -1,24 +1,10 @@
 import React from "react";
 import Card from "../Card/Card";
+import { Post } from "@/redux/features/PostSlice";
 
-interface Property {
-  days: number;
-  type: string;
-  condition: string;
-  image: string[];
-  title: string;
-  country: string;
-  city: string;
-  streetName: string;
-  streetNumber: string;
-  floorNumber: number;
-  aptNumber: string;
-  price: number;
-  description: string;
-}
-
-interface CardsProps {
-  properties: Property[];
+interface CardsProps {  
+  properties: Post[];
+  busqueda: Post[];
 }
 
 const Cards: React.FC<CardsProps> = ({ properties, busqueda }) => {
@@ -34,7 +20,7 @@ const Cards: React.FC<CardsProps> = ({ properties, busqueda }) => {
   return (
     <div className="flex justify-center aling-center gap-10 flex-wrap">
       {Array.isArray(properties) ? (
-        properties.map((property, index) => <Card key={index} {...property} />)
+        properties?.map((property, index) => <Card key={index} {...property} />)
       ) : (
         <p>No properties to display.</p>
       )}
