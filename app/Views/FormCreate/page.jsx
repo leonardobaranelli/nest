@@ -6,6 +6,7 @@ import validate from "@/app/Handlers/validation";
 import axios from "axios";
 
 export default function Formulario() {
+  const [file, setFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     days: "",
@@ -34,37 +35,63 @@ export default function Formulario() {
     );
   }
 
-  const handleImages = (event) => {
+/*   const handleSubmitImage = async (event) => {
     event.preventDefault();
-    setValues({
+    setFile(event.target.files[0])
+    const formFile = new FormData();
+    formFile.append('file', file);
+    console.log(formFile)
+    try {
+      const response = await axios.post("http://localhost:3001/posts/upload", formFile);
+      console.log("Respuesta de la solicitud POST:", response.data);
+
+    } catch (error) {
+      console.error("Error al realizar la solicitud POST:", error);
+    }
+  } */
+
+  const handleImages = async (event) => {
+    event.preventDefault();
+    setFile(event.target.files[0])
+    const formFile = new FormData();
+    formFile.append('file', file);
+    console.log(formFile)
+    try {
+      const response = await axios.post("http://localhost:3001/posts/upload", formFile);
+      console.log(response)
+      console.log("Respuesta de la solicitud POST:", response.data);
+
+    } catch (error) {
+      console.error("Error al realizar la solicitud POST:", error);
+    }
+
+    /* setValues({
       ...values,
-      images: [...values.images, event.target.value],
+      images: [...values.images, event.target.files],
     });
     setErrors(
       validate({
         ...values,
         [event.target.name]: event.target.value,
       })
-    );
+    ); */
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();    
+    event.preventDefault();
     const formErrors = validate(values);
     setErrors(formErrors);
+    try {
+      const response = await axios.post("http://localhost:3001/posts", values);
+      console.log("Respuesta de la solicitud POST:", response.data);
 
-
-      try {        
-        const response = await axios.post("http://localhost:3001/posts", values);
-        console.log("Respuesta de la solicitud POST:", response.data);
-
-      } catch (error) {
-        console.error("Error al realizar la solicitud POST:", error);
-      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud POST:", error);
+    }
     //}
   };
-
-  useEffect(() => {    
+  
+  useEffect(() => {
   }, []);
 
   return (
@@ -239,22 +266,23 @@ export default function Formulario() {
         </div>
       </div>
 
-
       <div className="mb-5">
         <label className="block text-gray-700 font-bold mb-2">Imagen: </label>
         <input
-          type="text"
+          type="file"
           name="images"
           onChange={(event) => handleImages(event)}
           className="border p-2 w-full rounded-lg"
         />
+        {/* <button onSubmit={handleSubmitImage}>
+          Subir Imágenes
+        </button> */}
         <div className="mb-2">
           {errors.images && (
             <span className="text-red-500 text-sm">{errors.images}</span>
           )}
         </div>
       </div>
-
 
       <button
         type="submit"
