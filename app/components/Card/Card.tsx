@@ -127,7 +127,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hooks';
 import { add, remove } from '@/redux/features/Favorite';
-
+//Hola
 interface Property {
   days: number | null;
   type: string;
