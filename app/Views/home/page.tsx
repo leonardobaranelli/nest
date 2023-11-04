@@ -142,6 +142,7 @@ import { updateState } from '@/redux/features/GlobalSlice';
 import { useGetPostsQuery } from '@/redux/services/api';
 import { updateSelec } from '@/redux/features/SelecSlice';
 import FavoriteCard from '@/app/components/favorites/favorites'; 
+import DisplayFilter from '@/app/components/Filters/DisplayFilter';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -165,12 +166,14 @@ const Home = () => {
       setShowFavoriteNotification(false);
     }
   }, [favoriteState]);
-
+ console.log("este es posts",homeState);
+ 
   return (
     <div>
       <Navbar />
-      <button onClick={() => setShowFavoriteNotification(!showFavoriteNotification)}>
-        <img src="/filter.png" width={25} height={25} alt="Filter" />Favoritos
+ 
+      <button >
+        <img src="/filter.png" width={25} height={25} alt="Filter" /><DisplayFilter/>
       </button>
       <div className="flex gap-10 justify-center">
         {isLoading ? (

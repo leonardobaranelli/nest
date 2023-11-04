@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface Property {
+  some(arg0: (item: any) => any): unknown;
   priceRange: any;
   days: number | null;
   type: string;

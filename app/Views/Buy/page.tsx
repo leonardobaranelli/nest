@@ -70,7 +70,7 @@
 
 import React, { useEffect, useState } from "react";
 import Cards from "@/app/components/Cards/Cards";
-import DisplayFilter from "@/app/components/Filters/filterHome/DisplayFilter";
+import DisplayFilter from "@/app/components/Filters/DisplayFilter";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Errors from "@/app/components/Error/Error";
 import { updateState } from "@/redux/features/GlobalSlice";

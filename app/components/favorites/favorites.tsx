@@ -46,9 +46,8 @@ function FavoriteCard() {
                 />
               ))}
             </div>
-            <button onClick={() => handleRemove(property)}>Remover</button>
             <button onClick={prevImage}></button>
-            <button onClick={nextImage}></button>
+            <button onClick={nextImage}>NEXT</button>
           </li>
         ))}
       </ul>

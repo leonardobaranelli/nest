@@ -97,7 +97,7 @@ const Card: React.FC<Property> = (property) => {
           <h2 className="text-xl font-bold text-center">
             <Link href={`/Views/${property.id}`}>{property.title}</Link>
           </h2>
-          <h2 className='text-center mt-5 text-xl text-center font-semibold'>${property.price}</h2>
+          <h2 className='text-center mt-5 text-xl font-semibold'>${property.price}</h2>
         </div>
         <div className="p-4">
           <p className="text-gray-600">{property.condition}</p>
