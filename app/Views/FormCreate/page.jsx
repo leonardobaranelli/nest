@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
 import validate from "@/app/Handlers/validation";
 import axios from "axios";
+import Swal from 'sweetalert2'
+
 
 export default function Formulario() {
   const [files, setFile] = useState([]);
@@ -86,7 +88,6 @@ export default function Formulario() {
     try {
       const response = await axios.post("http://localhost:3001/posts", values);
       console.log("Respuesta de la solicitud POST:", response.data);
-
     } catch (error) {
       console.error("Error al realizar la solicitud POST:", error);
     }
