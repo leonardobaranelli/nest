@@ -116,60 +116,51 @@ const coinbasePayment = async (): Promise<void> => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col lg:gap-24">
       <div className="p-4 bg-[#fc9a84] flex items-center justify-around">
         <Link href="../../Views/home" className="font-medium text-gray-500 hover:text-gray-900">Home</Link>
       </div>
-        <div className="flex justify-center" /* className="flex flex-row justify-center aling-center w-6/12 p-4 rounded-3xl shadow-md transform transition-transform duration-300 ease-in-out" */>
-          <div className="flex gap-32 mt-11">
-            <div id="animation-carousel" className="relative w-full" data-carousel="static">
-              <div className="grid gap-3">
-                {/* La primera imagen en tamaño grande */}
-                <div>               
-                  <img id="largeImage" className="h-auto max-w-full rounded-lg" src={property.images[0]} alt="" />
-                </div>
-                {/* Las dos imágenes restantes en tamaño más pequeño */}
-                <div className="flex gap-10">
-                  <div>
-                    <img id="smallImage1" className="h-24 w-24 rounded-lg cursor-pointer" src={property.images[1]} alt="" onClick={() => swapImages(1)} />
-                  </div>
-                  <div>
-                    <img id="smallImage2" className="h-24 w-24 rounded-lg cursor-pointer" src={property.images[2]} alt="" onClick={() => swapImages(2)} />
-                  </div>
-                </div>                
+      <div className="flex justify-center">
+        <div className="flex flex-col bg-[#c8a9a435] p-5 items-center border border-gray-200 rounded-lg shadow lg:flex-row lg:p-12">
+          <div id="animation-carousel" className="relative w-full" data-carousel="static">
+            <div className="grid gap-3 justify-center">
+              {/* La primera imagen en tamaño grande */}
+              <div>               
+                <img id="largeImage" className="h-auto max-w-full rounded-lg" src={property.images[0]} alt="" />
               </div>
+              {/* Las dos imágenes restantes en tamaño más pequeño */}
+              <div className="flex gap-10">
+                {property.images[1] &&                 
+                <div>
+                  <img id="smallImage1" className="rounded-lg cursor-pointer lg:h-24 w-24" src={property.images[1]} alt="" onClick={() => swapImages(1)} />
+                </div>}
+                {property.images[2] &&
+                <div>
+                  <img id="smallImage2" className="rounded-lg cursor-pointer lg:h-24 w-24" src={property.images[2]} alt="" onClick={() => swapImages(2)} />
+                </div>
+                }
+              </div>                
             </div>
-
-            <div>
-              <p className="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 dark:text-gray-300 mt-7">
-                Precio: ${property.price}
-              </p>
-              <p className="text-base leading-4 mt-7 text-gray-600 dark:text-gray-300">
-                Dias: {property.days}
-              </p>
-              <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-                Tipo: {property.type}
-              </p>
-              <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-                Condicion: {property.condition}
-              </p>
-              <p className="text-base leading-4 mt-4 text-gray-600 dark:text-gray-300">
-                Locacion: {property.country} {property.city}
-              </p>
-              <p className="md:w-96 text-base leading-normal text-gray-600 dark:text-gray-300 mt-4">
-                Domicilio: {property.streetName} {property.streetNumber} {property.aptNumber}
-              </p>
-              <p>Descripción: {property.description}</p>
-                <div className="border-t border-b py-4 mt-7 border-gray-200">
+          </div>            
+            <div className="flex flex-col justify-between p-4 leading-normal text-center w-full">
+                <h4 className="mb-2 text-3xl font-bold tracking-tight text-gray-900">{property.title}</h4>
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">${property.price}</h5>
+                <p className="mb-3 font-normal text-gray-700">{property.description}</p>
+                <p>{property.condition === "sell" ? <p>En Venta</p> : <p>En Alquiler</p>}</p>
+                <p>Dias: {property.days}</p>
+                <p>Locacion: {property.country} {property.city}</p>
+                <p>Domicilio: {property.streetName} {property.streetNumber} {property.aptNumber}</p>
+                <div className="py-4 mt-7">
                   {/* Añadido el formulario para el botón de reserva */}
                   <form action="#" method="POST" /* onSubmit={stripePayment} */>
-                    <button type="submit" onClick={handleReserv}>Reservar</button>
+                    <button type="submit" onClick={handleReserv} className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Reservar</button>
                   </form>
                 </div>
             </div>
-          </div>
+        </div>
       </div>
     </div>
+
   );
 };
 
