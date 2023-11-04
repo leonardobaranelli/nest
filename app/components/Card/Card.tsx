@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Post } from '@/redux/features/PostSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { add, remove } from '@/redux/features/Favorite';
 
@@ -22,10 +23,9 @@ interface Property {
   userId: string | null; 
 }
 
-const Card: React.FC<Property> = (property) => {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const dispatch = useAppDispatch();
+const Card: React.FC<Post> = (property) => {
+
+  const [currentImage, setCurrentImage] = useState(0)
 
   const nextImage = () => {
     if (currentImage < property.images.length - 1) {

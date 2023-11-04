@@ -11,6 +11,11 @@ import UbicacionFilters from "@/app/components/Filters/UbicacionFilters";
 import TipoInmuebleFilters from "@/app/components/Filters/TipoInmuebleFilters";
 import PriceFilter from "@/app/components/Filters/priceFilter";
 
+interface NavbarProps {
+  busqueda: React.Dispatch<React.SetStateAction<Post[]>>;
+  
+}
+
 const Home = () => {
   const dispatch = useAppDispatch();
 
@@ -32,7 +37,7 @@ const Home = () => {
   const [filterPrice, setFilterPrice] = useState<string>("all");
   const [filterUbicacion, setFilterUbicacion] = useState<string>("all");
   const [filterTipoInmueble, setFilterTipoInmueble] = useState<string>("all");
-  const [busqueda, setBusqueda] = useState({})
+  const [busqueda, setBusqueda] = useState<Post[]>([])
 
   // Nuevo estado para los datos filtrados
   const [filteredData, setFilteredData] = useState<Post[]>([]);
@@ -89,7 +94,7 @@ const Home = () => {
       ) : isSellError ? (
         <p className="flex justify-center">Error al obtener datos de venta</p>
       ) : (
-        <Cards properties={filteredData} busqueda = {busqueda}/>
+        <Cards properties={filteredData} busqueda={busqueda}/>
       )}
       <PriceFilter/>
     </div>

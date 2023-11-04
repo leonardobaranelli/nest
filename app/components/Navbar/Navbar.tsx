@@ -2,8 +2,13 @@
 import React from "react";
 import Search from "../Search/SearchBar";
 import Link from "next/link";
+import { Post } from "@/redux/features/PostSlice";
 
-const Navbar = ({busqueda}) => {
+interface NavbarProps {  
+  busqueda: React.Dispatch<React.SetStateAction<Post[]>>;  
+}
+
+const Navbar: React.FC<NavbarProps> = ({ busqueda }) => {
   return (
     /*         <div style={{display:'flex', justifyContent:"space-around", alignItems:"center", background:"#ffefeb"}}>
             <h2>Logo</h2>
