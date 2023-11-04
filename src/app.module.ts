@@ -7,7 +7,7 @@ import { config } from 'dotenv';
 import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { ConfigModule } from '@nestjs/config'; // Hace que las variables de entorno sean globales
+import { ConfigModule } from '@nestjs/config'; 
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
 
@@ -17,10 +17,16 @@ config();
   imports: [
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
+      host: process.env.MY_DB_HOST,
+      database: process.env.MY_DB_NAME,
+      username: process.env.MY_DB_USER,
+      password: process.env.MY_DB_PASS,
+      //#############################//
+      // host: process.env.DB_HOST,
+      // database: process.env.DB_NAME,
+      // username: process.env.DB_USER,
+      // password: process.env.DB_PASS,
+      //#############################//
       // host: process.env.DEV_DB_HOST,
       // database: process.env.DEV_DB_NAME,
       // username: process.env.DEV_DB_USER,
@@ -30,7 +36,7 @@ config();
       dialectOptions: {
         ssl: {
           require: true,
-          //rejectUnauthorized: false,
+          rejectUnauthorized: false,
         },
       },
     }),
