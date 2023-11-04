@@ -12,13 +12,14 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: 'https://nest-frontend-pearl.vercel.app', // Frontend url //
+    //origin: 'https://nest-frontend-pearl.vercel.app', // Frontend url //
+    origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
   });
   const sequelize = app.get(Sequelize);
-  await sequelize.sync({ alter: true });
+  await sequelize.sync({ alter: true });  
   app.use(cookieParser());
   await app.listen(3001);
 }
