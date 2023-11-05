@@ -68,44 +68,46 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
-      <h1>Autenticación</h1>
+    <div className="flex flex-col items-center justify-center h-screen">
       {isAuthenticated ? (
         <div>          
           {/* {registrationSuccess && <p>¡Registro exitoso! Puedes iniciar sesión ahora.</p>} */}
           <Link href="../../Views/Login">¡Registro exitoso! Puedes iniciar sesión haciendo click aqui</Link>
         </div>
       ) : (
-        <form style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', width: '100%' }}>
-          <label>
-            First Name:
-            <input type="text" name="firstName" value={fields.firstName} onChange={handleChange} />
-            {errors.firstName && <p>{errors.firstName}</p>}
-          </label>
-          <label>
-            Last Name:
-            <input type="text" name="lastName" value={fields.lastName} onChange={handleChange} />
-            {errors.lastName && <p>{errors.lastName}</p>}
-          </label>       
-          <label>
-            Username:
-            <input type="text" name="username" value={fields.username} onChange={handleChange} />
-            {errors.username && <p>{errors.username}</p>}
-          </label>
-          <label>
-            Email:
-            <input type="email" name="email" value={fields.email} onChange={handleChange} />
-            {errors.email && <p>{errors.email}</p>}
-          </label>
-          <label>
-            Password:
-            <input type="password" name="password" value={fields.password} onChange={handleChange} />
-            {errors.password && <p>{errors.password}</p>}
-          </label>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button type="button" onClick={handleRegister}>Registrarse</button>
-          </div>
-        </form>
+        <div className="card px-8 py-6 rounded-lg bg-[#a65523c1] w-72">
+          <h2 className="text-center font-bold text-3xl text-white">Registrarse</h2>
+          <form className="my-6">
+            <label>
+              First Name:
+              <input type="text" name="firstName" value={fields.firstName} onChange={handleChange} className="p-2 my-2 rounded w-[100%] focus:outline-blue-600"/>
+              {errors.firstName && <p className="text-red-600">{errors.firstName}</p>}
+            </label>
+            <label>
+              Last Name:
+              <input type="text" name="lastName" value={fields.lastName} onChange={handleChange} className="p-2 my-2 rounded w-[100%] focus:outline-blue-600"/>
+              {errors.lastName && <p className="text-red-600">{errors.lastName}</p>}
+            </label>       
+            <label>
+              Username:
+              <input type="text" name="username" value={fields.username} onChange={handleChange} className="p-2 my-2 rounded w-[100%] focus:outline-blue-600"/>
+              {errors.username && <p className="text-red-600">{errors.username}</p>}
+            </label>
+            <label>
+              Email:
+              <input type="email" name="email" value={fields.email} onChange={handleChange} className="p-2 my-2 rounded w-[100%] focus:outline-blue-600"/>
+              {errors.email && <p className="text-red-600">{errors.email}</p>}
+            </label>
+            <label>
+              Password:
+              <input type="password" name="password" value={fields.password} onChange={handleChange} className="p-2 my-2 rounded w-[100%] focus:outline-blue-600"/>
+              {errors.password && <p className="text-red-600">{errors.password}</p>}
+            </label>
+            <div className="text-center pt-5">
+              <button type="button" onClick={handleRegister}>Registrarse</button>
+            </div>
+          </form>
+        </div>
       )}      
     </div>
   );

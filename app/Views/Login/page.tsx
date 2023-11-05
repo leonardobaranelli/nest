@@ -32,31 +32,34 @@ const Login = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-  <h1>Autenticación</h1>
+    <div className="flex flex-col items-center justify-center h-screen">
   
   {isAuthenticated ? (
     <div>
       <p>¡Inicio de sesión exitoso!</p>
-      <button onClick={handleLogout}>Cerrar sesión</button>
+      <Link href="/Views/home">Ir al Home</Link>
+      {/* <button onClick={handleLogout}>Cerrar sesión</button> */}
     </div>
   ) : (
-    <form style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', width: '100%' }}>
-      <label>
-        Email:
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </label>
-      <label>
-        Contraseña:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
-      <div style={{ display: 'flex', gap: '10px' }}>
-        <button type="button" onClick={handleLogin}>Iniciar sesión</button>
-        <Link href="../../Views/Register" passHref>
-              <button type="button" >Registrarse</button>
-        </Link>     
-      </div>
-    </form>
+    <div className="card px-8 py-6 rounded-lg bg-[#a65523c1] w-72">
+      <h2 className="text-center font-bold text-3xl text-white">Iniciar Sesión</h2>
+      <form className="my-6" /* style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', width: '100%' }} */>
+        <label>
+          Email:
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="p-2 my-2 rounded w-[100%] focus:outline-blue-600"/>
+        </label>
+        <label>
+          Contraseña:
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="p-2 my-2 rounded w-[100%] focus:outline-blue-600"/>
+        </label>
+        <div className="flex justify-between">
+          <button type="button" onClick={handleLogin}>Iniciar sesión</button>
+          <Link href="../../Views/Register" passHref>
+                <button type="button" >Registrarse</button>
+          </Link>     
+        </div>
+      </form>
+    </div>
   )}  
   {loginError && <p>Error en el inicio de sesión: {loginError}</p>}
 </div>
