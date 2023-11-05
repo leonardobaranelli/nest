@@ -4,6 +4,7 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { HttpModule } from '@nestjs/axios';
+import { AppMailerModule } from 'src/mailer/mailer.module';
 
 @Module({
   imports: [
@@ -14,8 +15,10 @@ import { HttpModule } from '@nestjs/axios';
       secret: 'secret',
       signOptions: { expiresIn: '1d' },
     }),
+    AppMailerModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [AuthService],
 })
 export class AuthModule {}

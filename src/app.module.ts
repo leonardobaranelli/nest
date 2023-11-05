@@ -10,6 +10,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ConfigModule } from '@nestjs/config'; 
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
+import { AppMailerModule } from './mailer/mailer.module';
 
 config();
 
@@ -46,6 +47,7 @@ config();
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }), // <-- .env global
     PaymentModule,
+    AppMailerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

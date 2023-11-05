@@ -8,10 +8,12 @@ import {
 } from 'class-validator';
 
 export class LoginUserDto {
-  @Transform(({ value }) => value.trim())
-  @IsString()
-  @IsOptional()
-  username?: string;
+  // FUNCION A IMPLEMENTAR
+  //
+  // @Transform(({ value }) => value.trim())
+  // @IsString()
+  // @IsOptional()
+  // username?: string;
 
   @IsEmail()
   @IsNotEmpty()
