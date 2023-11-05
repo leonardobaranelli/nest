@@ -120,7 +120,6 @@ const Card: React.FC<Post> = (property) => {
   );
 };
 
-
 export default Card; */
 
 import React, { useState } from 'react';
@@ -132,6 +131,7 @@ interface Property {
   days: number | null;
   type: string;
   condition: string;
+  //available: boolean;
   image: string[];
   title: string;
   country: string;
