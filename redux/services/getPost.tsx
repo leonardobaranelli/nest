@@ -1,30 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 export interface Post {
-    days: number | null;
-    type: string;
-    condition: string;
-    image: string[];
-    title: string;
-    country: string;
-    city: string;
-    streetName: string;
-    streetNumber: string;
-    floorNumber: string;
-    aptNumber: string;
-    price: number;
-    description: string;
-    id: string; 
-    images: string[]; 
-    userId: string | null; 
-  
+  days: number | null;
+  type: string;
+  condition: string;
+  title: string;
+  country: string;
+  city: string;
+  streetName: string;
+  streetNumber: string;
+  floorNumber: number;
+  aptNumber: number;
+  price: number;
+  description: string;
+  id: string | number;
+  images: string[];
+  userId: string | null;
 }
 
 interface PostState {
   posts: Post[];
-  originalPosts: Post[]; 
+  originalPosts: Post[];
 }
 
 const initialState: PostState = {
@@ -50,11 +47,9 @@ const postSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
       state.posts = action.payload;
-      state.originalPosts = action.payload; 
+      state.originalPosts = action.payload;
     });
   },
-  
 });
-
 
 export default postSlice.reducer;

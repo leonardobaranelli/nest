@@ -167,34 +167,19 @@
 // export default Detail;
 
 "use client";
-import React from "react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGetPostQuery } from "@/redux/services/api";
-import { log } from "console";
+import { Post } from "@/redux/services/getPost";
 
 const Detail = () => {
-  interface Pfind {
-    days: number | null;
-    type: string;
-    condition: string;
-    images: string[];
-    title: string;
-    country: string;
-    city: string;
-    streetName: string;
-    streetNumber: string;
-    floorNumber: string;
-    aptNumber: string;
-    price: number;
-    description: string;
 
-  }
-
-  const { Detail } = useParams();
-  const [property, setPropertyServer] = useState<Pfind | undefined>(undefined);
+  const { Detail } = useParams<{Detail:string}>();
+  const [property, setPropertyServer] = useState<Post| undefined>(undefined);
 
   const { data } = useGetPostQuery(Detail);
+  console.log(data)
+
 
   useEffect(() => {
     setPropertyServer(data);
