@@ -1,6 +1,6 @@
 const validate = (input) => {
     let errors = {};
-    const regexImage = /^(https?:\/\/)?[^\s]+(\.jpg|\.jpeg|\.png|\.gif)$/;
+    const regexImage = /\.(jpg|jpeg|png|gif)$/i;
 
     if (!input.title) {
     errors.title = "Title is required";
@@ -11,12 +11,9 @@ const validate = (input) => {
     }
 
     if (!input.type) {
-    errors.type = "Type is required";
+    errors.type = "Condition is required";
     }
 
-    if (!input.rooms || input.rooms <= 0) {
-    errors.rooms = "Rooms should be greater than 0";
-    }
     
     if (!input.days || input.days <= 0) {
         errors.days = "Days should be greater than 0";
@@ -36,8 +33,8 @@ const validate = (input) => {
     errors.city = "City is required";
     }
 
-    if (!input.street) {
-    errors.street = "Street is required";
+    if (!input.streetName) {
+    errors.streetName = "Street is required";
     }
 
     if (!input.streetNumber) {
@@ -51,20 +48,11 @@ const validate = (input) => {
     if (!input.description) {
     errors.description = "Description is required";
     }
-    if (!input.image) {
-        errors.image = "Image is required";
-        }
+    //if (!input.image) {
+      //  errors.image = "Image is required";
+        //}
 
     // Add more specific validation rules as needed for your form fields
-
-    if (!/^([0-9])*$/.test(input.rooms)) {
-    errors.rooms = "Only numbers are allowed";
-    }
-
-    if (!/^([0-9])*$/.test(input.price)) {
-    errors.price = "Only numbers are allowed";
-    }
-
     if (!/^([0-9])*$/.test(input.floorNumber)) {
     errors.floorNumber = "Only numbers are allowed";
     }
@@ -74,9 +62,12 @@ const validate = (input) => {
     }
 
     // Handle image validation
-    if (input.image && !regexImage.test(input.image)) {
-    errors.image = "Enter a valid URL";
-    }
+    //if (!input.images) {
+      //  errors.images = "Image is required";
+    //} else if (!regexImage.test(input.images.name)) {
+    //errors.images = "Invalid image format. Upload a valid image file.";
+    //}
+    
 
     return errors;
 };
