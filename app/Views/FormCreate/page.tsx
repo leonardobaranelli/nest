@@ -8,15 +8,11 @@ import Swal from "sweetalert2"
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
-import Navbar from "@/app/components/Navbar/Navbar";
-import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Formulario() {
   //Estados
   const [focused, setFocused] = useState(null);
-  
-  const [files, setFile] = useState([]);
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     days: "",
