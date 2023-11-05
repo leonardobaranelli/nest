@@ -6,8 +6,7 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
-  HasMany,
-  AllowNull,
+  HasMany,  
 } from 'sequelize-typescript';
 import { User, Comment, Score, Rent } from '.';
 
@@ -25,6 +24,9 @@ export class Post extends Model {
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
+  @Column({ allowNull: false, type: DataType.BOOLEAN, defaultValue: true })
+  available: boolean;
+  
   @Column({ allowNull: true, type: DataType.INTEGER })
   days: number;
 
