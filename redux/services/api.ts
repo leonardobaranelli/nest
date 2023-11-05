@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-
 export interface Post {
   id: string;
   days: number | null;
   type: string;
+  //available: boolean;
   condition: string;
   images: string[];
   title: string;
@@ -21,7 +21,8 @@ export interface Post {
 export const postsApi = createApi({
   reducerPath: "postsApi",
   refetchOnFocus: true,
-  baseQuery: fetchBaseQuery({ baseUrl: "https://nest-refj.onrender.com" }),
+  //baseQuery: fetchBaseQuery({ baseUrl: "https://nest-refj.onrender.com" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
   endpoints: (builder) => ({
     getPostsByCondition: builder.query<Post[], string>({
       query: (condition) => `posts/condition/${condition}`,
@@ -52,8 +53,6 @@ export const postsApi = createApi({
         url: `posts/${id}`,
         method: "DELETE",
       }),
-
-  
     }),
   }),
 });

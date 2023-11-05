@@ -24,6 +24,7 @@ import homeReducer from "./features/GlobalSlice";
 import { postsApi } from '@/redux/services/api';
 import selecReducer from "./features/SelecSlice"
 import favoriteReducer from "./features/Favorite"
+import userReducer from "./features/UserSlice";
 
 export const store = configureStore({
     reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
       home: homeReducer,
       selec: selecReducer,
       favorite: favoriteReducer,
+      user: userReducer,
       [postsApi.reducerPath]: postsApi.reducer, 
     },
     middleware: (getDefaultMiddleware) =>
