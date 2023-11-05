@@ -11,6 +11,7 @@ import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import Navbar from "@/app/components/Navbar/Navbar";
 import Image from 'next/image';
 import Link from 'next/link';
+
 export default function Formulario() {
   //Estados
   const [focused, setFocused] = useState(null);
@@ -115,6 +116,7 @@ export default function Formulario() {
     setErrors(formErrors);
     try {
       const response = await axios.post("http://localhost:3001/posts", values);
+
       console.log("respuesta de la solicitud post:",response.data)
 
       if (response.status === 200 || response.status === 201) {
@@ -143,6 +145,7 @@ export default function Formulario() {
           });
       }
   } catch (error) {
+
       console.error("Error al realizar la solicitud POST:", error);
 
       // Aquí puedes agregar un manejo de errores más específico si es necesario
@@ -437,8 +440,10 @@ export default function Formulario() {
         onClick={handleSubmit}
         disabled={disable()}
       >
+
         <span className="button_text">Crear</span>
         <span className="button_sl"></span>
+
       </button>
       </div>
     </div>

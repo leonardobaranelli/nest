@@ -1,4 +1,5 @@
 "use client";
+/*
 
 import React, { useEffect, useState } from "react";
 import Cards from "@/app/components/Cards/Cards";
@@ -8,6 +9,7 @@ import Navbar from "@/app/components/Navbar/Navbar";
 import PrecioFilters from "@/app/components/Filters/Filters";
 import UbicacionFilters from "@/app/components/Filters/UbicacionFilters";
 import TipoInmuebleFilters from "@/app/components/Filters/TipoInmuebleFilters";
+import PriceFilter from "@/app/components/Filters/priceFilter";
 
 interface NavbarProps {
   busqueda: React.Dispatch<React.SetStateAction<Post[]>>;
@@ -29,10 +31,8 @@ const Home = () => {
   } = useGetPostsByConditionQuery("rent");
   const {
     data: allData,
-    /* isLoading: isRentLoading,
-    isError: isRentError, */
   } = useGetPostsQuery("all");
-  console.log(allData)
+
 
   const [filterPrice, setFilterPrice] = useState<string>("all");
   const [filterUbicacion, setFilterUbicacion] = useState<string>("all");
@@ -75,6 +75,7 @@ const Home = () => {
     filteredPosts = filterByUbicacion(filteredPosts, filterUbicacion);
     filteredPosts = filterByTipoInmueble(filteredPosts, filterTipoInmueble);
 
+
     // Actualizar los datos filtrados
     setFilteredData(filteredPosts);
   }, [filterPrice, filterUbicacion, filterTipoInmueble, sellData, rentData, allData]);
@@ -94,6 +95,107 @@ const Home = () => {
         <p className="flex justify-center">Error al obtener datos de venta</p>
       ) : (
         <Cards properties={filteredData} busqueda={busqueda}/>
+      )}
+      <PriceFilter/>
+    </div>
+  );
+};
+
+export default Home;
+
+
+import Cards from "@/app/components/Cards/Cards";
+import PriceFilter from "@/app/components/Filters/priceFilter";
+import { fetchPosts } from "@/redux/features/getPost";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import React, { useEffect} from "react";
+
+
+
+const Home = () => {
+  const dispatch = useAppDispatch();
+  
+  const globalState = useAppSelector((state) => state.posteo.posts);
+  
+  
+  console.log("este es global  State",globalState);
+  
+  
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []); 
+  
+
+  return (
+    <div>
+      <PriceFilter/>
+      <h2 className="text-center m-10 text-xl">Propiedades</h2>
+      <Cards properties={globalState} />
+    </div>
+  );
+};
+
+export default Home;
+
+*/
+import React, { useEffect, useState } from 'react';
+import Cards from '@/app/components/Cards/Cards';
+import Navbar from '@/app/components/Navbar/Navbar';
+import Errors from '@/app/components/Error/Error';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { updateState } from '@/redux/features/GlobalSlice';
+import { useGetPostsQuery } from '@/redux/services/api';
+import { updateSelec } from '@/redux/features/SelecSlice';
+import FavoriteCard from '@/app/components/favorites/favorites'; 
+import DisplayFilter from '@/app/components/Filters/DisplayFilter';
+
+const Home = () => {
+  const dispatch = useAppDispatch();
+  const { data: posts, isLoading, isError } = useGetPostsQuery('');
+  const homeState = useAppSelector((state) => state.home.properties);
+  const favoriteState = useAppSelector((state) => state.favorite.properties);
+  const [showFavoriteNotification, setShowFavoriteNotification] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      dispatch(updateState(posts || []));
+      dispatch(updateSelec(posts || []));
+    }
+  }, [posts, isLoading, isError]);
+
+  useEffect(() => {
+    // Mostrar la notificación de favoritos cuando hay propiedades favoritas
+    if (favoriteState.length > 0) {
+      setShowFavoriteNotification(true);
+    } else {
+      setShowFavoriteNotification(false);
+    }
+  }, [favoriteState]);
+ console.log("este es posts",homeState);
+ 
+  return (
+    <div>
+      <Navbar />
+ 
+      <button >
+        <img src="/filter.png" width={25} height={25} alt="Filter" /><DisplayFilter/>
+      </button>
+      <div className="flex gap-10 justify-center">
+        {isLoading ? (
+          <img src="/Infinity-4.5s-224px.gif" alt="Cargando..." />
+        ) : posts && posts.length > 0 ? (
+          <div className="flex gap-10 justify-center">
+            <Cards properties={homeState} />
+          </div>
+        ) : (
+          <Errors />
+        )}
+      </div>
+      {showFavoriteNotification && (
+        <div className="fixed top-10 right-10 h-1/4 w-1/4 bg-white z-50 p-4 border border-gray-300 rounded-lg shadow-lg">
+          <FavoriteCard /> {/* Muestra las propiedades favoritas en la notificación */}
+          <button onClick={() => setShowFavoriteNotification(false)}>Cerrar</button>
+        </div>
       )}
     </div>
   );
