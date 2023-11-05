@@ -84,17 +84,19 @@ export class AuthService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const user: CreateUserDto =
-      await this.userService.findOneByEmail(loginUserDto.email);
-   
+    const user: CreateUserDto = await this.userService.findOneByEmail(
+      loginUserDto.email,
+    );
+
     if (!user) {
       throw new UnauthorizedException('email is wrong');
     }
+    
+    const isPasswordValid =
+      loginUserDto.password === user.password
+        ? true
+        : await bcryptjs.compareSync(loginUserDto.password, user.password);
 
-    const isPasswordValid = await bcryptjs.compareSync(
-      loginUserDto.password,
-      user.password,
-    );
     if (!isPasswordValid) {
       throw new UnauthorizedException('password is wrong');
     }
@@ -124,7 +126,7 @@ export class AuthService {
 
   async googleLogin(code: string) {
     // Intercambia el código de autorización por un token de acceso
-    const response = await this.httpService
+    const { data } = await this.httpService
       .post(
         'https://oauth2.googleapis.com/token',
         {
@@ -142,7 +144,7 @@ export class AuthService {
       )
       .toPromise();
 
-    const accessToken = response.data.access_token;
+    const accessToken = data.access_token;
     // Usa el token de acceso para obtener la información del perfil del usuario
     const { data: user }: GoogleResponse = await this.httpService
       .get('https://www.googleapis.com/oauth2/v1/userinfo', {
@@ -161,21 +163,21 @@ export class AuthService {
       verified_email,
     } = user;
 
-    if (!verified_email) throw new BadRequestException('Email not verified');
+    if (!verified_email) throw new BadRequestException('Email not verified'); //Optional
 
-    if (!(await this.userService.findOneByEmail(email))) {
+    const userDB = await this.userService.findOneByEmail(email);
+    if (!userDB) {
       await this.userService
         .create({
           username: `${given_name}${family_name}`,
           email: email,
           firstName: given_name,
           lastName: family_name,
-          password: googleId, // Esto no es seguro, provisorio
+          password: await bcryptjs.hashSync(googleId, 10),
           // avatar: picture,
         })
         .then((user) => {
           if (user instanceof User) {
-            console.log('Dentro de mailer');
             this.mailerService.enviarCorreoCreated({
               emailTo: user.email,
               emailFrom: 'mailer.nest.app@gmail.com',

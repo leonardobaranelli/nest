@@ -30,6 +30,5 @@ export class AppMailerService {
           error: error.message;
         }
       });
-    console.log('Correo enviado');
   }
 }

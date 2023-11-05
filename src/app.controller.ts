@@ -1,4 +1,12 @@
-import { BadRequestException, Controller, Get, InternalServerErrorException, NotFoundException, Query, Req } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  InternalServerErrorException,
+  NotFoundException,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { Request } from 'express';
 import { User } from './shared/models';
@@ -17,19 +25,23 @@ export class AppController {
     @Query('email') email: string,
     @Req() req: Request,
   ) {
-    const user = await this.appService.verify(code, email)
-    .catch((error) => {
-      if (error.message === 'Usuario no encontrado, si cree que es un error comuniquese con el administrador') {
-        throw new NotFoundException(error.message);
-      } else if (error.message === 'Codigo de verificacion incorrecto') {
-        throw new BadRequestException(error.message);
-      } else {
-        throw new InternalServerErrorException(error.message);
-      }
-    });
+    const user: User = await this.appService
+      .verify(code, email)
+      .catch((error) => {
+        if (
+          error.message ===
+          'Usuario no encontrado, si cree que es un error comuniquese con el administrador'
+        ) {
+          throw new NotFoundException(error.message);
+        } else if (error.message === 'Codigo de verificacion incorrecto') {
+          throw new BadRequestException(error.message);
+        } else {
+          throw new InternalServerErrorException(error.message);
+        }
+      });
 
     const { token } = await this.authService.login(user);
-    
+
     req.res.cookie('token', token, { httpOnly: true });
     req.res.cookie('email', email);
 
