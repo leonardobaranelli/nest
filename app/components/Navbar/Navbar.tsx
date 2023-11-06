@@ -83,14 +83,37 @@ export default Navbar; */
 
 import React from "react";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
 import {useState} from "react"
 import Search from "../Search/SearchBar";
 
 const Navbar = () => {
+    const dispatch: AppDispatch = useDispatch();
+    const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
+const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+};
+const renderLoginButton = () => {
+    if (isAuthenticated) {
+        // Si el usuario está autenticado, muestra un botón de "Logout"
+        return (
+        <button onClick={handleLogout}>Logout</button>
+        );
+    } else {
+        // Si el usuario no está autenticado, muestra un botón de "Login"
+        return (
+        <Link href="/Views/Login">Log in</Link>
+    );
+    }
+};
+    
+    const handleLogout = () => {
+        // Implementa la lógica para cerrar sesión aquí
+        dispatch(logout());
     };
     return (
         <div className="bg-[#fc9a84]">
@@ -142,12 +165,15 @@ const Navbar = () => {
                         Publicar Inmueble
                         </Link>
                     </li>
-                    <li>
+{/*                     <li>
                         <Link
                         className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"
-                        href="">
+                        href="../../Views/Login">
                         Log in
                         </Link>
+                    </li> */}
+                    <li className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400">
+                        {renderLoginButton()}
                     </li>
                     </ul>
                 </div>

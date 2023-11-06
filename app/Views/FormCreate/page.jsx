@@ -185,8 +185,8 @@ export default function Formulario() {
               Alquiler
             </Link>
             <Link
-              href=""
-              className=" font-medium text-indigo-600 hover:text-indigo-500"
+              href="../../Views/Login"
+              className=" font-medium text-indigo-600 rounded-full py-2 pl-3 pr-4 hover:bg-yellow-400"
             >
               Log in
             </Link>
