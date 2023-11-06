@@ -170,7 +170,10 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGetPostQuery } from "@/redux/services/api";
+import Swal from "sweetalert2";
 import { Post } from "@/redux/services/getPost";
+import Link from "next/link";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Detail = () => {
 
