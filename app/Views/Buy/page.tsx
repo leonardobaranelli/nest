@@ -11,7 +11,6 @@ import { updateSelec } from "@/redux/features/SelecSlice";
 import Link from "next/link";
 import { Property } from "@/redux/features/SelecSlice";
 
-function Page() {
 
 function Page() {
   const dispatch = useAppDispatch();
@@ -54,6 +53,7 @@ function Page() {
   </div>
 );
 };
+
 
 export default Page
 
