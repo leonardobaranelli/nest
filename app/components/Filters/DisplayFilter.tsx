@@ -50,7 +50,7 @@ const DisplayFilter: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="flex gap-5 m-9">
       <div>
         <label htmlFor="selectedPriceRange">Filtrar por Precio:</label>
         <select

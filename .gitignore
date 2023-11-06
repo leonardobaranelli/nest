@@ -3,7 +3,7 @@ package-lock.json
 package.json
 
 # environment
-.env.local
+.env
 
 # dependencies
 /node_modules
