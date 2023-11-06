@@ -64,7 +64,7 @@ const Landing = () => {
                 <li>
                     <Link
                     className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"
-                    href="../../Views/Buy">
+                    href="../../Views/Login">
                     Log in
                     </Link>
                 </li>

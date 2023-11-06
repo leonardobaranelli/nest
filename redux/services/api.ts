@@ -4,6 +4,7 @@ export interface Post {
   days: number | null;
   type: string;
   condition: string;
+  image: string[];
   title: string;
   country: string;
   city: string;
@@ -13,7 +14,7 @@ export interface Post {
   aptNumber: number;
   price: number;
   description: string;
-  id: string | number;
+  id: string;
   images: string[];
   userId: string | null;
 }
@@ -21,7 +22,8 @@ export interface Post {
 export const postsApi = createApi({
   reducerPath: "postsApi",
   refetchOnFocus: true,
-  baseQuery: fetchBaseQuery({ baseUrl: "https://nest-refj.onrender.com" }),
+  //baseQuery: fetchBaseQuery({ baseUrl: "https://nest-refj.onrender.com" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
   endpoints: (builder) => ({
     getPostsByCondition: builder.query<Post[], string>({
       query: (condition) => `posts/condition/${condition}`,
@@ -37,7 +39,7 @@ export const postsApi = createApi({
         body: newPost,
       }),
     }),
-    getPost: builder.query<Post, string>({
+    getPost: builder.query<Post[], string | number>({
       query: (id) => `posts/${id}`,
     }),
     updatePost: builder.mutation<

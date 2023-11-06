@@ -3,10 +3,25 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hooks';
 import { add, remove } from '@/redux/features/Favorite';
-import { Property } from '@/redux/features/SelecSlice';
-
-interface CardsProps {  
-  properties: Property;
+//Hola
+interface Property {
+  days: number | null;
+  type: string;
+  condition: string;
+  //available: boolean;
+  image: string[];
+  title: string;
+  country: string;
+  city: string;
+  streetName: string;
+  streetNumber: string;
+  floorNumber: string;
+  aptNumber: string;
+  price: number;
+  description: string;
+  id: string; 
+  images: string[]; 
+  userId: string | null; 
 }
 
 const Card: React.FC<CardsProps> = ({properties}) => {

@@ -13,6 +13,7 @@ import { Property } from "@/redux/features/SelecSlice";
 
 function Page() {
 
+function Page() {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("sell");
 
