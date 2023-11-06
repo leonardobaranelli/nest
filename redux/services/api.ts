@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export interface Post {
   days: number | null;
   type: string;
-  //available: boolean;
   condition: string;
+  image: string[];
   title: string;
   country: string;
   city: string;
@@ -14,7 +14,7 @@ export interface Post {
   aptNumber: number;
   price: number;
   description: string;
-  id: string | number;
+  id: string;
   images: string[];
   userId: string | null;
 }
@@ -39,7 +39,7 @@ export const postsApi = createApi({
         body: newPost,
       }),
     }),
-    getPost: builder.query<Post, string>({
+    getPost: builder.query<Post[], string | number>({
       query: (id) => `posts/${id}`,
     }),
     updatePost: builder.mutation<

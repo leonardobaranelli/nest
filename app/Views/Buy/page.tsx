@@ -11,8 +11,8 @@ import { updateSelec } from "@/redux/features/SelecSlice";
 import Link from "next/link";
 import { Property } from "@/redux/features/SelecSlice";
 
-function Page() {
 
+function Page() {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("sell");
 
@@ -53,6 +53,7 @@ function Page() {
   </div>
 );
 };
+
 
 export default Page
 
