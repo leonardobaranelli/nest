@@ -18,15 +18,15 @@ config();
   imports: [
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: process.env.MY_DB_HOST,
-      database: process.env.MY_DB_NAME,
-      username: process.env.MY_DB_USER,
-      password: process.env.MY_DB_PASS,
+      // host: process.env.MY_DB_HOST,
+      // database: process.env.MY_DB_NAME,
+      // username: process.env.MY_DB_USER,
+      // password: process.env.MY_DB_PASS,
       //#############################//
-      // host: process.env.DB_HOST,
-      // database: process.env.DB_NAME,
-      // username: process.env.DB_USER,
-      // password: process.env.DB_PASS,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
       //#############################//
       // host: process.env.DEV_DB_HOST,
       // database: process.env.DEV_DB_NAME,

@@ -19,7 +19,7 @@ export class AuthController {
     res.cookie('token', token, { httpOnly: true });
     res.cookie('email', email);
 
-    res.json({ success: true, redirectUrl: 'http://localhost:3000/Views/Login' });
+    res.json({ success: true })//, redirectUrl: 'http://localhost:3000/Views/Login' });
     //res.redirect('http://localhost:3000'); // Frontend url
   }
 
@@ -34,7 +34,7 @@ export class AuthController {
     res.cookie('token', token, { httpOnly: true });
     res.cookie('email', email);
 
-    res.json({ success: true, redirectUrl: 'http://localhost:3000' });
+    res.json({ success: true })//, redirectUrl: 'http://localhost:3000' });
     //res.redirect('http://localhost:3000'); // Frontend url
   }
 
@@ -56,7 +56,7 @@ export class AuthController {
     res.cookie('token', token, { httpOnly: true });
     res.cookie('email', email);
 
-    res.json({ success: true, redirectUrl: 'http://localhost:3000' });
+    res.json({ success: true })//, redirectUrl: 'http://localhost:3000' });
     //res.redirect('http://localhost:3001/exito'); // Frontend url
   }
 }
