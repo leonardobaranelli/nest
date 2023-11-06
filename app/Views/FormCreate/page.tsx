@@ -157,7 +157,7 @@ export default function Formulario() {
   
           try {
             response = await axios.post(
-              "http://localhost:3001/posts/upload",
+              "https://nest-refj.onrender.com/posts/upload",
               formFile
             );
             return response.data; // Asume que newImages es una matriz de cualquier tipo, ya que no proporcionaste información sobre su tipo.
@@ -198,7 +198,7 @@ export default function Formulario() {
     const formErrors = validate(values);
     setErrors(formErrors);
     try {
-      const response = await axios.post("http://localhost:3001/posts", values);
+      const response = await axios.post("https://nest-refj.onrender.com/posts", values);
 
       console.log("respuesta de la solicitud post:", response.data);
 
