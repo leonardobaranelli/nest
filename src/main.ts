@@ -13,7 +13,8 @@ async function bootstrap() {
   );
   app.enableCors({
     //origin: 'https://nest-frontend-pearl.vercel.app', // Frontend url //
-    origin: 'http://localhost:3000',
+    //origin: 'http://localhost:3000',
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
