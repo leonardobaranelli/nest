@@ -1,10 +1,9 @@
 import React from "react";
 import Card from "../Card/Card";
-import { Post } from "@/redux/features/PostSlice";
+import { Post } from "@/redux/services/getPost";
 
 interface CardsProps {  
   properties: Post[];
-  busqueda: Post[];
 }
 
 const Cards: React.FC<CardsProps> = ({ properties }) => {

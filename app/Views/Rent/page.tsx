@@ -75,7 +75,7 @@ import { useGetPostsByConditionQuery, useGetPostsQuery } from "@/redux/services/
 import { updateSelec } from "@/redux/features/SelecSlice";
 import Link from "next/link";
 
-function page() {
+function Page() {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("rent");
 
@@ -119,7 +119,7 @@ function page() {
 );
 };
 
-export default page
+export default Page
 
 
 
