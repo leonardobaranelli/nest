@@ -39,7 +39,7 @@ export const postsApi = createApi({
         body: newPost,
       }),
     }),
-    getPost: builder.query<Post[], string | number>({
+    getPost: builder.query<Post, string | number>({
       query: (id) => `posts/${id}`,
     }),
     updatePost: builder.mutation<

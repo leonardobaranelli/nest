@@ -11,7 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 function Detail() {
   const { Detail } = useParams<{ Detail: string }>();
-  const [property, setPropertyServer] = useState<Post[] | undefined>(undefined);
+  const [property, setPropertyServer] = useState<Post | undefined>(undefined);
 
   const { data } = useGetPostQuery(Detail);
 

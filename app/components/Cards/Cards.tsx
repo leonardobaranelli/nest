@@ -1,9 +1,9 @@
 import React from "react";
 import Card from "../Card/Card";
-import { Post } from "@/redux/services/getPost";
+import { Property } from "@/redux/features/SelecSlice";
 
 interface CardsProps {  
-  properties: Post[];
+  properties: Property[];
 }
 
 const Cards: React.FC<CardsProps> = ({ properties }) => {
