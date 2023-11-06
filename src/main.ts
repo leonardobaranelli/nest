@@ -12,9 +12,9 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
+    origin: 'https://next-nest-project.vercel.app', // Frontend url //
     //origin: 'https://nest-frontend-pearl.vercel.app', // Frontend url //
-    //origin: 'http://localhost:3000',
-    origin: '*',
+    //origin: 'http://localhost:3000',    
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
