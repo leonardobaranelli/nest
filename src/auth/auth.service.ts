@@ -188,7 +188,8 @@ export class AuthService {
         });
     } else {
       await this.userService.findOneByEmail(email).then((user) => {
-        if (user.password !== googleId)
+        const isValid = bcryptjs.compareSync(googleId, user.password);
+        if (!isValid)
           throw new BadRequestException('Wrong authentication');
       });
     }
