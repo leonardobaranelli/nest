@@ -20,7 +20,7 @@ export const registerUserAsync = createAsyncThunk<
   Register
 >("user/register", async (registerData: Register) => {
   try {
-    const response = await axiosInstance.post("https://nest-refj.onrender.com/auth/register", registerData, {
+    const response = await axiosInstance.post("http://localhost:3001/auth/register", registerData, {
       withCredentials: true,
     });
     

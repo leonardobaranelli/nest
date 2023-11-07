@@ -31,7 +31,7 @@ const initialState: PostState = {
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
-    const response = await axios.get("https://nest-refj.onrender.com/posts");
+    const response = await axios.get("http://localhost:3001/posts");
     console.log("respuesta backend", response.data);
 
     return response.data;
