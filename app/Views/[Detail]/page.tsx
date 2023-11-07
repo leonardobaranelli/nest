@@ -9,6 +9,10 @@ import { Post } from "@/redux/services/getPost";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
 
+require('dotenv').config();
+
+const { DEPLOY_BACK_URL } = process.env;
+
 function Detail() {
   const { Detail } = useParams<{ Detail: string }>();
   const [property, setPropertyServer] = useState<Post | undefined>(undefined);
@@ -32,7 +36,7 @@ function Detail() {
   const stripePayment = async () => {
     
       try {                
-        const response = await fetch('http://localhost:3001/payment/createStripeCS', {
+        const response = await fetch(`${DEPLOY_BACK_URL}/payment/createStripeCS`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

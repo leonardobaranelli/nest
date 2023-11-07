@@ -1,7 +1,6 @@
 import React from "react";
 import { Values } from "../Views/FormCreate/page";
 
-
 const validate = (input:Values)=> {
     
   let errors= {

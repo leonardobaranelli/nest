@@ -11,7 +11,7 @@ const Cards: React.FC<CardsProps> = ({ properties }) => {
 
   return (
     <div className="flex justify-center align-center gap-10 flex-wrap">
-      {propertiesArray.map((property, index) => (
+      {propertiesArray?.map((property, index) => (
         <Card key={index} properties={property} />
 
       ))}
