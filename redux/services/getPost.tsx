@@ -22,7 +22,7 @@ export interface Post {
   images: string[];
   userId: string | null;
 }
-
+//hola
 interface PostState {
   posts: Post[];
   originalPosts: Post[];
