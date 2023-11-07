@@ -24,7 +24,7 @@ export const registerUserAsync = createAsyncThunk<
       withCredentials: true,
     });
     
-    const cookies = response.headers['set-cookie'];
+    const { token: cookies } = response.data;
     const responseData = response.data;
 
     return { cookies, responseData };

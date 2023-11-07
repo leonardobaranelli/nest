@@ -9,7 +9,7 @@ const Landing = () => {
     };
     return (
     <div>
-        <nav className="border-gray-200 dark:bg-gray-900">
+        <nav className="border-gray-200 ">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <p>Nest</p>
             <button
