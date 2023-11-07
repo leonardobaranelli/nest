@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 
 export const loginUserAsync = createAsyncThunk("user/login", async (loginData: Login) => {
   try {
-    const response = await axios.post("http://localhost:3001/auth/login", loginData);
+    const response = await axios.post("https://nest-refj.onrender.com/auth/login", loginData);
     return response.data;
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;

@@ -2,16 +2,14 @@
 
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Post } from '@/redux/services/getPost';
+import { Property } from '@/redux/features/SelecSlice';
 import { updateState } from '@/redux/features/GlobalSlice';
 
-interface Property {
-  [key: string]: string | number | null | string[];
-}
+
 
 function SearchBar() {
   const dispatch = useAppDispatch();
-  const posts: Post[] = useAppSelector((state) => state.selec.properties);
+  const posts: Property[] = useAppSelector((state) => state.selec.properties);
   const [searchTerm, setSearchTerm] = useState<string>(""); 
 
   const handleSearch = () => {

@@ -1,21 +1,22 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Post {
-  id: string;
   days: number | null;
   type: string;
-  //available: boolean;
   condition: string;
-  images: string[];
+  image: string[];
   title: string;
   country: string;
   city: string;
   streetName: string;
   streetNumber: string;
-  floorNumber: string;
-  aptNumber: string;
+  floorNumber: number;
+  aptNumber: number;
   price: number;
   description: string;
+  id: string;
+  images: string[];
+  userId: string | null;
 }
 
 export const postsApi = createApi({
@@ -27,7 +28,7 @@ export const postsApi = createApi({
     getPostsByCondition: builder.query<Post[], string>({
       query: (condition) => `posts/condition/${condition}`,
     }),
-    
+
     getPosts: builder.query<Post[], string>({
       query: () => "posts",
     }),
@@ -38,10 +39,13 @@ export const postsApi = createApi({
         body: newPost,
       }),
     }),
-    getPost: builder.query<Post, string>({
+    getPost: builder.query<Post, string | number>({
       query: (id) => `posts/${id}`,
     }),
-    updatePost: builder.mutation<Post, { id: number; updatedPost: Partial<Post> }>({
+    updatePost: builder.mutation<
+      Post,
+      { id: number; updatedPost: Partial<Post> }
+    >({
       query: ({ id, updatedPost }) => ({
         url: `posts/${id}`,
         method: "PATCH",
@@ -57,7 +61,6 @@ export const postsApi = createApi({
   }),
 });
 
-
 export const {
   useGetPostsByConditionQuery,
   useGetPostsQuery, // GET all
@@ -65,5 +68,4 @@ export const {
   useGetPostQuery, // GET one
   useUpdatePostMutation, // PATCH (Update)
   useDeletePostMutation, // DELETE
-
 } = postsApi;
