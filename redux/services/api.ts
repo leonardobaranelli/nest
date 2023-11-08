@@ -1,33 +1,39 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+require('dotenv').config();
+
+const { DEPLOY_BACK_URL } = process.env;
+
 export interface Post {
-  id: string;
   days: number | null;
   type: string;
-  //available: boolean;
   condition: string;
-  images: string[];
+  image: string[];
   title: string;
   country: string;
   city: string;
   streetName: string;
   streetNumber: string;
-  floorNumber: string;
-  aptNumber: string;
+  floorNumber: number;
+  aptNumber: number;
   price: number;
   description: string;
+  id: string;
+  images: string[];
+  userId: string | null;
 }
 
 export const postsApi = createApi({
   reducerPath: "postsApi",
   refetchOnFocus: true,
-  //baseQuery: fetchBaseQuery({ baseUrl: "https://nest-refj.onrender.com" }),
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+  baseQuery: fetchBaseQuery({ baseUrl: DEPLOY_BACK_URL }),
+  //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+  
   endpoints: (builder) => ({
     getPostsByCondition: builder.query<Post[], string>({
       query: (condition) => `posts/condition/${condition}`,
     }),
-    
+
     getPosts: builder.query<Post[], string>({
       query: () => "posts",
     }),
@@ -38,10 +44,13 @@ export const postsApi = createApi({
         body: newPost,
       }),
     }),
-    getPost: builder.query<Post, string>({
+    getPost: builder.query<Post, string | number>({
       query: (id) => `posts/${id}`,
     }),
-    updatePost: builder.mutation<Post, { id: number; updatedPost: Partial<Post> }>({
+    updatePost: builder.mutation<
+      Post,
+      { id: number; updatedPost: Partial<Post> }
+    >({
       query: ({ id, updatedPost }) => ({
         url: `posts/${id}`,
         method: "PATCH",
@@ -57,7 +66,6 @@ export const postsApi = createApi({
   }),
 });
 
-
 export const {
   useGetPostsByConditionQuery,
   useGetPostsQuery, // GET all
@@ -65,5 +73,4 @@ export const {
   useGetPostQuery, // GET one
   useUpdatePostMutation, // PATCH (Update)
   useDeletePostMutation, // DELETE
-
 } = postsApi;

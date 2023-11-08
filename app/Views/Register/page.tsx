@@ -106,6 +106,7 @@ const Register: React.FC = () => {
             <div className="text-center pt-5">
               <button type="button" onClick={handleRegister}>Registrarse</button>
             </div>
+            
           </form>
         </div>
       )}      

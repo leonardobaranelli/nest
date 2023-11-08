@@ -1,5 +1,23 @@
-const validate = (input) => {
-    let errors = {};
+import React from "react";
+import { Values } from "../Views/FormCreate/page";
+
+const validate = (input:Values)=> {
+    
+  let errors= {
+    days: "",
+    condition: "",
+    type:"",
+    images: [],
+    title: "",
+    country: "",
+    city: "",
+    streetName: "",
+    streetNumber: "",
+    floorNumber: "",
+    aptNumber: "",
+    price: "",
+    description: "",
+  };
     const regexImage = /\.(jpg|jpeg|png|gif)$/i;
 
     if (!input.title) {
@@ -15,7 +33,7 @@ const validate = (input) => {
     }
 
     
-    if (!input.days || input.days <= 0) {
+    if (!input.days) {
         errors.days = "Days should be greater than 0";
         }
 
@@ -48,18 +66,13 @@ const validate = (input) => {
     if (!input.description) {
     errors.description = "Description is required";
     }
-    //if (!input.image) {
-      //  errors.image = "Image is required";
-        //}
+//if (!/^[0-9]*$/.test(input.floorNumber)) {
+//  errors.floorNumber = "Only numbers are allowed";
+//}
 
-    // Add more specific validation rules as needed for your form fields
-    if (!/^([0-9])*$/.test(input.floorNumber)) {
-    errors.floorNumber = "Only numbers are allowed";
-    }
-
-    if (!/^([0-9])*$/.test(input.aptNumber)) {
-    errors.aptNumber = "Only numbers are allowed";
-    }
+  //  if (!/^([0-9])*$/.test(input.aptNumber)) {
+  //  errors.aptNumber = "Only numbers are allowed";
+  // }
 
     // Handle image validation
     //if (!input.images) {
