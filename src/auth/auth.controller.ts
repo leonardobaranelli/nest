@@ -14,13 +14,8 @@ export class AuthController {
     createUserDto: CreateUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { token, email } = await this.authService.register(createUserDto);
-
-    res.cookie('token', token, { httpOnly: true });
-    res.cookie('email', email);
-
-    res.json({ success: true })//, redirectUrl: 'http://localhost:3000/Views/Login' });
-    //res.redirect('http://localhost:3000'); // Frontend url
+    const result = await this.authService.register(createUserDto);
+    return result;
   }
 
   @Post('login')
@@ -29,13 +24,8 @@ export class AuthController {
     loginUserDto: LoginUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { token, email } = await this.authService.login(loginUserDto);
-
-    res.cookie('token', token, { httpOnly: true });
-    res.cookie('email', email);
-
-    res.json({ success: true })//, redirectUrl: 'http://localhost:3000' });
-    //res.redirect('http://localhost:3000'); // Frontend url
+    const result = await this.authService.login(loginUserDto);
+    return result;
   }
 
   @Get('google')
@@ -56,7 +46,6 @@ export class AuthController {
     res.cookie('token', token, { httpOnly: true });
     res.cookie('email', email);
 
-    res.json({ success: true })//, redirectUrl: 'http://localhost:3000' });
-    //res.redirect('http://localhost:3001/exito'); // Frontend url
+    res.redirect('http://localhost:3000/Views/home'); // Frontend url
   }
 }
