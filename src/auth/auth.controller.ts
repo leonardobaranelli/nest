@@ -46,6 +46,6 @@ export class AuthController {
     res.cookie('token', token, { httpOnly: true });
     res.cookie('email', email);
 
-    res.redirect('http://localhost:3000/Views/home'); // Frontend url
+    res.redirect('https://pf-nest-front.vercel.app/'); // Frontend url
   }
 }
