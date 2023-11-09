@@ -16,10 +16,6 @@ import { ChangeEvent } from "react";
 import { Post } from "@/redux/services/getPost";
 import { error } from "console";
 
-require('dotenv').config();
-
-const { DEPLOY_BACK_URL } = process.env;
-
 export interface Errors {
   days: string;
   condition: string;
@@ -161,7 +157,7 @@ export default function Formulario() {
   
           try {
             response = await axios.post(
-              `${DEPLOY_BACK_URL}/posts/upload`,
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/upload`,
               formFile
             );
             return response.data; // Asume que newImages es una matriz de cualquier tipo, ya que no proporcionaste información sobre su tipo.
@@ -204,7 +200,7 @@ export default function Formulario() {
     const formErrors = validate(values);
     setErrors(formErrors);
     try {
-      const response = await axios.post(`${DEPLOY_BACK_URL}/posts`, values);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`, values);
 
       console.log("respuesta de la solicitud post:", response.data);
 

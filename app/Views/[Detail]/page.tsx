@@ -1,6 +1,5 @@
-// "use client";
-
 "use client";
+
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGetPostQuery } from "@/redux/services/api";
@@ -8,10 +7,6 @@ import Swal from "sweetalert2";
 import { Post } from "@/redux/services/getPost";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
-
-require('dotenv').config();
-
-const { DEPLOY_BACK_URL } = process.env;
 
 function Detail() {
   const { Detail } = useParams<{ Detail: string }>();
@@ -36,7 +31,7 @@ function Detail() {
   const stripePayment = async () => {
     
       try {                
-        const response = await fetch(`${DEPLOY_BACK_URL}/payment/createStripeCS`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/payment/createStripeCS`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -44,10 +39,11 @@ function Detail() {
           body: JSON.stringify({ name: property?.title, price: Number(property?.price) * 100, currency: 'usd' }),
         });
         
-        const { sessionId } = await response.json();        
+        const { sessionId } = await response.json();                
         
-        //const stripe = await loadStripe(process.env.STRIPE_API_KEY);    
-        const stripe = await loadStripe('pk_test_51O7Lk5E3EgztbbKV6X267MvDtNptBoyO9IgVGszAyV7eeNGWnZopkkWSvhml1PEBUqCQRdDnvS3vVpuEexT7qEek00t8b9jX5J');    
+        const stripeApiKey = process.env.NEXT_PUBLIC_STRIPE_API_KEY ?? '';
+        const stripe = await loadStripe(stripeApiKey);
+
         const result = await stripe?.redirectToCheckout({ sessionId });
         
         if (result?.error) {

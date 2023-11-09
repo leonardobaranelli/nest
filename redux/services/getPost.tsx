@@ -1,10 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-require('dotenv').config();
-
-const { DEPLOY_BACK_URL } = process.env;
-
 export interface Post {
   days: number | null;
   type: string;
@@ -35,8 +31,8 @@ const initialState: PostState = {
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
-    const response = await axios.get(`${DEPLOY_BACK_URL}/posts`);
-    console.log("respuesta backend", response.data);
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`);
+    //console.log("respuesta backend", response.data);
 
     return response.data;
   } catch (error) {
