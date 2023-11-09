@@ -1,42 +1,38 @@
 "use client";
-import { useState, ChangeEvent, KeyboardEvent } from "react";
-import { useGetPostsQuery } from "@/redux/features/PostSlice";
-import { Post } from "@/redux/features/PostSlice";
 
-interface NavbarProps {  
-  busqueda: React.Dispatch<React.SetStateAction<Post[]>>;  
-}
-const Search: React.FC<NavbarProps> = ({ busqueda }) => {
-  const [inputValue, setInputValue] = useState("");
-  const { data } = useGetPostsQuery("");
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { Property } from '@/redux/features/SelecSlice';
+import { updateState } from '@/redux/features/GlobalSlice';
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const values = event.target.value;
-    setInputValue(values);
+
+
+function SearchBar() {
+  const dispatch = useAppDispatch();
+  const posts: Property[] = useAppSelector((state) => state.selec.properties);
+  const [searchTerm, setSearchTerm] = useState<string>(""); 
+
+  const handleSearch = () => {
+    const filteredPosts = posts.filter((post) => {
+      const values = Object.values(post).filter((value) => typeof value === 'string');
+      return values.some((value) => value.includes(searchTerm));
+    });
+
+    console.log("Objetos que contienen la palabra:", filteredPosts);
+    dispatch(updateState(filteredPosts || []))
   };
 
-  const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      const filterData = data?.filter((dataSearch: Post) =>
-        dataSearch.title.toLowerCase().includes(inputValue.toLowerCase())
-        );
-        if(filterData) busqueda(filterData)
-        console.log(filterData);
-      }
-    };
-    
   return (
     <div>
       <input
         type="text"
-        value={inputValue}
-        placeholder="Buscar propiedad"
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        className="relative bg-gray-50ring-0 outline-none border border-neutral-500 text-neutral-900 placeholder-violet-700 text-sm rounded-lg focus:ring-violet-500  focus:border-violet-500 block w-64 p-1 checked:bg-emerald-500"
-      ></input>
+        placeholder="Buscar"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <button onClick={handleSearch}>Buscar</button>
     </div>
   );
-};
+}
 
-export default Search;
+export default SearchBar;
