@@ -109,9 +109,20 @@ export class AuthService {
     };
   }
 
+  async validateUser(email: string, token: string) {
+    const user = await this.userService.findOneByEmail(email);
+
+    if (!user) {
+      throw new UnauthorizedException('email is wrong');
+    }
+
+    const isTokenValid = await this.jwtService.verifyAsync(token);
+
+    return isTokenValid;
+  }
+  
   async googleUrl() {
     // Aqui vamos a redireccionar al usuario a la página de google para que inicie sesión
-
     const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
     const queryParams = new URLSearchParams({
       client_id: process.env.GOOGLE_CLIENT_ID,
@@ -119,7 +130,6 @@ export class AuthService {
       response_type: 'code',
       scope: 'openid profile email',
     });
-
     const googleAuthRedirectUrl = `${googleAuthUrl}?${queryParams.toString()}`;
     return googleAuthRedirectUrl;
   }

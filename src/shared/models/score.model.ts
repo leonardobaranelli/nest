@@ -13,7 +13,6 @@ import { User, Post } from '.';
 enum scoreType {
   CLIENT = 'CLIENT',
   OWNER = 'OWNER',
-  POST = 'POST',
 }
 
 @Table({
