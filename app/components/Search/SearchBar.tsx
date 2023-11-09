@@ -5,8 +5,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Property } from '@/redux/features/SelecSlice';
 import { updateState } from '@/redux/features/GlobalSlice';
 
-
-
 function SearchBar() {
   const dispatch = useAppDispatch();
   const posts: Property[] = useAppSelector((state) => state.selec.properties);
