@@ -7,86 +7,83 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
+  BadRequestException,
 } from '@nestjs/common';
+import { CreateRentDto } from './dto/create-rent.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 import { PostService } from './post.service';
-import { Post as PostModel } from '../shared/models';
-import { Rent as RentModel } from '../shared/models';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { CreatePostDto } from './dto/create-post.dto';
 
 @Controller('posts')
 export class PostController {
-  constructor(
-    private readonly postService: PostService,
-    private readonly cloudinaryService: CloudinaryService,
-  ) { }
+  constructor(private readonly postService: PostService) {}
 
   @Get()
-  findAll(): Promise<PostModel[] | { error: string }> {
-    return this.postService.findAll();
+  findAll() {
+    return this.postService.findAll().catch((e) => {
+      throw e;
+    });
   }
 
   @Get('/condition/:condition')
-  filterByCondition(
-    @Param('condition') condition,
-  ): Promise<PostModel[] | { error: string }> {
-    return this.postService.filterByCondition(condition);
+  filterByCondition(@Param('condition') condition: string) {
+    if (condition !== 'sell' && condition !== 'rent')
+      throw new BadRequestException('Invalid type');
+
+    return this.postService.filterByCondition(condition).catch((e) => {
+      throw e;
+    });
   }
 
   @Get('rent')
-  findAllRents(): Promise<RentModel[] | { error: string }> {
-    return this.postService.findAllRents();
+  findAllRents() {
+    return this.postService.findAllRents().catch((e) => {
+      throw e;
+    });
   }
 
-  // @Get('type/:type')
-  // filterByType(
-  //   @Param('type') type,
-  // ): Promise<PostModel[] | { error: string }> {
-  //   return this.postService.filterByType(type);
-  // }
-
-  @Get(
-    /* ':id[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89abAB][0-9a-f]{3}-[0-9a-f]{12}' */ ':id',
-  )
-  findOne(@Param('id') id) {
-    return this.postService.findOne(id);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.postService.findOne(id).catch((e) => {
+      throw e;
+    });
   }
 
   @Post()
   create(@Body() createPostDto) {
-    return this.postService.create(createPostDto);
+    return this.postService.create(createPostDto).catch((e) => {
+      throw e;
+    });
   }
 
   @Post('upload')
   @UseInterceptors(FilesInterceptor('files'))
-  async uploadFile (@UploadedFiles() files: Array<Express.Multer.File>) {
-    console.log(files)
-    
-    const uploadPromises = files.map(async (file) => {
-      const result = await this.cloudinaryService.uploadFile(file);
-      console.log(result.secure_url);
-      return result.secure_url;
+  uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
+    return this.postService.uploadFiles(files).catch((e) => {
+      throw e;
     });
-  
-    const uploadedFiles = await Promise.all(uploadPromises);
-    return uploadedFiles;
   }
 
-
   @Post('rent')
-  createRent(@Body() createRentDto) {
-    return this.postService.createRent(createRentDto);
+  createRent(@Body() createRentDto: CreateRentDto) {
+    return this.postService.createRent(createRentDto).catch((e) => {
+      throw e;
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto) {
-    return this.postService.update(id, updatePostDto);
+  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+    return this.postService.update(id, updatePostDto).catch((e) => {
+      throw e;
+    });
   }
 
   @Delete(':id')
-  remove(@Param('id') id) {
-    return this.postService.remove(id);
+  remove(@Param('id') id: string) {
+    return this.postService.remove(id).catch((e) => {
+      throw e;
+    });
   }
 }

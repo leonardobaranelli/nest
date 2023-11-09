@@ -28,13 +28,14 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: frontUrl,  
+
+    origin: frontUrl,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
   });
   const sequelize = app.get(Sequelize);
-  await sequelize.sync({ alter: true });  
+  await sequelize.sync({ alter: true });
   app.use(cookieParser());
   await app.listen(3001);
 }

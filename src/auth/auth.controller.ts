@@ -30,7 +30,7 @@ export class AuthController {
 
   @Get('google')
   async googleUrl(@Res({ passthrough: true }) res: Response) {
-    await this.authService
+    this.authService
       .googleUrl()
       .then((url) => res.redirect(url))
       .catch((err) => console.log(err));
@@ -48,5 +48,10 @@ export class AuthController {
     
     res.redirect(`${process.env.FRONTEND_URL}/Views/home`); // Frontend url
 
+  }
+
+  @Get('verify')
+  verify(@Query('token') token: string, @Query('email') email: string) {
+    return this.authService.validateUser(email, token);
   }
 }

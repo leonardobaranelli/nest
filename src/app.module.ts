@@ -7,10 +7,11 @@ import { config } from 'dotenv';
 import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { ConfigModule } from '@nestjs/config'; 
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
 import { AppMailerModule } from './mailer/mailer.module';
+import { ScoreModule } from './score/score.module';
 
 config();
 
@@ -48,6 +49,7 @@ config();
     ConfigModule.forRoot({ isGlobal: true }), // <-- .env global
     PaymentModule,
     AppMailerModule,
+    ScoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

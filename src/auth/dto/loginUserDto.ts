@@ -23,6 +23,6 @@ export class LoginUserDto {
   @Transform(({ value }) => value.trim())
   @IsNotEmpty()
   @IsString()
-  @MinLength(6)
+  @MinLength(8)
   password: string;
 }
