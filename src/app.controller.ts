@@ -45,7 +45,7 @@ export class AppController {
     req.res.cookie('token', token, { httpOnly: true });
     req.res.cookie('email', email);
 
-    req.res.redirect('http://localhost:3001/exito'); // Frontend url
+    req.res.redirect(`${process.env.FRONTEND_URL}`); // Frontend url   
   }
 
   @Get('exito')

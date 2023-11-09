@@ -3,8 +3,24 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Sequelize } from 'sequelize-typescript';
 import * as cookieParser from 'cookie-parser';
+import * as gitBranch from 'git-branch';
 
 async function bootstrap() {
+
+  const currentBranch = await gitBranch();
+  const isMainBranch = currentBranch === 'main';
+
+  const frontUrl = isMainBranch
+    ? process.env.DEPLOY_FRONTEND_URL
+    : process.env.FRONTEND_URL;
+
+  const backUrl = isMainBranch
+    ? process.env.DEPLOY_BACK_URL
+    : process.env.BACKEND_URL;
+
+  process.env.FRONTEND_URL = frontUrl;
+  process.env.BACKEND_URL = backUrl;
+
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -12,9 +28,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: 'https://pf-nest-front.vercel.app/', // Frontend url //
-    //origin: 'https://nest-frontend-pearl.vercel.app', // Frontend url //
-    //origin: 'http://localhost:3000',    
+    origin: frontUrl,  
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
