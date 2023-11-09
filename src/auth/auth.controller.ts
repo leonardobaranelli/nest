@@ -45,7 +45,8 @@ export class AuthController {
 
     res.cookie('token', token, { httpOnly: true });
     res.cookie('email', email);
+    
+    res.redirect(`${process.env.FRONTEND_URL}/Views/home`); // Frontend url
 
-    //res.redirect(`${process.env.FRONTEND_URL}/Views/home`); // Frontend url
   }
 }
