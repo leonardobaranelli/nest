@@ -1,10 +1,21 @@
-require('dotenv').config();
+const gitBranch = require('git-branch');
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    env:{
-        DEPLOY_BACK_URL: process.env.DEPLOY_BACK_URL
-    }
-}
+module.exports = async () => {
+  const currentBranch = await gitBranch();
+  const isMainBranch = currentBranch === 'main';
 
-module.exports = nextConfig
+  const frontUrl = isMainBranch
+    ? process.env.NEXT_PUBLIC_DEPLOY_FRONTEND_URL
+    : process.env.NEXT_PUBLIC_FRONTEND_URL;
+
+  const backUrl = isMainBranch
+    ? process.env.NEXT_PUBLIC_DEPLOY_BACK_URL
+    : process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  return {
+    env: {
+      NEXT_PUBLIC_FRONTEND_URL: frontUrl,
+      NEXT_PUBLIC_BACKEND_URL: backUrl,
+    },
+  };
+};
