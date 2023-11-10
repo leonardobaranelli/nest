@@ -26,8 +26,7 @@ export interface Post {
 export const postsApi = createApi({
   reducerPath: "postsApi",
   refetchOnFocus: true,
-  baseQuery: fetchBaseQuery({ baseUrl: DEPLOY_BACK_URL }),
-  //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL}),  
   
   endpoints: (builder) => ({
     getPostsByCondition: builder.query<Post[], string>({
