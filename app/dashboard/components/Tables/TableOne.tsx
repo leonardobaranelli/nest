@@ -1,24 +1,25 @@
-'use client'
-import Image from "next/image"
+"use client";
+import Image from "next/image";
 import React, { useEffect } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { updateState } from "@/redux/features/GlobalSlice";
-import { useGetPostsByConditionQuery} from "@/redux/services/api";
+import { useGetPostsByConditionQuery } from "@/redux/services/api";
 import { updateSelec } from "@/redux/features/SelecSlice";
-
 
 const TableOne = () => {
   const dispatch = useAppDispatch();
-  const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("rent");
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = useGetPostsByConditionQuery("rent");
 
-  
   useEffect(() => {
     if (!isLoading && !isError) {
       dispatch(updateState(posts || []));
       dispatch(updateSelec(posts || []));
     }
   }, [posts, isLoading, isError]);
-  
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -35,12 +36,12 @@ const TableOne = () => {
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Visitors
+              Visitas
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Revenues
+              Precio
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
@@ -52,7 +53,7 @@ const TableOne = () => {
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Conversion
             </h5>
-         </div>
+          </div>
         </div>
 
         {posts?.map((rent, key) => (
@@ -66,7 +67,6 @@ const TableOne = () => {
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-5">
               <div className="flex-shrink-0">
-            
                 {posts?.map((rent, key) => (
                   <div
                     className={`grid grid-cols-3 sm:grid-cols-5 ${
@@ -78,24 +78,26 @@ const TableOne = () => {
                   >
                     <div className="flex items-center gap-3 p-2.5 xl:p-5">
                       <div className="flex-shrink-0">
-                        <Image
-                          src={rent.image}
-                          alt="rent"
-                          width={48}
-                          height={48}
-                        />
+                        {rent.images && rent.images[0] ? (
+                          <Image
+                            src={rent.images[0]}
+                            alt="rent"
+                            width={48}
+                            height={48}
+                          />
+                        ) : (
+                          <div className="w-12 h-12 bg-gray-2 rounded-full"></div>
+                        )}
                       </div>
-                      
+
                       <p className="hidden text-black dark:text-white sm:block">
                         {rent.title}
                       </p>
                     </div>
-
-                    {/* ... */}
                   </div>
                 ))}
-              </div> 
-               <p className="hidden text-black dark:text-white sm:block">
+              </div>
+              <p className="hidden text-black dark:text-white sm:block">
                 {rent.title}
               </p>
             </div>
