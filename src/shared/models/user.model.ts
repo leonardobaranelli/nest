@@ -6,8 +6,9 @@ import {
   PrimaryKey,
   DataType,
   HasMany,
+  BelongsToMany,
 } from 'sequelize-typescript';
-import { Post, Comment, Score, Rent } from '.';
+import { Post, Comment, Score, Rent, Favorite } from '.';
 
 @Table({
   tableName: 'users',
@@ -56,4 +57,7 @@ export class User extends Model {
 
   @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
   rents: Rent[];
+
+  //@BelongsToMany(() => Post, ()=> Favorite)
+  //favorites: Array<User & {Favorite: Favorite}>
 }
