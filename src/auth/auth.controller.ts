@@ -17,7 +17,7 @@ export class AuthController {
     const result = await this.authService.register(createUserDto);
     return result;
   }
-
+  
   @Post('login')
   async login(
     @Body()
