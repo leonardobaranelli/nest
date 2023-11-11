@@ -35,7 +35,7 @@ export class UserService {
   async findAll() {
     // Get all users from the database on sequelize
     try {
-      const users = await this.userModel.findAll();
+      const users = await this.userModel.findAll({paranoid: false});
       return users;
     } catch (error) {
       console.error('Error when obtaining users from the database:', error);
@@ -67,36 +67,7 @@ export class UserService {
     }
   }
 
-  //FUNCION PARA VERIFICAR SI EL USUARIO FUE ELIMINADO:
-  //esta función buscara y comparara el id del usuario con el id que le pasamos por parámetro.
-  //luego verifica si el campo deletedAt es null, si es null significa que el usuario no ha sido eliminado.
-  //porque si el usuario ha sido eliminado el campo deletedAt tendrá una fecha y no sera null.
-  // async findById(id: string) {
-  //   const deletedUser = this.userModel.findOne({ where: { id, deletedAt: null } });
-  //   console.log(deletedUser, 'holaborrado')
-  // }
-
-  // async softDelete(id: string) {
-  //   try {
-  //     const user = await this.userModel.findByPk(id);
-  //     if (!user) {
-  //       return { error: 'User not found' };
-  //     }
-  //     await user.update({ deletedAt: new Date() });
-  //     return 'Deleted Successfully';
-  //   } catch (error) {
-  //     return { error: error };
-  //   }
-  // }
-
-  // async remove(id: string) {
-  //   // Delete a user from the database on sequelize
-  //   const user = await this.userModel.destroy({ where: { id } })
-  //     .catch(err => { error: err })
-  //     .then(user => user === 0 ? { error:'User not found' } : "Deleted Successfully");
-  //    
-  //   return user;
-  // }
+ 
   
   async remove(id: string) {
     // Find the user first
@@ -108,11 +79,17 @@ export class UserService {
   
     // Soft delete the user
     await user.destroy();
+    // await user.update({ deletedAt: new Date() });
+    
   
     // Get the soft deleted user
     const deletedUser = await this.userModel.findOne({ where: { id }, paranoid: false });
   
-    console.log(deletedUser.deletedAt); // Should log the deletion date
+    if (deletedUser) {
+      console.log(deletedUser.deletedAt); // Should log the deletion date
+    } else {
+      console.log('User not found');
+    }
   
     return "Deleted Successfully";
   }
