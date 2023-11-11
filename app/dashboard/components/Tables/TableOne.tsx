@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { updateState } from "@/redux/features/GlobalSlice";
 import { useGetPostsByConditionQuery } from "@/redux/services/api";
 import { updateSelec } from "@/redux/features/SelecSlice";
+import { useGetUserQuery } from "@/redux/services/api";
 
 const TableOne = () => {
   const dispatch = useAppDispatch();
@@ -12,7 +13,7 @@ const TableOne = () => {
     data: posts,
     isLoading,
     isError,
-  } = useGetPostsByConditionQuery("rent");
+  } = useGetUserQuery('');
 
   useEffect(() => {
     if (!isLoading && !isError) {
@@ -78,7 +79,7 @@ const TableOne = () => {
                   >
                     <div className="flex items-center gap-3 p-2.5 xl:p-5">
                       <div className="flex-shrink-0">
-                        {rent.images && rent.images[0] ? (
+                        {/* {rent.images && rent.images[0] ? (
                           <Image
                             src={rent.images[0]}
                             alt="rent"
@@ -87,18 +88,18 @@ const TableOne = () => {
                           />
                         ) : (
                           <div className="w-12 h-12 bg-gray-2 rounded-full"></div>
-                        )}
+                        )} */}
                       </div>
 
                       <p className="hidden text-black dark:text-white sm:block">
-                        {rent.title}
+                        {rent.id}
                       </p>
                     </div>
                   </div>
                 ))}
               </div>
               <p className="hidden text-black dark:text-white sm:block">
-                {rent.title}
+                {rent.rol}
               </p>
             </div>
 
@@ -107,7 +108,7 @@ const TableOne = () => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">{rent.price}</p>
+              <p className="text-meta-3">{rent.username}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
@@ -115,7 +116,7 @@ const TableOne = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{rent.type}</p>
+              <p className="text-meta-5">{rent.email}</p>
             </div>
           </div>
         ))}
