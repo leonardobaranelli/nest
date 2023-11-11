@@ -1,16 +1,14 @@
 'use client'
-
 import React, { useEffect } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { updateState } from "@/redux/features/GlobalSlice";
 import { useGetPostsByConditionQuery} from "@/redux/services/api";
 import { updateSelec } from "@/redux/features/SelecSlice";
-import {useGetUserQuery} from "@/redux/features/api"
 
 
-const Alquiler = () => {
+const Venta = () => {
   const dispatch = useAppDispatch();
-  const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("rent");
+  const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("sell");
 
   
   useEffect(() => {
@@ -20,10 +18,11 @@ const Alquiler = () => {
     }
   }, [posts, isLoading, isError]);
   
+console.log(posts)
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm border text-center border-stroke bg-white pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        ALQUILER
+        Venta
       </h4>
 
       <div className="flex flex-col overflow-scroll overflow-y-auto h-[600px]">
@@ -55,7 +54,7 @@ const Alquiler = () => {
           </div>
         </div>
 
-        {posts?.map((rent, key) => (
+        {posts?.map((sell, key) => (
           <div
             className={`grid grid-cols-3 sm:grid-cols-5 ${
               key === posts.length - 1
@@ -64,12 +63,12 @@ const Alquiler = () => {
             }`}
             key={key}
           >
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">
+            <div className="flex items-center justify-center gap-3 p-2.5 xl:p-5">
               <div className="flex-shrink-0">
-                {rent.images && rent.images[0] ? (
+                {sell.images && sell.images[0] ? (
                   <img
-                    src={rent.images[0]}
-                    alt="rent"
+                    src={sell.images[0]}
+                    alt="sell"
                     width={48}
                     height={48}
                     className="w-20 h-20"
@@ -82,19 +81,19 @@ const Alquiler = () => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{rent.title}</p>
+              <p className="text-black dark:text-white">{sell.title}</p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">{rent.country}, {rent.city}</p>
+              <p className="text-meta-3">{sell.country}, {sell.city}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">${rent.price}</p>
+              <p className="text-black dark:text-white">${sell.price}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{rent.type}</p>
+              <p className="text-meta-5">{sell.type}</p>
             </div>
           </div>
         ))}
@@ -103,4 +102,4 @@ const Alquiler = () => {
   );
 };
 
-export default Alquiler;
+export default Venta;

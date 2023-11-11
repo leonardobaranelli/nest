@@ -1,24 +1,21 @@
-// import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import TableOne from "../components/Tables/TableOne";
-import TableThree from "../components/Tables/TableThree";
-import TableTwo from "../components/Tables/TableTwo";
-
-import { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Tables Page | Next.js E-commerce Dashboard Template",
-  description: "This is Tables page for TailAdmin Next.js",
-  // other metadata
-};
+"use client";
+import {useState} from "react"
+import Alquiler from "../components/Tables/Alquiler";
+import Venta from "../components/Tables/Venta";
+import Usuarios from "../components/Tables/Usuarios";
+import Header from "../components/Header/Header";
 
 const TablesPage = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [loading, setLoading] = useState<boolean>(true);
   return (
     <>
-      {/* <Breadcrumb pageName="Tables" /> */}
-
+      <Header/>
       <div className="flex flex-col gap-10">
-        <TableOne />
-        <TableTwo />
-        <TableThree />
+        <Alquiler />
+        <Venta />
+        <Usuarios />
       </div>
     </>
   );
