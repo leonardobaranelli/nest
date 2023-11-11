@@ -7,7 +7,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Post, Rent } from '../shared/models';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CreateRentDto } from './dto/create-rent.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 export interface PostWithScore extends Post {
@@ -16,7 +15,6 @@ export interface PostWithScore extends Post {
 
 @Injectable()
 export class PostService {
-  private readonly filePath: string;
   constructor(
     @InjectModel(Post)
     private postsModel: typeof Post,
@@ -56,7 +54,7 @@ export class PostService {
       })
       .then((posts) => {
         return this.postsWithScore(posts);
-      })
+      });
   }
 
   filterByCountry(country: string) {
@@ -154,7 +152,7 @@ export class PostService {
         if (post === 0)
           throw new BadRequestException('Publicacion no encontrada');
         else return 'Propiedad eliminada correctamente';
-      })
+      });
   }
 
   createRent(createRentDto: CreateRentDto) {
