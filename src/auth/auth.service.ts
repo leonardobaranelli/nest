@@ -126,7 +126,7 @@ export class AuthService {
     const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
     const queryParams = new URLSearchParams({
       client_id: process.env.GOOGLE_CLIENT_ID,
-      redirect_uri: 'http://localhost:3001/auth/google/callback',
+      redirect_uri: `${process.env.BACKEND_URL}/auth/google/callback`,
       response_type: 'code',
       scope: 'openid profile email',
     });
@@ -144,7 +144,7 @@ export class AuthService {
           client_secret: process.env.GOOGLE_CLIENT_SECRET,
           code: code,
           grant_type: 'authorization_code',
-          redirect_uri: 'http://localhost:3001/auth/google/callback', // Reemplaza esto con tu URI de redirección
+          redirect_uri: `${process.env.BACKEND_URL}/auth/google/callback`, // Reemplaza esto con tu URI de redirección
         },
         {
           headers: {
@@ -220,7 +220,7 @@ export class AuthService {
     const facebookAuthUrl = 'https://www.facebook.com/v11.0/dialog/oauth';
     const queryParams = new URLSearchParams({
       client_id: process.env.FACEBOOK_CLIENT_ID,
-      redirect_uri: 'http://localhost:3001/auth/facebook/callback',
+      redirect_uri: `${process.env.BACKEND_URL}/auth/facebook/callback`,
       response_type: 'code',
       scope: 'email',
     });
@@ -237,7 +237,7 @@ export class AuthService {
           client_id: process.env.FACEBOOK_CLIENT_ID,
           client_secret: process.env.FACEBOOK_CLIENT_SECRET,
           code: code,
-          redirect_uri: 'http://localhost:3001/auth/facebook/callback', // Reemplaza esto con tu URI de redirección
+          redirect_uri: `${process.env.BACKEND_URL}/auth/facebook/callback`, // Reemplaza esto con tu URI de redirección
         },
       })
       .toPromise();

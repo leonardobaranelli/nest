@@ -50,8 +50,10 @@ export class PaymentService {
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/',
-      cancel_url: 'http://localhost:3000/',
+
+      success_url:  process.env.FRONTEND_URL,
+      cancel_url: process.env.FRONTEND_URL,
+
     });
 
     return session.id;

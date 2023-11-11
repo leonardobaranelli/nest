@@ -17,7 +17,7 @@ export class AppMailerService {
   constructor(private readonly mailerService: MailerService) {}
 
   async enviarCorreoCreated({ emailTo, emailFrom, firstName, code }) {
-    const url = `http://localhost:3001/verify?code=${code}&email=${emailTo}`;
+    const url = `${process.env.BACKEND_URL}/verify?code=${code}&email=${emailTo}`;
     await this.mailerService
       .sendMail({
         to: emailTo,
