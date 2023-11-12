@@ -24,7 +24,7 @@ export interface Post {
   userId: string | null;
 }
 
-interface Users {
+export interface Users {
   id: string;
   rol: string;
   username: string;
@@ -34,6 +34,7 @@ interface Users {
   lastName: string;
   phone: null;
   personalId: null;
+  deletedAt:Date | string;
 }
 
 export const postsApi = createApi({
@@ -78,6 +79,12 @@ export const postsApi = createApi({
     getUser: builder.query<Users[], string>({
       query: () => "users",
     }),
+    deleteUser: builder.mutation<User, string>({
+      query: (id) => ({
+        url: `posts/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -88,5 +95,6 @@ export const {
   useGetPostQuery, // GET one
   useUpdatePostMutation, // PATCH (Update)
   useDeletePostMutation, // DELETE
+  useDeleteUserMutation,
   useGetUserQuery
 } = postsApi;
