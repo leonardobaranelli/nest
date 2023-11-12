@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
-import { UpdateFavoriteDto } from './dto/update-favorite.dto';
 import { Favorite } from 'src/shared/models/favorite.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { DeleteFavoriteDto } from './dto/delete-favorite.dto';
 
 @Injectable()
 export class FavoritesService {
@@ -21,17 +21,10 @@ export class FavoritesService {
     return favorites;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} favorite`;
-  }
-
-  update(id: number, updateFavoriteDto: UpdateFavoriteDto) {
-    return `This action updates a #${id} favorite`;
-  }
-
-  async remove(createFavoriteDto: CreateFavoriteDto) {
-    const deleteFav = await this.favoriteModel.destroy({where: { userId: createFavoriteDto.userId , postId: createFavoriteDto.postId} })
-    return ;
+  async remove(deleteFavoriteDto: DeleteFavoriteDto) {
+    const {userId , postId} = deleteFavoriteDto;
+    const deleteFav = await this.favoriteModel.destroy({where: { userId, postId } })
+    return deleteFav;
   }
 
 }

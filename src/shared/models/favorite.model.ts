@@ -21,6 +21,15 @@ export class Favorite extends Model {
   @Column({ allowNull: true, type: DataType.UUID })
   postId: string;
 
+  @Column({ allowNull: false, type: DataType.ARRAY(DataType.STRING) })
+  images: Array<string>;
+
+  @Column({ allowNull: false, type: DataType.STRING(255) })
+  title: string;
+
+  @Column({ type: DataType.INTEGER })
+  price: number;
+
   @BelongsTo(() => Post)
   posts: Post;
 
