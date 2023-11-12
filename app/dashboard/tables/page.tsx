@@ -15,7 +15,7 @@ const TablesPage = () => {
       <div className="flex flex-col gap-10">
         <Alquiler />
         <Venta />
-        <Usuarios />
+        {/* <Usuarios /> */}
       </div>
     </>
   );
