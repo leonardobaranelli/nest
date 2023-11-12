@@ -36,7 +36,7 @@ export class UserService {
   async findAll() {
     // Get all users from the database on sequelize
     try {
-      const users = await this.userModel.findAll();
+      const users = await this.userModel.findAll({paranoid: false});
       return users;
     } catch (error) {
       console.error('Error when obtaining users from the database:', error);
@@ -68,12 +68,31 @@ export class UserService {
     }
   }
 
+ 
+  
   async remove(id: string) {
-    // Delete a user from the database on sequelize
-    const user = await this.userModel.destroy({ where: { id } })
-      .catch(err => { error: err })
-      .then(user => user === 0 ? { error:'User not found' } : "Deleted Successfully");
-    return user;
+    // Find the user first
+    const user = await this.userModel.findOne({ where: { id } });
+  
+    if (!user) {
+      return { error: 'User not found' };
+    }
+  
+    // Soft delete the user
+    await user.destroy();
+    // await user.update({ deletedAt: new Date() });
+    
+  
+    // Get the soft deleted user
+    const deletedUser = await this.userModel.findOne({ where: { id }, paranoid: false });
+  
+    if (deletedUser) {
+      console.log(deletedUser.deletedAt); // Should log the deletion date
+    } else {
+      console.log('User not found');
+    }
+  
+    return "Deleted Successfully";
   }
 
   async removeLogin(id: string) {

@@ -12,14 +12,14 @@ import { Post, Comment, Score, Rent, Favorite } from '.';
 
 @Table({
   tableName: 'users',
-  timestamps: false,
+  timestamps: true,
 })
 export class User extends Model {
   @PrimaryKey
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
-  @Column({ allowNull: false, type: DataType.STRING, defaultValue: 'user' })
+  @Column({ allowNull: false, type: DataType.ENUM, values: ['user', 'admin'], defaultValue: 'user' })
   rol: string;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
