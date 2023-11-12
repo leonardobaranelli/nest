@@ -28,7 +28,7 @@ export class UserController {
   findOne(@Param('id') id) {
     return this.userService.findOne(id);
   }
-
+  
   @Post()
   create(@Body() createUserDto) {
     return this.userService.create(createUserDto);
@@ -43,6 +43,4 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }
-
-
 }

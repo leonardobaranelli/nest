@@ -2,7 +2,7 @@ import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
-import { User, Post, Rent, Comment, Score } from './shared/models';
+import { User, Post, Rent, Comment, Score, Favorite } from './shared/models';
 import { config } from 'dotenv';
 import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
 import { AppMailerModule } from './mailer/mailer.module';
 import { ScoreModule } from './score/score.module';
+import { FavoritesModule } from './favorites/favorites.module';
 
 config();
 
@@ -29,12 +30,12 @@ config();
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       //#############################//
-      // host: process.env.DEV_DB_HOST,
-      // database: process.env.DEV_DB_NAME,
-      // username: process.env.DEV_DB_USER,
-      // password: process.env.DEV_DB_PASS,
+      //host: process.env.DEV_DB_HOST,
+      //database: process.env.DEV_DB_NAME,
+      //username: process.env.DEV_DB_USER,
+      //password: process.env.DEV_DB_PASS,
       port: 5432,
-      models: [User, Post, Rent, Comment, Score],
+      models: [User, Post, Rent, Comment, Score, Favorite],
       dialectOptions: {
         ssl: {
           require: true,
@@ -50,6 +51,7 @@ config();
     PaymentModule,
     AppMailerModule,
     ScoreModule,
+    FavoritesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
