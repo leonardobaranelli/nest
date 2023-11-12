@@ -2,7 +2,7 @@ import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
-import { User, Post, Rent, Comment, Score } from './shared/models';
+import { User, Post, Rent, Comment, Score, Favorite } from './shared/models';
 import { config } from 'dotenv';
 import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
@@ -35,7 +35,7 @@ config();
       username: process.env.DEV_DB_USER,
       password: process.env.DEV_DB_PASS,
       port: 5432,
-      models: [User, Post, Rent, Comment, Score],
+      models: [User, Post, Rent, Comment, Score, Favorite],
       dialectOptions: {
         ssl: {
           require: true,

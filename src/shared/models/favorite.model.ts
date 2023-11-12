@@ -1,38 +1,30 @@
-import { 
-    Table,
-    Column, 
-    Model, 
-    PrimaryKey, 
-    ForeignKey, 
-    BelongsToMany, 
-    DataType,
-    AllowNull,
-    HasMany,
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  DataType,
+  BelongsTo
 } from 'sequelize-typescript'
 import { User, Post } from '.'
 
+@Table({
+  tableName: 'favorites',
+  timestamps: false,
+})
 export class Favorite extends Model {
-    @PrimaryKey
-    @Column ({ type: DataType.INTEGER,})
-    id: number;
+  @ForeignKey(() => User)
+  @Column({ allowNull: true, type: DataType.UUID })
+  userId: string;
 
-    @ForeignKey(()=> User)
-    @Column({ allowNull: true, type: DataType.UUID})
-    userId: string;
-    
-   @ForeignKey(()=> Post)
-   @Column ({ allowNull: true, type: DataType.UUID})
-   postId: string;
-   
-   @BelongsToMany(()=> User, {
-    through: 'userFavorites',
-  })
-   user: User;
+  @ForeignKey(() => Post)
+  @Column({ allowNull: true, type: DataType.UUID })
+  postId: string;
 
-   @BelongsToMany(()=> Post, {
-    through: 'userFavorites',
-  })
-   post: Post;
+  @BelongsTo(() => Post)
+  posts: Post;
 
+  @BelongsTo(() => User)
+  users: User;
 
 }

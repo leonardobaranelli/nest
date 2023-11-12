@@ -11,8 +11,9 @@ export class FavoritesService {
     private favoriteModel: typeof Favorite,
   ) { }
 
-  create(createFavoriteDto: CreateFavoriteDto) {
-    return 'This action adds a new favorite';
+  async create(createFavoriteDto: CreateFavoriteDto) {
+    const newFav = await this.favoriteModel.create({...createFavoriteDto})
+    return newFav;
   }
 
   async findAll(userId: string) {
@@ -28,17 +29,9 @@ export class FavoritesService {
     return `This action updates a #${id} favorite`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} favorite`;
+  async remove(createFavoriteDto: CreateFavoriteDto) {
+    const deleteFav = await this.favoriteModel.destroy({where: { userId: createFavoriteDto.userId , postId: createFavoriteDto.postId} })
+    return ;
   }
 
-/*   async getFavorites(id: string) {
-    const favorites = await this.userModel.findAll({ where: { favorite: id } })
-    return favorites;
-  }
-
-  async addFavorite(userId: string, postId: string) {
-    const user = await
-
-  } */
 }

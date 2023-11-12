@@ -83,6 +83,6 @@ export class Post extends Model {
   @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
   rents: Rent[];
 
-  //@BelongsToMany(() => User, ()=> Favorite)
-  //favorites: Array<User & {Favorite: Favorite}>
+  @BelongsToMany(() => User, ()=> Favorite)
+  favorites: Favorite[];
 }
