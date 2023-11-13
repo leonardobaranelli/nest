@@ -245,6 +245,7 @@ export default function Formulario() {
       });
     }
   };
+
   const dispatch = useDispatch()
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
   useEffect(() => {
@@ -255,6 +256,30 @@ export default function Formulario() {
   }, []);
 
   if (isAuthenticated) {return (
+
+
+  useEffect(() => {}, []);
+
+  // useEffect(() => {
+  //   // veo  si  hay  algo en  el  local 
+  //       const dataInLocalStorage = localStorage.getItem('user');
+    
+  //       if (dataInLocalStorage) {
+  //         console.log("esto es ellocal storage:", dataInLocalStorage);
+  //       } else {
+  //         console.log("Holis");
+  //       }
+  //     }, []); 
+    
+  //     if (!localStorage.getItem('tuClave')) {
+  //       return null; 
+  //       // si  no  hay  nada  no renderiza nada 
+  //       // aqui  tien  que  renderizar un  componente  que  te mande  a  otro lado 
+    
+  //     }
+
+  return (
+
     <div>
       <div className=" p-4 bg-[#fc9a84]">
         <nav className=" flex items-center justify-between sm:h-10">
