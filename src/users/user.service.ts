@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../shared/models';
 import { CreateAuthUserDto } from './dto/create-3th-auth.dto';
+import { rename } from 'fs';
 
 @Injectable()
 export class UserService {
@@ -102,4 +103,5 @@ export class UserService {
     .catch(err => { error: err })
     return user;
   }
+
 }

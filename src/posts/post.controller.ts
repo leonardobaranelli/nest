@@ -14,7 +14,6 @@ import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CreatePostDto } from './dto/create-post.dto';
 
 @Controller('posts')
 export class PostController {

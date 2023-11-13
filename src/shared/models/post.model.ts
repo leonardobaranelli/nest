@@ -8,8 +8,9 @@ import {
   BelongsTo,
   HasMany,
   DeletedAt,  
+  BelongsToMany  
 } from 'sequelize-typescript';
-import { User, Comment, Score, Rent } from '.';
+import { User, Comment, Score, Rent, Favorite } from '.';
 
 enum conditionType {
   SELL = 'SELL',
@@ -85,4 +86,7 @@ export class Post extends Model {
 
   @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
   rents: Rent[];
+
+  @BelongsToMany(() => User, ()=> Favorite)
+  favorites: Favorite[];
 }
