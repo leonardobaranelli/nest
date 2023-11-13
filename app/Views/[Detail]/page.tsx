@@ -39,42 +39,54 @@ function Detail() {
       largeImage.src = smallImage.src;
       smallImage.src = tempSrc;
     }
-  }
-  
+  }  
+
   useEffect(() => {
     setPropertyServer(data);
   }, [data]);
-  const stripePayment = async () => {
-    
-      try {                
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/payment/createStripeCS`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name: property?.title, price: Number(property?.price) * 100, currency: 'usd' }),
-        });
-        
-        const { sessionId } = await response.json();                
-        
-        const stripeApiKey = process.env.NEXT_PUBLIC_STRIPE_API_KEY ?? '';
-        const stripe = await loadStripe(stripeApiKey);
 
-        const result = await stripe?.redirectToCheckout({ sessionId });
-        
-        if (result?.error) {
-          console.error(result.error.message);
-        }
-      } catch (error) {
-        console.error('Error al procesar el pago:', error);
+  const stripePayment = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/payment/createStripeCS`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: property?.title,
+          price: Number(property?.price) * 100,
+          currency: 'usd',
+          postId: property?.id,
+        }),
+      });
+  
+      const { sessionId } = await response.json();      
+  
+      const stripeApiKey = process.env.NEXT_PUBLIC_STRIPE_API_KEY ?? '';
+      const stripe = await loadStripe(stripeApiKey);
+  
+      if (!stripe) {
+        console.error('Error al cargar la instancia de Stripe');
+        return;
       }
+  
+      const result = await stripe.redirectToCheckout({ sessionId });
+  
+      if (result?.error) {
+        console.error('Error al redirigir a checkout:', result.error.message);
+      } else {
+        console.log('Redirigiendo al pago desde el backend...');
+      }
+    } catch (error) {
+      console.error('Error al procesar el pago:', error);
+    }
   };
 
   if (!property) {
     return <div>Propiedad no encontrada</div>;
   }
 
-const coinbasePayment = async (): Promise<void> => {
+  const coinbasePayment = async (): Promise<void> => {
     try {
       const response = await fetch('https://api.commerce.coinbase.com/charges', {
         method: 'POST',
@@ -103,7 +115,7 @@ const coinbasePayment = async (): Promise<void> => {
     } catch (error) {
       console.error('Error al procesar el pago con Coinbase Commerce:', error);
     }
-};
+  };
 
 
 
@@ -132,6 +144,7 @@ const coinbasePayment = async (): Promise<void> => {
         });      }
     });
   };
+  
   return (
     <div className="flex flex-col lg:gap-24">
       <div className="p-4 bg-[#fc9a84] flex items-center justify-around">
