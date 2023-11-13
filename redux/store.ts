@@ -8,6 +8,8 @@ import favoriteReducer from "./features/Favorite"
 import userReducer from "./features/UserSlice";
 import { favoritesApi } from './services/favorite';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import scoresReducer from './features/ScoreSlice';
+
 
 export const store = configureStore({
     reducer: {
@@ -16,6 +18,7 @@ export const store = configureStore({
       selec: selecReducer,
       favorite: favoriteReducer,
       user: userReducer,
+      scores: scoresReducer,
       [postsApi.reducerPath]: postsApi.reducer, 
       favoritesApi: favoritesApi.reducer,
     },
