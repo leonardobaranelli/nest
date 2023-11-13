@@ -79,14 +79,13 @@ export class UserService {
   
     // Soft delete the user
     await user.destroy();
-    // await user.update({ deletedAt: new Date() });
-    
+
   
     // Get the soft deleted user
     const deletedUser = await this.userModel.findOne({ where: { id }, paranoid: false });
   
     if (deletedUser) {
-      console.log(deletedUser.deletedAt); // Should log the deletion date
+      console.log(deletedUser.deletedAt); 
     } else {
       console.log('User not found');
     }

@@ -6,7 +6,8 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
-  HasMany,  
+  HasMany,
+  DeletedAt,  
 } from 'sequelize-typescript';
 import { User, Comment, Score, Rent } from '.';
 
@@ -17,7 +18,7 @@ enum conditionType {
 
 @Table({
   tableName: 'posts',
-  timestamps: false,
+  timestamps: true,
 })
 export class Post extends Model {
   @PrimaryKey
@@ -69,6 +70,9 @@ export class Post extends Model {
   @ForeignKey(() => User)
   @Column({ allowNull: true, type: DataType.UUID })
   userId: string;
+
+  @DeletedAt
+  deleteAt: Date;
 
   @BelongsTo(() => User)
   user: User;
