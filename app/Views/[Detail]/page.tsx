@@ -1,15 +1,31 @@
 "use client";
-
+import React, { SyntheticEvent } from "react";
+import { AxiosResponse } from "axios";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useGetPostQuery } from "@/redux/services/api";
+import { useGetPostQuery, useGetReviewsQuery } from "@/redux/services/api";
 import Swal from "sweetalert2";
 import { Post } from "@/redux/services/getPost";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
+import ReviewForm from '../../components/ReviewForm/ReviewForm'
+import ScoreComponent from "@/app/components/ReviewCards/ReviewCards";
+import { ChangeEvent } from "react";
+import axios from "axios";
+
+const { DEPLOY_BACK_URL } = process.env;
+
+export interface ReviewData {
+  type: string,
+  feedBack: string,
+  score: number,
+  postId: string,
+}
 
 function Detail() {
+
   const { Detail } = useParams<{ Detail: string }>();
+
   const [property, setPropertyServer] = useState<Post | undefined>(undefined);
 
   const { data } = useGetPostQuery(Detail);
@@ -89,6 +105,8 @@ const coinbasePayment = async (): Promise<void> => {
     }
 };
 
+
+
   const handleReserv = () => {
     Swal.fire({
       title: 'Con qué quieres reservar?',
@@ -157,7 +175,14 @@ const coinbasePayment = async (): Promise<void> => {
                 </div>
             </div>
         </div>
+  
       </div>
+      <div className="flex flex-col justify-between p-4 leading-normal text-center w-full">
+                    {/* Otras partes del detalle del post */}
+                    <h2 className="mt-10 text-3xl font-bold text-pink-600 mb-6">Reseñas</h2>
+                  <ScoreComponent postId={property.id}/>
+                  {property && <ReviewForm postId={property.id} />}
+            </div>
     </div>
   );
 }

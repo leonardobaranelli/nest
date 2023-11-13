@@ -18,14 +18,24 @@ export interface Property {
   id: string;
   images: string[];
   userId: string | null;
+  score: number | null;
+}
+export interface PropertyReview {
+  type: string
+  score: string;
+  feedBack: number;
+  postId: string;
+  userId: string;
 }
 
 interface SelecState {
   properties: Property[];
+  propertyReviews: PropertyReview[];
 }
 
 const initialSelecState: SelecState = {
   properties: [],
+  propertyReviews:[],
 };
 
 const selecSlice = createSlice({
@@ -35,9 +45,13 @@ const selecSlice = createSlice({
     updateSelec: (state, action) => {
       state.properties = action.payload;
     },
+    addPropertyReview: (state, action) => {
+      state.propertyReviews.push(action.payload);
+    },
+    
   },
 });
 
-export const { updateSelec } = selecSlice.actions;
+export const { updateSelec, addPropertyReview } = selecSlice.actions;
 
 export default selecSlice.reducer;

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hooks';
 import { add, remove } from '@/redux/features/Favorite';
 import { Property } from '@/redux/features/SelecSlice';
+import StarRating from '../StarRating/StarRating';
 
 interface CardsProps {  
   properties: Property;
@@ -87,6 +88,8 @@ const Card: React.FC<CardsProps> = ({properties}) => {
           <h2 className='text-center mt-5 text-xl font-semibold'>${properties.price}</h2>
         </div>
         <div className="p-4">
+          {/* Utiliza el componente StarRating para mostrar el puntaje como estrellas */}
+          <StarRating score={properties.score} />
           <p className="text-gray-600">{properties.condition}</p>
           <p className="text-gray-600">
             <img src="/location .png" width={30} height={30} alt="direccion" /> {properties.type} en {properties.streetName} {properties.floorNumber}
