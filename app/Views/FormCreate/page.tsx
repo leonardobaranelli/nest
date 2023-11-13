@@ -1,5 +1,6 @@
 "use client";
 import React, { SyntheticEvent } from "react";
+import { useRouter } from 'next/navigation';
 import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
@@ -15,6 +16,8 @@ import Link from "next/link";
 import { ChangeEvent } from "react";
 import { Post } from "@/redux/services/getPost";
 import { error } from "console";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 export interface Errors {
   days: string;
@@ -243,6 +246,18 @@ export default function Formulario() {
     }
   };
 
+  const dispatch = useDispatch()
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  useEffect(() => {
+    // const storedToken = localStorage.getItem("token");
+    // if (storedToken) {
+    //   dispatch(storedToken);
+    // }
+  }, []);
+
+  if (isAuthenticated) {return (
+
+
   useEffect(() => {}, []);
 
   // useEffect(() => {
@@ -264,6 +279,7 @@ export default function Formulario() {
   //     }
 
   return (
+
     <div>
       <div className=" p-4 bg-[#fc9a84]">
         <nav className=" flex items-center justify-between sm:h-10">
@@ -583,4 +599,7 @@ export default function Formulario() {
       </div>
     </div>
   );
-}
+} else {
+  const router = useRouter();
+  router.push('/Views/Login');
+}} 

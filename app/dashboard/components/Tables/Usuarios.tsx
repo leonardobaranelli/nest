@@ -1,8 +1,5 @@
 'use client'
-import React, { useEffect, useState, SetStateAction } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { updateState } from "@/redux/features/GlobalSlice";
-import { updateSelec } from "@/redux/features/SelecSlice";
+import React, { useEffect, useState,} from "react";
 import { useDeleteUserMutation, useGetUserQuery } from '@/redux/services/api';
 import {Users} from '@/redux/services/api'
 import Swal from "sweetalert2";
@@ -38,7 +35,7 @@ const Usuarios = () => {
       } else {
         console.error("El valor del botón es undefined o null.");
       }
-    } catch (error) {
+    } catch (error:any) {
       // Si hubo un problema al eliminar
       Swal.fire({
         icon: "error",
