@@ -82,6 +82,13 @@ const renderLoginButton = () => {
                         Publicar Inmueble
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                        className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                        href="../../dashboard/tables">
+                        Dashboard
+                    </Link>
+                    </li>
 {/*                     <li>
                         <Link
                         className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"

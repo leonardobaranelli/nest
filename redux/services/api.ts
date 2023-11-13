@@ -95,7 +95,9 @@ export const {
   useGetPostQuery, // GET one
   useUpdatePostMutation, // PATCH (Update)
   useDeletePostMutation, // DELETE
+
   useGetScoreQuery, // GET score of a post
   useGetReviewsQuery, // GET reviews for a specific post
   useCreateScoreMutation, // POST a review to a post
 } = postsApi;
+
