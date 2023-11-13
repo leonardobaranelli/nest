@@ -106,6 +106,7 @@ export class AuthService {
     return {
       token,
       email: user.email,
+      
     };
   }
 

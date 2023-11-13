@@ -78,6 +78,7 @@ export class PostService {
     // Get all posts from the database on sequelize
     return this.postsModel
       .findAll({
+        // paranoid: false,
         include: ['scores'],
       })
       .then((posts) => {
@@ -110,6 +111,7 @@ export class PostService {
   create(createPostDto: CreatePostDto) {
     // Add a new immovable to the database on sequelize
     return this.postsModel.create({ ...createPostDto }).catch((e) => {
+      console.log(e);
       throw new InternalServerErrorException(
         'Error al crear publicación en la DB',
       );
@@ -138,22 +140,27 @@ export class PostService {
       });
   }
 
-  remove(id: string) {
-    // Delete a post from the database on sequelize
-    return this.postsModel
-      .destroy({ where: { id } })
-      .catch((e) => {
-        throw new InternalServerErrorException(
-          'Error al eliminar publicación en la DB',
-        );
-      })
-      .then((post) => {
-        // Validate if the post deleted
-        if (post === 0)
-          throw new BadRequestException('Publicacion no encontrada');
-        else return 'Propiedad eliminada correctamente';
-      });
+  async remove(id: string) {
+    // Find the post first
+    const post =  await this.postsModel.findOne({ where: { id } });
+    if(!post) {
+      return { error: 'Post not found' };
+    }
+    // Soft delete the post
+    await post.destroy();
+    
+    // Get the soft deleted post
+    const deletedPost = await this.postsModel.findOne({ where: { id }, paranoid: false });
+    
+    if(deletedPost){
+      console.log(deletedPost.deleteAt);
+    } else {
+      console.log('Post not found');
+    }
+    return "Deleted Successfully";
   }
+
+ 
 
   createRent(createRentDto: CreateRentDto) {
     return this.rentModel.create({ ...createRentDto }).catch((e) => {
