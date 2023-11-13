@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hooks';
 import { add, remove } from '@/redux/features/Favorite';
 import { Property } from '@/redux/features/SelecSlice';
+import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation, useGetFavoritesQuery } from '@/redux/services/favorite';
 
 interface CardsProps {  
   properties: Property;
@@ -13,6 +14,10 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useAppDispatch();
+
+  const [deleteFavorite]=useDeleteFavoriteMutation()
+  const [addFavorite]=useAddFavoriteMutation()
+  const { data: favoriteProperties } = useGetFavoritesQuery({ userId: 'c2ae643d-6871-4004-acb4-d83b90c7b8fa' });
 
   const nextImage = () => {
     if (currentImage < properties.images.length - 1) {
@@ -26,16 +31,40 @@ const Card: React.FC<CardsProps> = ({properties}) => {
     }
   };
 
+
+
+  const { id, title, price, images } = properties;
+  const userId = "c13784e7-1045-474d-869e-886ea55f9092";
+  const postId=id
+
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
+    
     if (isFavorite) {
-      dispatch(remove(properties)); // Llama a la acción para quitar la propertiesiedad favorita
+      deleteFavorite({ userId, postId });
     } else {
-      dispatch(add(properties)); // Llama a la acción para agregar la propertiesiedad favorita
+      const post: Post = {
+        userId,
+        postId,
+        images,
+        title,
+        price,
+      };
+    
+      addFavorite(post);
+      
+ 
     }
-  };
 
-  // Rutas a las imágenes para favorito y no favorito/like.pn
+  };
+        
+
+  
+  
+  
+  
+  
+
   const favoriteImageUrl = '/dislike.png';
   const notFavoriteImageUrl = '/like.png';
 
