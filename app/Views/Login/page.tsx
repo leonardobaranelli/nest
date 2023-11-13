@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
 import Link from "next/link";
+import { useUserVerifyQuery } from "@/redux/services/authentication";
 
 const Login = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,7 +22,19 @@ const Login = () => {
         email,
         password,
       }));
+      const { email: userEmail, token } = response.payload;
+      const userVerifyResponse = useUserVerifyQuery({
+        email: userEmail,
+        token: token,
+      });
       console.log(response);
+      
+
+      console.log("verificacion",userVerifyResponse);
+      localStorage.setItem('user', JSON.stringify(userVerifyResponse));
+
+
+      // localStorage.setItem('user', JSON.stringify(response));// colocar local store
     } catch (error) {
       setLoginError((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Error desconocido");
     }
