@@ -15,6 +15,19 @@ export const loginUserAsync = createAsyncThunk("user/login", async (loginData: L
   }
 });
 
+export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async (token: string) => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw (error as { response?: { data?: any } })?.response?.data || error;
+  }
+});
+
 export const registerUserAsync = createAsyncThunk<
   { cookies: string[] | undefined; responseData: any },
   Register
@@ -35,7 +48,7 @@ export const registerUserAsync = createAsyncThunk<
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: { isAuthenticated: false, user: null } as UserState,
+  initialState: { isAuthenticated: false, user: null, rol:"" } as UserState,
   reducers: {
     logout: (state) => {
       state.isAuthenticated = false;
@@ -51,6 +64,7 @@ export const userSlice = createSlice({
     .addCase(loginUserAsync.fulfilled, (state, action) => {
       state.isAuthenticated = true;
       state.user = action.payload as User; 
+      state.rol = action.payload
     })
     .addCase(registerUserAsync.fulfilled, (state, action) => {
       state.isAuthenticated = true;

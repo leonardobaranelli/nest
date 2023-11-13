@@ -27,7 +27,6 @@ const renderLoginButton = () => {
     );
     }
 };
-    
     const handleLogout = () => {
         // Implementa la lógica para cerrar sesión aquí
         dispatch(logout());
