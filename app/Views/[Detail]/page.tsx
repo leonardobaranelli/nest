@@ -3,7 +3,7 @@ import React, { SyntheticEvent } from "react";
 import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useGetPostQuery, useGetReviewsQuery } from "@/redux/services/api";
+import { useGetPostQuery } from "@/redux/services/api";
 import Swal from "sweetalert2";
 import { Post } from "@/redux/services/getPost";
 import Link from "next/link";
@@ -12,8 +12,6 @@ import ReviewForm from '../../components/ReviewForm/ReviewForm'
 import ScoreComponent from "@/app/components/ReviewCards/ReviewCards";
 import { ChangeEvent } from "react";
 import axios from "axios";
-
-const { DEPLOY_BACK_URL } = process.env;
 
 export interface ReviewData {
   type: string,
