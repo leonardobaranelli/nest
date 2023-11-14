@@ -34,5 +34,5 @@ export interface Login {
 export interface UserState {
     isAuthenticated: boolean;
     user: User | null;
-    keys: { token: string, email: string } | null;
+    keys: { token: string, email: string, responseData?:string, cookies?:string  } | null;
   }

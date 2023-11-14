@@ -40,7 +40,7 @@ export interface Users {
   lastName: string;
   phone: null;
   personalId: null;
-  deletedAt: Date;
+  deletedAt: Date | string;
 }
 
 export const postsApi = createApi({

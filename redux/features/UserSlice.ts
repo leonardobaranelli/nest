@@ -32,7 +32,8 @@ export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticat
   }
 });
 
-export const registerUserAsync = createAsyncThunk<{ token: string, email: string }, Register>("user/register", async (registerData: Register) => {
+export const registerUserAsync = createAsyncThunk<{ token: string, email: string, responseData?:string, cookies?:string }, Register>("user/register", 
+async (registerData: Register) => {
   try {
     const { data } = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, registerData, {
       withCredentials: true,
