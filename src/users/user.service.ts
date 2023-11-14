@@ -74,7 +74,10 @@ export class UserService {
   async remove(id: string) {
     // Delete a user from the database on sequelize
     const user = await this.userModel
-      .findOne({ where: { id } })
+      .findOne({ 
+        where: { id },
+        paranoid: false,
+      })
       .catch((e) => {
         throw new InternalServerErrorException('Error obteniendo usuario');
       })
