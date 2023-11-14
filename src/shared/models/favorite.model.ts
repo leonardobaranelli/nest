@@ -4,9 +4,9 @@ import {
   Model,
   ForeignKey,
   DataType,
-  BelongsTo
-} from 'sequelize-typescript'
-import { User, Post } from '.'
+  BelongsTo,
+} from 'sequelize-typescript';
+import { User, Post } from '.';
 
 @Table({
   tableName: 'favorites',
@@ -35,5 +35,4 @@ export class Favorite extends Model {
 
   @BelongsTo(() => User)
   users: User;
-
 }

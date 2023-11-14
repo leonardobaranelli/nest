@@ -19,34 +19,7 @@ export class AppController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get('verify')
-  async verify(
-    @Query('code') code: string,
-    @Query('email') email: string,
-    @Req() req: Request,
-  ) {
-    const user: User = await this.appService
-      .verify(code, email)
-      .catch((error) => {
-        if (
-          error.message ===
-          'Usuario no encontrado, si cree que es un error comuniquese con el administrador'
-        ) {
-          throw new NotFoundException(error.message);
-        } else if (error.message === 'Codigo de verificacion incorrecto') {
-          throw new BadRequestException(error.message);
-        } else {
-          throw new InternalServerErrorException(error.message);
-        }
-      });
-
-    const { token } = await this.authService.login(user);
-
-    req.res.cookie('token', token, { httpOnly: true });
-    req.res.cookie('email', email);
-
-    req.res.redirect(`${process.env.FRONTEND_URL}`); // Frontend url   
-  }
+  
 
   @Get('exito')
   async getCookie(@Req() req: Request) {

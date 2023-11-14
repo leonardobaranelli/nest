@@ -7,8 +7,6 @@ import { User } from './shared/models';
 export class AppService {
   constructor(private readonly userService: UserService) {}
 
-  
-
   getCookie(req: Request): string {
     return req.cookies;
   }
