@@ -249,15 +249,18 @@ export default function Formulario() {
       });
     }
   };
+
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
+
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/Views/Login");
     }
   }, [isAuthenticated]);
+
 
   return (
     <div>
