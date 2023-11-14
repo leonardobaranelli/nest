@@ -7,26 +7,31 @@ import Alquiler from "../components/Tables/Alquiler";
 import Venta from "../components/Tables/Venta";
 import Usuarios from "../components/Tables/Usuarios";
 import { useState } from "react";
-import { authenticateUserWithTokenAsync } from "../../../redux/features/UserSlice";
+import { authenticateUserWithTokenAsync, logout } from "../../../redux/features/UserSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
+import { User } from "@/app/shared/userTypes";
+
 
 const TablesPage = () => {
   const router = useRouter();
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch();
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector(
+    (state: RootState) => state.user.user
+  );
   const [show, setShow] = useState(false);
-  
+
   useEffect(() => {
-    if (!isAuthenticated) dispatch(authenticateUserWithTokenAsync(user.keys));
-    if (user.user?.rol !== "admin") {
+    if (!isAuthenticated)
+      dispatch(authenticateUserWithTokenAsync());
+    else if ( user?.rol !== "admin") {
       router.push("/notfound");
     } else {
       setShow(true);
     }
-  }, [isAuthenticated, user.keys]);
+  }, [isAuthenticated]);
 
   if (show) {
     return (

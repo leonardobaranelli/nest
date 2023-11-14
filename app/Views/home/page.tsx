@@ -36,7 +36,6 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-
       <div>
         <img src="/filter.png" width={25} height={25} alt="Filter" /><DisplayFilter />
       </div>

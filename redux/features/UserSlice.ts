@@ -17,18 +17,22 @@ export const loginUserAsync = createAsyncThunk("user/login", async (loginData: L
   }
 });
 
-export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async (keys: UserState['keys']) => {
+export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async () => {
   try {
+    const stringKeys = localStorage.getItem('keys');
+    const keys = stringKeys 
+      ? JSON.parse(stringKeys)
+      : null;
+    
     const queryParams = new URLSearchParams({
       email: `${keys?.email}`,
       token: `${keys?.token}`,
     });
     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/token?${queryParams.toString()}`);
-    const { password, deletedAt, createdAt, updatedAt, ...userData } = data
-    localStorage.setItem('user', JSON.stringify(userData));
-    return data
+    const { id, password, deletedAt, createdAt, updatedAt, ...userData } = data;
+    return userData
   } catch (error) {
-    throw (error as { response?: { data?: any } })?.response?.data || error;
+    throw (error as { response?: { data?: any } })?.response?.data || error; //Generalmente significa reLogear
   }
 });
 
@@ -69,7 +73,7 @@ export const userSlice = createSlice({
     })
     .addCase(authenticateUserWithTokenAsync.fulfilled, (state, action) => {
       state.isAuthenticated = action.payload ? true : false;
-      state.user = action.payload; 
+      state.user = action.payload;
     });
   },
 });

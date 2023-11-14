@@ -18,6 +18,7 @@ import { Post } from "@/redux/services/getPost";
 import { error } from "console";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
+import { authenticateUserWithTokenAsync } from "@/redux/features/UserSlice";
 
 export interface Errors {
   days: string;
@@ -55,6 +56,10 @@ export interface Values {
 export default function Formulario() {
   //Estados
   const router = useRouter();
+  const dispatch: AppDispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
+  );
 
   const [focused, setFocused] = useState<string | null>(null);
   const [show, setShow] = useState(false);
@@ -249,13 +254,18 @@ export default function Formulario() {
       });
     }
   };
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
+
+  
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push("/Views/Login");
+      let keys = localStorage.getItem('keys');
+      
+      if(keys) { //tiene el obj[keys]? --> dispatch | login
+        dispatch(authenticateUserWithTokenAsync());
+      } else {
+        alert("No puedes publicar sin Iniciar Sesion!");
+        router.push("/Views/Login");
+      }
     }
     if (isAuthenticated) setShow(true);
   }, [isAuthenticated]);

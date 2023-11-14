@@ -34,17 +34,22 @@ const Navbar = () => {
 
   useEffect(()=>{},[isAuthenticated]);
   
-  const isLanding = pathname === '/' 
+  const isLanding = pathname === '/'
+  const isHome = pathname === '/Views/home'
+  const isRent = pathname === '/Views/Rent'
+  const isBuy = pathname === '/Views/Buy'
+  const isForm = pathname === '/Views/FormCreate'
   let conteinerClr = '';
   if(!isLanding) {
     conteinerClr = "bg-[#fc9a84]"
   } 
   return (
     <div className={`${conteinerClr}`}>
-      <nav className="border-gray-200">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <p>Nest</p>
-          {!isLanding
+      <header className="bg-gradient-to-r from-[#ff8e75] to-[rgba(255,71,71,0.26)] shadow-lg bg-blend-multiply">
+        <nav className="border-gray-200">
+          <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <p className="font-logo text-5xl font-bold text-white">Nest</p>
+          {isHome
             ? (<div>
                 <SearchBar />
               </div>) : null
@@ -78,6 +83,17 @@ const Navbar = () => {
             id="navbar-default"
           >
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0">
+            {!isHome
+              ? (
+              <Link
+                className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                href="../../Views/home"
+              >
+                Home
+              </Link>) : null
+            }
+            {!isLanding && !isRent && !isForm
+              ? (
               <li>
                 <Link
                   className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
@@ -85,7 +101,10 @@ const Navbar = () => {
                 >
                   Alquilar
                 </Link>
-              </li>
+              </li>) : null
+            }
+            {!isLanding && !isBuy && !isForm
+              ? (
               <li>
                 <Link
                   className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
@@ -93,7 +112,10 @@ const Navbar = () => {
                 >
                   Comprar
                 </Link>
-              </li>
+              </li>) : null
+            }
+            {!isForm
+              ? (
               <li>
                 <Link
                   className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0"
@@ -101,7 +123,8 @@ const Navbar = () => {
                 >
                   Publicar Inmueble
                 </Link>
-              </li>
+              </li>) : null
+            }
               {isAuthenticated ? (
                 <li>
                   <Link
@@ -112,13 +135,6 @@ const Navbar = () => {
                   </Link>
                 </li>
               ) : null}
-              {/*                     <li>
-                        <Link
-                        className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"
-                        href="../../Views/Login">
-                        Log in
-                        </Link>
-                    </li> */}
               <li className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400">
                 {renderLoginButton()}
               </li>
@@ -126,6 +142,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      </header>
     </div>
   );
 };
