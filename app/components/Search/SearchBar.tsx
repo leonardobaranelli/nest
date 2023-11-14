@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Property } from '@/redux/features/SelecSlice';
@@ -8,7 +7,7 @@ import { updateState } from '@/redux/features/GlobalSlice';
 function SearchBar() {
   const dispatch = useAppDispatch();
   const posts: Property[] = useAppSelector((state) => state.selec.properties);
-  const [searchTerm, setSearchTerm] = useState<string>(""); 
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleSearch = () => {
     const filteredPosts = posts.filter((post) => {

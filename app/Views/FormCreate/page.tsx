@@ -300,6 +300,7 @@ export default function Formulario() {
               >
                 Log in
               </Link>
+
             </div>
           </nav>
         </div>

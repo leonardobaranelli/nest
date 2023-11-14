@@ -4,8 +4,10 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
+
 import { useState, useEffect } from "react";
 import Search from "../Search/SearchBar";
+
 import SearchBar from "../Search/SearchBar";
 
 const Navbar = () => {
@@ -19,6 +21,7 @@ const Navbar = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
   const renderLoginButton = () => {
     if (isAuthenticated) {
       // Si el usuario está autenticado, muestra un botón de "Logout"
@@ -140,11 +143,15 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
+
         </div>
       </nav>
       </header>
     </div>
+
   );
 };
 
-export default Navbar;
+export default Navbar; */}
+
+
