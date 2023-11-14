@@ -20,7 +20,7 @@ config();
 @Module({
   imports: [
     SequelizeModule.forRoot({
-      dialect: 'postgres',
+      dialect: 'postgres',     
       host: process.env.DB_HOST,
       database: process.env.DB_NAME,
       username: process.env.DB_USER,
