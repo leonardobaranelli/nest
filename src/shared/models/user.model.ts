@@ -60,5 +60,4 @@ export class User extends Model {
 
   @BelongsToMany(() => Post, ()=> Favorite)
   favorites: Favorite[];
-  /* favorites: Array<User & {Favorite: Favorite}> */
 }

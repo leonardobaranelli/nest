@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../shared/models';
-import { CreateAuthUserDto } from './dto/create-3th-auth.dto';
-import { rename } from 'fs';
 
 @Injectable()
 export class UserService {
@@ -13,95 +15,83 @@ export class UserService {
     private userModel: typeof User,
   ) {}
 
-  async create(createUserDto: CreateUserDto | CreateAuthUserDto) {
+  create(createUserDto: CreateUserDto) {
     // Create a new user on the database on sequelize
-    try {
-      const user = await this.userModel.create({ ...createUserDto });
-      return user;
-    } catch (error) {
-      console.error('Error when creating user on the database:', error);
-      return { error: 'Error when creating user on the database' };
-    }
+    return this.userModel.create({ ...createUserDto }).catch((e) => {
+      throw new InternalServerErrorException(
+        'Error creando el usuario en la DB',
+      );
+    });
   }
 
-  async findOneByEmail(email: string) {
+  findOneByEmail(email: string) {
     // verify if the user exists in the database
-    const user = await this.userModel.findOne({ where: { email } })
-      .catch(error => {
-        throw new Error('Error when obtaining user from the database');
-      })
-    return user;
+    return this.userModel.findOne({ where: { email } }).catch((e) => {
+      throw new InternalServerErrorException(
+        'Error obteniendo usuario de la DB',
+      );
+    });
   }
 
-  async findAll() {
+  findAll() {
     // Get all users from the database on sequelize
-    try {
-      const users = await this.userModel.findAll({paranoid: false});
-      return users;
-    } catch (error) {
-      console.error('Error when obtaining users from the database:', error);
-      return { error: 'Error when obtaining users from the database' };
-    }
+    return this.userModel.findAll({ paranoid: false }).catch((e) => {
+      throw new InternalServerErrorException(
+        'Error obteniendo usuarios de la DB',
+      );
+    });
   }
 
-  async findOne(id: string) {
+  findOne(id: string) {
     // Get a detail of a user from the database on sequelize
-    try {
-      const user = await this.userModel.findOne({ where: { id } });
-      return user;
-    } catch (error) {
-      console.error('Error when obtaining user from the database:', error);
-      return { error: 'Error when obtaining user from the database' };
-    }
+    return this.userModel.findOne({ where: { id } }).catch((e) => {
+      throw new InternalServerErrorException(
+        'Error obteniendo usuario de la DB',
+      );
+    });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  update(id: string, updateUserDto: UpdateUserDto) {
     // Update a user from the database on sequelize
-    try {
-      const user = await this.userModel.update(updateUserDto, {
+    return this.userModel
+      .update(updateUserDto, {
         where: { id },
+      })
+      .catch((e) => {
+        throw new InternalServerErrorException(
+          'Error actualizando usuario en la DB',
+        );
+      })
+      .then((user) => {
+        if (user[0] === 0)
+          throw new InternalServerErrorException(
+            'Usuario no encontrado o no actualizado',
+          );
+        return 'Actualizado correctamente';
       });
-      return user;
-    } catch (error) {
-      console.error('Error when updating user from the database:', error);
-      return { error: 'Error when updating user from the database' };
-    }
   }
 
- 
-  
   async remove(id: string) {
-    // Find the user first
-    const user = await this.userModel.findOne({ where: { id } });
-  
-    if (!user) {
-      return { error: 'User not found' };
-    }
-  
-    // Soft delete the user
-    await user.destroy();
+    // Delete a user from the database on sequelize
+    const user = await this.userModel
+      .findOne({
+        where: { id },
+        paranoid: false,
+      })
+      .catch((e) => {
+        throw new InternalServerErrorException('Error obteniendo usuario');
+      })
+      .then((user) => {
+        if (!user) {
+          throw new NotFoundException('Usuario no encontrado');
+        }
+        return user;
+      });
 
-  
-    // Get the soft deleted user
-    const deletedUser = await this.userModel.findOne({ where: { id }, paranoid: false });
-  
-    if (deletedUser) {
-      console.log(deletedUser.deletedAt); 
-    } else {
-      console.log('User not found');
-    }
-  
-    return "Deleted Successfully";
+    await user.destroy().catch((e) => {
+      throw new InternalServerErrorException('Error eliminando usuario');
+    });
+
+    return 'Borradado correctamente';
   }
-
-  async removeLogin(id: string) {
-    // Unactivate a user from the database on sequelize
-    const user = await this.userModel.update(
-      { active: false },
-      { where: { id } },
-    )
-    .catch(err => { error: err })
-    return user;
-  }
-
 }

@@ -1,6 +1,8 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { validate } from 'class-validator';
@@ -57,7 +59,7 @@ export class AuthService {
     const user = await this.userService.findOneByEmail(createUserDto.email);
 
     if (user) {
-      throw new BadRequestException('User already exists');
+      throw new BadRequestException('Email ya registrado');
     }
 
     await this.userService
@@ -66,15 +68,12 @@ export class AuthService {
         password: await bcryptjs.hashSync(createUserDto.password, 10),
       })
       .then((user) => {
-        if (user instanceof User) {
-          console.log('Dentro de mailer');
-          this.mailerService.enviarCorreoCreated({
-            emailTo: user.email,
-            emailFrom: 'mailer.nest.app@gmail.com',
-            firstName: user.firstName,
-            code: user.id,
-          });
-        }
+        this.mailerService.created({
+          emailTo: user.email,
+          emailFrom: 'mailer.nest.app@gmail.com',
+          firstName: user.firstName,
+          code: user.id,
+        });
       });
 
     return this.login({
@@ -84,25 +83,28 @@ export class AuthService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const user: CreateUserDto = await this.userService.findOneByEmail(
-      loginUserDto.email,
-    );
+    const user: CreateUserDto = await this.userService
+      .findOneByEmail(loginUserDto.email)
+      .catch((e) => {
+        throw new InternalServerErrorException('Error al buscar el usuario');
+      });
 
     if (!user) {
-      throw new UnauthorizedException('email is wrong');
+      throw new NotFoundException('Usuario no encontrado');
     }
-    
+
     const isPasswordValid =
       loginUserDto.password === user.password
         ? true
         : await bcryptjs.compareSync(loginUserDto.password, user.password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('password is wrong');
+      throw new UnauthorizedException('Contraseña incorrecta');
     }
 
     const payload = { email: user.email };
     const token = await this.jwtService.signAsync(payload);
+
     return {
       token,
       email: user.email,
@@ -110,19 +112,38 @@ export class AuthService {
     };
   }
 
+  emailVerify(code: string, email: string) {
+    return this.userService
+      .findOneByEmail(email)
+      .catch((e) => {
+        throw new Error('Usuario no encontrado');
+      })
+      .then((user) => {
+        if (!user) throw new NotFoundException('Usuario no encontrado');
+        if (user.id !== code)
+          throw new UnauthorizedException('Codigo de verificacion incorrecto');
+
+        return user.update({ isVerified: true });
+      });
+  }
+
   async validateUser(email: string, token: string) {
     const user = await this.userService.findOneByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException('email is wrong');
+      throw new UnauthorizedException('Usuario no encontrado');
     }
 
     const isTokenValid = await this.jwtService.verifyAsync(token);
 
-    return isTokenValid;
+    if (!isTokenValid) {
+      throw new UnauthorizedException('Token incorrecto');
+    }
+
+    return user;
   }
-  
-  async googleUrl() {
+
+  googleUrl() {
     // Aqui vamos a redireccionar al usuario a la página de google para que inicie sesión
     const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
     const queryParams = new URLSearchParams({
@@ -131,8 +152,7 @@ export class AuthService {
       response_type: 'code',
       scope: 'openid profile email',
     });
-    const googleAuthRedirectUrl = `${googleAuthUrl}?${queryParams.toString()}`;
-    return googleAuthRedirectUrl;
+    return `${googleAuthUrl}?${queryParams.toString()}`;
   }
 
   async googleLogin(code: string) {
@@ -174,7 +194,7 @@ export class AuthService {
       verified_email,
     } = user;
 
-    if (!verified_email) throw new BadRequestException('Email not verified'); //Optional
+    if (!verified_email) throw new BadRequestException('Gmail sin verificar');
 
     const userDB = await this.userService.findOneByEmail(email);
     if (!userDB) {
@@ -188,20 +208,18 @@ export class AuthService {
           // avatar: picture,
         })
         .then((user) => {
-          if (user instanceof User) {
-            this.mailerService.enviarCorreoCreated({
-              emailTo: user.email,
-              emailFrom: 'mailer.nest.app@gmail.com',
-              firstName: user.firstName,
-              code: user.id,
-            });
-          }
+          this.mailerService.created({
+            emailTo: user.email,
+            emailFrom: 'mailer.nest.app@gmail.com',
+            firstName: user.firstName,
+            code: user.id,
+          });
         });
     } else {
       await this.userService.findOneByEmail(email).then((user) => {
         const isValid = bcryptjs.compareSync(googleId, user.password);
         if (!isValid)
-          throw new BadRequestException('Wrong authentication');
+          throw new BadRequestException('Authenticacion incorrecta');
       });
     }
 
@@ -214,6 +232,8 @@ export class AuthService {
       email,
     };
   }
+  /*
+  Eliminar Facebook --> No se usa
 
   async facebookUrl() {
     // Aquí vamos a redireccionar al usuario a la página de Facebook para que inicie sesión
@@ -288,4 +308,5 @@ export class AuthService {
       email,
     };
   }
+  */
 }
