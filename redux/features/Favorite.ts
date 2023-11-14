@@ -1,52 +1,58 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios"; // Asegúrate de importar axios
 
-interface Property {
-  priceRange: any;
-  days: number | null;
-  type: string;
-  condition: string;
-  image: string[];
-  title: string;
-  country: string;
-  city: string;
-  streetName: string;
-  streetNumber: string;
-  floorNumber: string;
-  aptNumber: string;
-  price: number;
-  description: string;
-  id: string;
+export interface Post {
+  userId: string;
+  postId: string;
   images: string[];
-  userId: string | null;
+  title: string;
+  price: number;
 }
 
-interface favorite {
-  properties: Property[];
+interface FavoritesState {
+  posts: Post[];
+  loading: boolean;
+  error: string | null;
 }
 
-const initialfavorite: favorite = {
-  properties: [],
+const initialState: FavoritesState = {
+  posts: [],
+  loading: false,
+  error: null,
 };
 
-const favoriteSlice = createSlice({
-  name: "favorite",
-  initialState: initialfavorite,
-  reducers: {
-    add: (state, action) => {
-      state.properties.push(action.payload);
-    },
-    remove: (state, action) => {
-        // Busca el índice del objeto en el array
-        const index = state.properties.findIndex(property => property.id === action.payload.id);
-  
-        if (index !== -1) {
-          // Si se encuentra el objeto, lo elimina del array
-          state.properties.splice(index, 1);
-        }
-      },
-    },
+export const getFavorite = createAsyncThunk(
+  "favorites/getFavorite",
+  async (userId: string, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/favorites/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error en la solicitud GET:', error);
+      return rejectWithValue("Hubo un error al obtener favoritos");
+    }
+  }
+);
+
+const favoritesSlice = createSlice({
+  name: "favorites",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getFavorite.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getFavorite.fulfilled, (state, action) => {
+        state.loading = false;
+        state.posts = action.payload;
+      })
+      .addCase(getFavorite.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+  },
 });
 
-export const { add,remove } = favoriteSlice.actions;
-
-export default favoriteSlice.reducer;
+export default favoritesSlice.reducer;

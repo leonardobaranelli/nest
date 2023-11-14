@@ -1,12 +1,13 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useAppDispatch } from '@/redux/hooks';
-import { add, remove } from '@/redux/features/Favorite';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { Property } from '@/redux/features/SelecSlice';
 
-import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation, useGetFavoritesQuery } from '@/redux/services/favorite';
+import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation} from '@/redux/services/favorite';
 import StarRating from '../StarRating/StarRating';
+import { getFavorite } from '@/redux/features/Favorite';
+
 
 
 interface CardsProps {  
@@ -17,10 +18,11 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.user);
 
   const [deleteFavorite]=useDeleteFavoriteMutation()
   const [addFavorite]=useAddFavoriteMutation()
-  const { data: favoriteProperties } = useGetFavoritesQuery({ userId: 'c2ae643d-6871-4004-acb4-d83b90c7b8fa' });
+  
 
   const nextImage = () => {
     if (currentImage < properties.images.length - 1) {
@@ -37,39 +39,38 @@ const Card: React.FC<CardsProps> = ({properties}) => {
 
 
   const { id, title, price, images } = properties;
-  const userId = "c13784e7-1045-474d-869e-886ea55f9092";
+  const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f";
   const postId=id
 
-  const toggleFavorite = () => {
+  const toggleFavorite = async() => {
     setIsFavorite(!isFavorite);
     
     if (isFavorite) {
-      deleteFavorite({ userId, postId });
+      deleteFavorite({ userId, postId })
+      // dispatch(getFavorite(userId));
     } else {
-      const post: Post = {
-        userId,
-        postId,
-        images,
-        title,
-        price,
-      };
-    
-      addFavorite(post);
-      
+       
+              const post: Post = {
+                userId,
+                postId,
+                images,
+                title,
+                price,
+              };
+            
+              addFavorite(post);
+              
  
     }
 
+               await dispatch(getFavorite(userId));
   };
-        
-
-  
-  
-  
-  
-  
+      
 
   const favoriteImageUrl = '/dislike.png';
   const notFavoriteImageUrl = '/like.png';
+  console.log("user",user);
+  
 
   return (
     <div className="w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
