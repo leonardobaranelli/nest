@@ -1,3 +1,9 @@
+enum Rols {
+    admin = "admin",
+    user = "user",
+  }
+  type RolType = Rols;
+
 export interface User {
     username: string;
     email: string;
@@ -5,6 +11,7 @@ export interface User {
     lastName: string;
     phone?: number;
     personalId?: number;
+    rol:RolType;
 }  
 
 export interface Register {
@@ -27,5 +34,5 @@ export interface Login {
 export interface UserState {
     isAuthenticated: boolean;
     user: User | null;
-    rol:string
+    keys: { token: string, email: string, responseData?:string, cookies?:string  } | null;
   }

@@ -4,8 +4,10 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
+
 import { useState, useEffect } from "react";
 import Search from "../Search/SearchBar";
+
 import SearchBar from "../Search/SearchBar";
 
 const Navbar = () => {
@@ -19,6 +21,7 @@ const Navbar = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
   const renderLoginButton = () => {
     if (isAuthenticated) {
       // Si el usuario está autenticado, muestra un botón de "Logout"
@@ -133,17 +136,17 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 {/*   return (
     <header className="bg-gradient-to-r from-[#ff8e75] to-[rgba(255,71,71,0.26)] shadow-lg bg-blend-multiply">
+
       <nav className="border-gray-200">
-        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div>
-            <h1 className="font-logo text-5xl font-bold text-white">Nest</h1>
-          </div>
-          <div className="relative hidden sm:block mt-2">
-            <SearchBar />
-          </div>
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <p>Nest</p>
+          {!isLanding
+            ? (<div>
+                <SearchBar />
+              </div>) : null
+          }
           <button
             onClick={toggleMenu}
             type="button"
@@ -166,7 +169,12 @@ export default Navbar;
               />
             </svg>
           </button>
-          <div className={`${menuOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`} id="navbar-default">
+          <div
+            className={`${
+              menuOpen ? "block" : "hidden"
+            } w-full md:block md:w-auto`}
+            id="navbar-default"
+          >
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0">
               <li>
                 <Link
@@ -192,14 +200,26 @@ export default Navbar;
                   Publicar Inmueble
                 </Link>
               </li>
-              <li>
-                <Link
-                  className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
-                  href="../../dashboard/tables"
-                >
-                  Dashboard
-                </Link>
-              </li>
+              {isAuthenticated ? (
+                <li>
+                  <Link
+                    className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                    href="../../dashboard/tables"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              ) : null}
+              {/*                     <li>
+
+                        <Link
+                        className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"
+                        href="../../Views/Login">
+                        Log in
+                        </Link>
+                    </li> */}
+
+
               <li className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400">
                 {renderLoginButton()}
               </li>
@@ -208,9 +228,11 @@ export default Navbar;
 
         </div>
       </nav>
-    </header>
+    </div>
+
   );
 };
 
 export default Navbar; */}
+
 
