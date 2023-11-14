@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -7,27 +8,27 @@ import Alquiler from '../components/Tables/Alquiler';
 import Venta from '../components/Tables/Venta';
 import Usuarios from '../components/Tables/Usuarios';
 
-
-
 const TablesPage = () => {
+  const router = useRouter();
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
   const user = useSelector((state: RootState) => state.user.user);
-  console.log(user, 'Usuario')
-  const router = useRouter();
 
-  if (!isAuthenticated) {
-  
-    router.push('/Views/Login');
-    return null; 
+  useEffect(() => {
+
+    if (!isAuthenticated) {
+      router.push('/Views/Login');
+    }
+
+
+    if (user?.rol !== 'admin') {
+      router.push('/notfound');
+    }
+  }, [isAuthenticated, user, router]);
+
+  if (!isAuthenticated || (user && user.rol !== 'admin')) {
+    return null;
   }
 
-  if (user?.rol !== 'admin') {
-  
-    //router.push('/notfound');
-    return <>no se puede</>;
-  }
-  console.log("isAuthenticated.rol")
-  // Usuario autenticado y es un administrador, mostrar la página de tablas
   return (
     <>
       <Header />

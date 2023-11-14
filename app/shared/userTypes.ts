@@ -5,6 +5,7 @@ export interface User {
     lastName: string;
     phone?: number;
     personalId?: number;
+    rol?: string;
 }  
 
 export interface Register {

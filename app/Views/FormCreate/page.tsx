@@ -1,6 +1,6 @@
 "use client";
 import React, { SyntheticEvent } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
@@ -54,6 +54,7 @@ export interface Values {
 
 export default function Formulario() {
   //Estados
+  const router = useRouter();
 
   const [focused, setFocused] = useState<string | null>(null);
 
@@ -157,7 +158,7 @@ export default function Formulario() {
           const formFile = new FormData();
           formFile.append("files", file);
           let response: AxiosResponse;
-  
+
           try {
             response = await axios.post(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/upload`,
@@ -171,13 +172,13 @@ export default function Formulario() {
         })
       );
 
-      console.log(newImages)
-  
+      console.log(newImages);
+
       setValues((prevValues) => ({
         ...prevValues,
         images: [...prevValues.images, ...newImages],
       }));
-  
+
       setErrors(
         validate({
           ...values,
@@ -203,7 +204,10 @@ export default function Formulario() {
     const formErrors = validate(values);
     setErrors(formErrors);
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`, values);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`,
+        values
+      );
 
       console.log("respuesta de la solicitud post:", response.data);
 
@@ -245,16 +249,17 @@ export default function Formulario() {
       });
     }
   };
-  const dispatch = useDispatch()
-  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
+  );
   useEffect(() => {
-    // const storedToken = localStorage.getItem("token");
-    // if (storedToken) {
-    //   dispatch(storedToken);
-    // }
-  }, []);
+    if (!isAuthenticated) {
+      router.push("/Views/Login");
+    }
+  }, [isAuthenticated]);
 
-  if (isAuthenticated) {return (
+  return (
     <div>
       <div className=" p-4 bg-[#fc9a84]">
         <nav className=" flex items-center justify-between sm:h-10">
@@ -574,7 +579,4 @@ export default function Formulario() {
       </div>
     </div>
   );
-} else {
-  const router = useRouter();
-  router.push('/Views/Login');
-}} 
+}
