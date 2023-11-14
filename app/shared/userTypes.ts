@@ -11,7 +11,11 @@ export interface User {
     lastName: string;
     phone?: number;
     personalId?: number;
-    rol:RolType;
+//<<<<<<< nueva_rama_para_trabajar
+    rol?: string;
+//=======
+//    rol:RolType;
+//>>>>>>> dev
 }  
 
 export interface Register {
