@@ -77,6 +77,7 @@ export class PostService {
     // Get all posts from the database on sequelize
     return this.postsModel
       .findAll({
+        // paranoid: false,
         include: ['scores'],
       })
       .then((posts) => {

@@ -35,7 +35,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
   });
   const sequelize = app.get(Sequelize);
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: true});
   app.use(cookieParser());
   await app.listen(3001);
 }
