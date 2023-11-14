@@ -1,50 +1,50 @@
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Search from "../Search/SearchBar";
 import SearchBar from "../Search/SearchBar";
 
 const Navbar = () => {
   const dispatch: AppDispatch = useDispatch();
-  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
+  );
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
   const renderLoginButton = () => {
     if (isAuthenticated) {
-      return (
-        <button onClick={handleLogout} className="text-white">
-          Logout
-        </button>
-      );
+      // Si el usuario está autenticado, muestra un botón de "Logout"
+      return <button onClick={handleLogout}>Logout</button>;
     } else {
-      return (
-        <Link href="/Views/Login">
-          <h1 className="text-white">Log in</h1>
-        </Link>
-      );
+      // Si el usuario no está autenticado, muestra un botón de "Login"
+      return <Link href="/Views/Login">Log in</Link>;
     }
+  };
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
-};
-    const handleLogout = () => {
-        // Implementa la lógica para cerrar sesión aquí
-        dispatch(logout());
-    };
-    return (
+  useEffect(()=>{},[isAuthenticated]);
+  
+  const isLanding = pathname === '/' 
+  let conteinerClr = '';
+  if(!isLanding) {
+    conteinerClr = "bg-[#fc9a84]"
+  } 
+  return (
+    <div className={`${conteinerClr}`}>
       <header className="bg-gradient-to-r from-[#ff8e75] to-[rgba(255,71,71,0.26)] shadow-lg bg-blend-multiply">
         <nav className="border-gray-200">
-          <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8 flex items-center justify-between">
-            <div>
-              <h1 className="font-logo text-5xl font-bold text-white">Nest</h1>
-            </div>
-            <div className="relative hidden sm:block mt-2">
-              <SearchBar />
-            </div>
+          <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <p className="font-logo text-5xl font-bold text-white">Nest</p>
             <button
               onClick={toggleMenu}
               type="button"
@@ -67,8 +67,18 @@ const Navbar = () => {
                 />
               </svg>
             </button>
-            <div className={`${menuOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`} id="navbar-default">
+            <div
+              className={`${
+                menuOpen ? "block" : "hidden"
+              } w-full md:block md:w-auto`}
+              id="navbar-default"
+            >
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0">
+                {!isLanding
+                ? (<div>
+                    <SearchBar />
+                  </div>) : null
+                }
                 <li>
                   <Link
                     className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
@@ -93,26 +103,36 @@ const Navbar = () => {
                     Publicar Inmueble
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
-                    href="../../dashboard/tables"
-                  >
-                    Dashboard
-                  </Link>
-                </li>
+                {isAuthenticated ? (
+                  <li>
+                    <Link
+                      className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                      href="../../dashboard/tables"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                ) : null}
+                {/*                     <li>
+                          <Link
+                          className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"
+                          href="../../Views/Login">
+                          Log in
+                          </Link>
+                      </li> */}
                 <li className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400">
                   {renderLoginButton()}
                 </li>
               </ul>
             </div>
-  
           </div>
         </nav>
       </header>
-    );
-  };
-  export default Navbar;
+    </div>
+  );
+};
+
+export default Navbar;
 
 {/*   return (
     <header className="bg-gradient-to-r from-[#ff8e75] to-[rgba(255,71,71,0.26)] shadow-lg bg-blend-multiply">
