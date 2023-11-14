@@ -20,7 +20,7 @@ function SearchBar() {
   };
 
   return (
-    <div className="relative hidden sm:block">
+    <div className="relative sm:block">
       <label className="sr-only" htmlFor="search">Buscar</label>
 
       <input
