@@ -35,13 +35,6 @@ export class PostController {
     });
   }
 
-  @Get('rent')
-  findAllRents() {
-    return this.postService.findAllRents().catch((e) => {
-      throw e;
-    });
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postService.findOne(id).catch((e) => {
@@ -77,14 +70,4 @@ export class PostController {
       throw e;
     });
   }
-
-  /*
-  @Post('rent')
-  createRent(@Body() createRentDto: CreateRentDto) {
-    return this.postService.createRent(createRentDto).catch((e) => {
-      throw e;
-    });
-  }*/
 }
-
-

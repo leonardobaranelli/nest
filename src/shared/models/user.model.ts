@@ -19,7 +19,12 @@ export class User extends Model {
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
-  @Column({ allowNull: false, type: DataType.ENUM, values: ['user', 'admin'], defaultValue: 'user' })
+  @Column({
+    allowNull: false,
+    type: DataType.ENUM,
+    values: ['user', 'admin'],
+    defaultValue: 'user',
+  })
   rol: string;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
@@ -40,11 +45,17 @@ export class User extends Model {
   @Column({ unique: true, allowNull: true, type: DataType.BIGINT })
   phone: number;
 
-  @Column({ unique: true, allowNull: true, type: DataType.BIGINT }) //sin esto no se puede publicar una propiedad ni hacer una reserva
+  @Column({ unique: true, allowNull: true, type: DataType.BIGINT })
   personalId: number;
 
-  @DeletedAt // si un usuario se quiere eliminar lo eliminamos pero aun va a permanecer en la base de datos para mantener un registro
-  deletedAt: Date; //se rellenará automáticamente con la fecha en la que se elimina un registro.
+  @Column({ allowNull: true, type: DataType.STRING(255) })
+  avatar_url: string;
+
+  @Column({ allowNull: false, type: DataType.BOOLEAN, defaultValue: false })
+  isVerified: boolean;
+
+  @DeletedAt
+  deletedAt: Date;
 
   @HasMany(() => Post)
   posts: Post[];
@@ -58,6 +69,6 @@ export class User extends Model {
   @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
   rents: Rent[];
 
-  @BelongsToMany(() => Post, ()=> Favorite)
+  @BelongsToMany(() => Post, () => Favorite)
   favorites: Favorite[];
 }

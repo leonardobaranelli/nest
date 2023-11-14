@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Post, Rent } from '../shared/models';
+import { Post } from '../shared/models';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
@@ -17,8 +17,6 @@ export class PostService {
   constructor(
     @InjectModel(Post)
     private postsModel: typeof Post,
-    @InjectModel(Rent)
-    private rentModel: typeof Rent,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
@@ -151,12 +149,6 @@ export class PostService {
       });
   }
 
-  findAllRents() {
-    return this.rentModel.findAll().catch((e) => {
-      throw new InternalServerErrorException('Error obteniendo las Reservas');
-    });
-  }
-
   uploadFiles(files: Array<Express.Multer.File>): Promise<string[]> {
     const uploadPromises = files.map((file) =>
       this.cloudinaryService.uploadFile(file),
@@ -167,10 +159,4 @@ export class PostService {
         throw new BadRequestException(e.message);
       });
   }
-  /*
-  createRent(createRentDto: CreateRentDto) {
-    return this.rentModel.create({ ...createRentDto }).catch((e) => {
-      throw new InternalServerErrorException('Error al crear Reserva');
-    });
-  }*/
 }

@@ -1,4 +1,15 @@
-import { Controller, Query, Post, Body, Res, Get, Req, NotFoundException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Controller,
+  Query,
+  Post,
+  Body,
+  Res,
+  Get,
+  Req,
+  NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginUserDto } from './dto/loginUserDto';
@@ -81,6 +92,6 @@ export class AuthController {
     req.res.cookie('token', token, { httpOnly: true });
     req.res.cookie('email', email);
 
-    req.res.redirect(`${process.env.FRONTEND_URL}`); // Frontend url   
+    req.res.redirect(`${process.env.FRONTEND_URL}`); // Frontend url
   }
 }
