@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePostDto } from './create-post.dto';
-import { IsString, IsNumber, IsUUID, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsUUID, IsOptional, IsBoolean } from 'class-validator';
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {
   @IsOptional()
@@ -42,4 +42,8 @@ export class UpdatePostDto extends PartialType(CreatePostDto) {
   @IsOptional()
   @IsString()
   aptNumber?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  available?: boolean;
 }

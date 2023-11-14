@@ -13,6 +13,7 @@ import { PaymentModule } from './payment/payment.module';
 import { AppMailerModule } from './mailer/mailer.module';
 import { ScoreModule } from './score/score.module';
 import { FavoritesModule } from './favorites/favorites.module';
+import { RentModule } from './rent/rent.module';
 
 config();
 
@@ -47,6 +48,7 @@ config();
     AppMailerModule,
     ScoreModule,
     FavoritesModule,
+    RentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

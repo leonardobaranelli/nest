@@ -8,11 +8,24 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from '../shared/models';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('count')
+  count() {
+    return this.userService.count().catch((e) => {
+      throw e;
+    });
+  }
+
+  @Get('count/banned')
+  countBanned() {
+    return this.userService.countBanned().catch((e) => {
+      throw e;
+    });
+  }
 
   @Get()
   findAll() {

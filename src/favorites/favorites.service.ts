@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
 import { Favorite } from 'src/shared/models/favorite.model';
 import { InjectModel } from '@nestjs/sequelize';
@@ -9,22 +9,27 @@ export class FavoritesService {
   constructor(
     @InjectModel(Favorite)
     private favoriteModel: typeof Favorite,
-  ) { }
+  ) {}
 
-  async create(createFavoriteDto: CreateFavoriteDto) {
-    const newFav = await this.favoriteModel.create({...createFavoriteDto})
-    return newFav;
+  create(createFavoriteDto: CreateFavoriteDto) {
+    return this.favoriteModel.create({ ...createFavoriteDto }).catch((e) => {
+      throw new InternalServerErrorException('Error añadiendo Favorito');
+    });
   }
 
-  async findAll(userId: string) {
-    const favorites = await this.favoriteModel.findAll({ where: { userId } })
-    return favorites;
+  findAll(userId: string) {
+    return this.favoriteModel.findAll({ where: { userId } }).catch((e) => {
+      throw new InternalServerErrorException('Error buscando los Favoritos');
+    });
   }
 
-  async remove(deleteFavoriteDto: DeleteFavoriteDto) {
-    const {userId , postId} = deleteFavoriteDto;
-    const deleteFav = await this.favoriteModel.destroy({where: { userId, postId } })
-    return deleteFav;
+  remove(deleteFavoriteDto: DeleteFavoriteDto) {
+    return this.favoriteModel
+      .destroy({
+        where: { ...deleteFavoriteDto },
+      })
+      .catch((e) => {
+        throw new InternalServerErrorException('Error eliminando Favorito');
+      });
   }
-
 }

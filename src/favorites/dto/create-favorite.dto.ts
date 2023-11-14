@@ -1,12 +1,11 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateFavoriteDto {
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
 
-    @IsString()
-    @IsNotEmpty()
-    userId: string;
-
-    @IsString()
-    @IsNotEmpty()
-    postId: string;
+  @IsString()
+  @IsNotEmpty()
+  postId: string;
 }
