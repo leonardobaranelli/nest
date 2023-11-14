@@ -26,6 +26,7 @@ import selecReducer from "./features/SelecSlice"
 import favoriteReducer from "./features/Favorite"
 import userReducer from "./features/UserSlice";
 
+
 export const store = configureStore({
     reducer: {
       posteo: postReducer,

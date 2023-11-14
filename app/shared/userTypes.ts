@@ -1,3 +1,8 @@
+enum Rols {
+    admin = "admin",
+    user = "user",
+  }
+  type RolType = Rols;
 export interface User {
     username: string;
     email: string;
@@ -5,7 +10,7 @@ export interface User {
     lastName: string;
     phone?: number;
     personalId?: number;
-    rol?: string;
+    rol:RolType;
 }  
 
 export interface Register {

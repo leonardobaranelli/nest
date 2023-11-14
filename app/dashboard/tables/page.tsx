@@ -14,8 +14,9 @@ const TablesPage = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
-  const userRol = useSelector((state: RootState) => state.user?.rol.rol);
+  const userRol = useSelector((state: RootState) => state.user?.rol?.rol);
   const [show, setShow] = useState(false);
+  console
   useEffect(() => {
     console.log(userRol, isAuthenticated);
     

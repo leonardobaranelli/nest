@@ -1,5 +1,6 @@
 import { User } from "@/app/shared/userTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { type } from "os";
 
 require("dotenv").config();
 
@@ -23,10 +24,15 @@ export interface Post {
   images: string[];
   userId: string | null;
 }
+enum Rols {
+  admin = "admin",
+  user = "user",
+}
+type RolType = Rols;
 
 export interface Users {
   id: string;
-  rol: string;
+  rol: RolType;
   username: string;
   email: string;
   password: string;
@@ -34,7 +40,7 @@ export interface Users {
   lastName: string;
   phone: null;
   personalId: null;
-  deletedAt:Date | string;
+  deletedAt: Date;
 }
 
 export const postsApi = createApi({
@@ -63,7 +69,7 @@ export const postsApi = createApi({
     updatePost: builder.mutation<
       Post,
       { id: number; updatedPost: Partial<Post> }
-      >({
+    >({
       query: ({ id, updatedPost }) => ({
         url: `posts/${id}`,
         method: "PATCH",
@@ -96,5 +102,5 @@ export const {
   useUpdatePostMutation, // PATCH (Update)
   useDeletePostMutation, // DELETE
   useDeleteUserMutation,
-  useGetUserQuery
+  useGetUserQuery,
 } = postsApi;
