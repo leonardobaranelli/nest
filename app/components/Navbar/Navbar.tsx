@@ -4,8 +4,10 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
+
 import { useState, useEffect } from "react";
 import Search from "../Search/SearchBar";
+
 import SearchBar from "../Search/SearchBar";
 
 const Navbar = () => {
@@ -16,9 +18,11 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
   const renderLoginButton = () => {
     if (isAuthenticated) {
       // Si el usuario está autenticado, muestra un botón de "Logout"
@@ -113,21 +117,28 @@ const Navbar = () => {
                 </li>
               ) : null}
               {/*                     <li>
+
                         <Link
                         className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"
                         href="../../Views/Login">
                         Log in
                         </Link>
                     </li> */}
+
+
               <li className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400">
                 {renderLoginButton()}
               </li>
             </ul>
           </div>
+
         </div>
       </nav>
     </div>
+
   );
 };
 
 export default Navbar;
+
+

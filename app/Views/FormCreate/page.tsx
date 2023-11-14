@@ -249,6 +249,7 @@ export default function Formulario() {
       });
     }
   };
+
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
@@ -290,6 +291,7 @@ export default function Formulario() {
               >
                 Log in
               </Link>
+
             </div>
           </nav>
         </div>
