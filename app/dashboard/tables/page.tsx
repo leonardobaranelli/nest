@@ -1,30 +1,32 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { useSelector, useDispatch } from "react-redux";
 import Header from "../components/Header/Header";
 import Alquiler from "../components/Tables/Alquiler";
 import Venta from "../components/Tables/Venta";
 import Usuarios from "../components/Tables/Usuarios";
 import { useState } from "react";
+import { authenticateUserWithTokenAsync } from "../../../redux/features/UserSlice";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 const TablesPage = () => {
   const router = useRouter();
+  const dispatch: AppDispatch = useDispatch()
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
-  const userRol = useSelector((state: RootState) => state.user?.rol?.rol);
+  const user = useSelector((state: RootState) => state.user);
   const [show, setShow] = useState(false);
-  console
+  
   useEffect(() => {
-    console.log(userRol, isAuthenticated);
-    
-    if (userRol !== "admin") {
+    if (!isAuthenticated) dispatch(authenticateUserWithTokenAsync(user.keys));
+    if (user.user?.rol !== "admin") {
       router.push("/notfound");
+    } else {
+      setShow(true);
     }
-    if (isAuthenticated && userRol === "admin") setShow(true);
-  }, [isAuthenticated, userRol]);
+  }, [isAuthenticated, user.keys]);
 
   if (show) {
     return (

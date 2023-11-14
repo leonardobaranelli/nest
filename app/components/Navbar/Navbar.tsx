@@ -1,10 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Search from "../Search/SearchBar";
+import SearchBar from "../Search/SearchBar";
 
 const Navbar = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -12,6 +14,7 @@ const Navbar = () => {
     (state: RootState) => state.user.isAuthenticated
   );
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -26,17 +29,26 @@ const Navbar = () => {
     }
   };
   const handleLogout = () => {
-    // Implementa la lógica para cerrar sesión aquí
     dispatch(logout());
   };
+
+  useEffect(()=>{},[isAuthenticated]);
+  
+  const isLanding = pathname === '/' 
+  let conteinerClr = '';
+  if(!isLanding) {
+    conteinerClr = "bg-[#fc9a84]"
+  } 
   return (
-    <div className="bg-[#fc9a84]">
+    <div className={`${conteinerClr}`}>
       <nav className="border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <p>Nest</p>
-          <div>
-            <search />
-          </div>
+          {!isLanding
+            ? (<div>
+                <SearchBar />
+              </div>) : null
+          }
           <button
             onClick={toggleMenu}
             type="button"

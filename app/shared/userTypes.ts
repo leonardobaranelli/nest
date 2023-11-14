@@ -3,6 +3,7 @@ enum Rols {
     user = "user",
   }
   type RolType = Rols;
+
 export interface User {
     username: string;
     email: string;
@@ -33,5 +34,5 @@ export interface Login {
 export interface UserState {
     isAuthenticated: boolean;
     user: User | null;
-    rol:string
+    keys: { token: string, email: string } | null;
   }

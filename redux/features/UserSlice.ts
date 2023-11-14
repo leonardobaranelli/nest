@@ -8,39 +8,38 @@ const axiosInstance = axios.create({
 
 export const loginUserAsync = createAsyncThunk("user/login", async (loginData: Login) => {
   try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, loginData);
-    return response.data;
+    const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, loginData);
+    const keys:{ token: string, email: string } = data;
+    localStorage.setItem('keys', JSON.stringify({...keys}));
+    return {...keys};
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;
   }
 });
 
-export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async (token: string) => {
+export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async (keys: UserState['keys']) => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const queryParams = new URLSearchParams({
+      email: `${keys?.email}`,
+      token: `${keys?.token}`,
     });
-    return response.data;
+    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/token?${queryParams.toString()}`);
+    const { password, deletedAt, createdAt, updatedAt, ...userData } = data
+    localStorage.setItem('user', JSON.stringify(userData));
+    return data
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;
   }
 });
 
-export const registerUserAsync = createAsyncThunk<
-  { cookies: string[] | undefined; responseData: any },
-  Register
->("user/register", async (registerData: Register) => {
+export const registerUserAsync = createAsyncThunk<{ token: string, email: string }, Register>("user/register", async (registerData: Register) => {
   try {
-    const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, registerData, {
+    const { data } = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, registerData, {
       withCredentials: true,
     });
-    
-    const { token: cookies } = response.data;
-    const responseData = response.data;
-
-    return { cookies, responseData };
+    const keys:{ token: string, email: string } = data;
+    localStorage.setItem('keys', JSON.stringify({...keys}));
+    return {...keys};
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;
   }
@@ -48,7 +47,7 @@ export const registerUserAsync = createAsyncThunk<
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: { isAuthenticated: false, user: null, rol:"" } as UserState,
+  initialState: { isAuthenticated: false, user: null, keys: null } as UserState,
   reducers: {
     logout: (state) => {
       state.isAuthenticated = false;
@@ -62,13 +61,14 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(loginUserAsync.fulfilled, (state, action) => {
-      state.isAuthenticated = true;
-      state.user = action.payload as User; 
-      state.rol = action.payload
+      state.keys = action.payload;
     })
     .addCase(registerUserAsync.fulfilled, (state, action) => {
-      state.isAuthenticated = true;
-      state.user = action.payload.responseData as User; 
+      state.keys = action.payload; 
+    })
+    .addCase(authenticateUserWithTokenAsync.fulfilled, (state, action) => {
+      state.isAuthenticated = action.payload ? true : false;
+      state.user = action.payload; 
     });
   },
 });
