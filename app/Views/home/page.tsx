@@ -12,28 +12,34 @@ import { updateSelec } from '@/redux/features/SelecSlice';
 import FavoriteCard from '@/app/components/favorites/favorites';
 import FilterModal from '@/app/components/favorites/FilterModal';
 import { useGetFavoritesQuery } from '@/redux/services/favorite';
+import DisplayFilter from '@/app/components/Filters/DisplayFilter';
+import { getFavorite } from '@/redux/features/Favorite';
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsQuery('');
   const homeState = useAppSelector((state) => state.home.properties);
-  const favoriteState = useAppSelector((state) => state.favorite.properties);
+
+const user = useAppSelector((state) => state.selec.properties);
+
   const [showFilterModal, setShowFilterModal] = useState(false);
 
+  const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f";
   useEffect(() => {
     if (!isLoading && !isError) {
       dispatch(updateState(posts || []));
       dispatch(updateSelec(posts || []));
     }
   }, [posts, isLoading, isError]);
-
   const toggleFilterModal = () => {
     setShowFilterModal(!showFilterModal);
+    dispatch(getFavorite(userId));
   };
-
+  console.log("user",user);
   return (
     <div>
       <Navbar />
+      <DisplayFilter/>
 
       <div className="flex gap-10 justify-center">
         {isLoading ? (

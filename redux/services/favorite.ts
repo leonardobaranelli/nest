@@ -15,6 +15,7 @@ export interface Post {
 
 export const favoritesApi = createApi({
   reducerPath: "favoritesApi",
+  refetchOnFocus: true,
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/" }),
   // baseQuery: fetchBaseQuery({ baseUrl: DEPLOY_BACK_URL }),
   endpoints: (builder) => ({

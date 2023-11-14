@@ -4,7 +4,8 @@ import postReducer from "./services/getPost";
 import homeReducer from "./features/GlobalSlice";
 import { postsApi } from '@/redux/services/api';
 import selecReducer from "./features/SelecSlice"
-import favoriteReducer from "./features/Favorite"
+import favoritesReducer from "./features/Favorite";
+
 import userReducer from "./features/UserSlice";
 import { favoritesApi } from './services/favorite';
 import { setupListeners } from '@reduxjs/toolkit/query';
@@ -17,16 +18,17 @@ export const store = configureStore({
       posteo: postReducer,
       home: homeReducer,
       selec: selecReducer,
-      favorite: favoriteReducer,
       user: userReducer,
       scores: scoresReducer,
+      favorites: favoritesReducer,
       [postsApi.reducerPath]: postsApi.reducer, 
-      favoritesApi: favoritesApi.reducer,
+      [favoritesApi.reducerPath]: favoritesApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(postsApi.middleware, favoritesApi.middleware),
+   
 });
-store.subscribe(() => console.log('Nuevo estado:', store.getState()));
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
