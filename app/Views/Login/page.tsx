@@ -18,34 +18,34 @@ const Login = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const handleLogin = async () => {
-    try {
-      setLoginError(null);
-      await dispatch(loginUserAsync({
-        email,
-        password,
-      }));
+  //   try {
+  //     setLoginError(null);
+  //     await dispatch(loginUserAsync({
+  //       email,
+  //       password,
+  //     }));
 
-      localStorage.setItem('token', JSON.stringify(response.payload));
+  //     localStorage.setItem('token', JSON.stringify(response.payload));
 
-      const { email: userEmail, token } = response.payload;
-      const userVerifyResponse = useUserVerifyQuery({
-        email: userEmail,
-        token: token,
-      });
+  //     const { email: userEmail, token } = response.payload;
+  //     const userVerifyResponse = useUserVerifyQuery({
+  //       email: userEmail,
+  //       token: token,
+  //     });
 
-      console.log(response);
+  //     console.log(response);
       
 
-      console.log("verificacion",userVerifyResponse);
-      localStorage.setItem('user', JSON.stringify(userVerifyResponse));
+  //     console.log("verificacion",userVerifyResponse);
+  //     localStorage.setItem('user', JSON.stringify(userVerifyResponse));
 
 
-      // localStorage.setItem('user', JSON.stringify(response));// colocar local store
+  //     // localStorage.setItem('user', JSON.stringify(response));// colocar local store
 
-    } catch (error) {
-      setLoginError((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Error desconocido");
-    }
-  };
+  //   } catch (error) {
+  //     setLoginError((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Error desconocido");
+  //   }
+   };
 
   const handleLogout = () => {
     dispatch(logout());
