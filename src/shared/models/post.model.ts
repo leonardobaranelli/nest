@@ -6,9 +6,11 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
-  HasMany,  
+  HasMany,
+  DeletedAt,  
+  BelongsToMany  
 } from 'sequelize-typescript';
-import { User, Comment, Score, Rent } from '.';
+import { User, Comment, Score, Rent, Favorite } from '.';
 
 enum conditionType {
   SELL = 'SELL',
@@ -17,7 +19,7 @@ enum conditionType {
 
 @Table({
   tableName: 'posts',
-  timestamps: false,
+  timestamps: true,
 })
 export class Post extends Model {
   @PrimaryKey
@@ -70,6 +72,9 @@ export class Post extends Model {
   @Column({ allowNull: true, type: DataType.UUID })
   userId: string;
 
+  @DeletedAt
+  deleteAt: Date;
+
   @BelongsTo(() => User)
   user: User;
 
@@ -81,4 +86,7 @@ export class Post extends Model {
 
   @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
   rents: Rent[];
+
+  @BelongsToMany(() => User, ()=> Favorite)
+  favorites: Favorite[];
 }

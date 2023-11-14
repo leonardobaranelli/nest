@@ -1,3 +1,5 @@
+export const htmlDeletedUser = ({ firstName, username, deletedAt }) => {
+  return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html
   dir="ltr"
@@ -651,7 +653,7 @@
                                         font-size: 20px;
                                       "
                                     >
-                                      <strong>Hola {{firstName}},</strong>
+                                      <strong>Hola ${firstName},</strong>
                                     </p>
                                     <p
                                       style="
@@ -667,19 +669,29 @@
                                       "
                                     >
                                       <br /><strong
-                                        >¡Bienvenido a Nest!<br />Estamos
-                                        emocionados de tenerte como parte de
-                                        nuestra comunidad. Tu cuenta ha sido
-                                        creada con éxito. Por favor, verifica tu
-                                        dirección de correo electrónico haciendo
-                                        clic en el siguiente enlace,
-                                        <a href="{{url}}">Clic Aquí</a>. Esto
-                                        nos ayudará a mantener tu cuenta segura
-                                        y te permitirá disfrutar de todas las
-                                        funciones de Nest. Gracias por unirte a
-                                        nosotros y por confiar en nosotros para
-                                        tu próxima aventura de
-                                        alquiler.&nbsp;</strong
+                                        >¡Esperamos que te encuentres bien!<br />Lamentamos 
+                                        informarte que tu cuenta  ha sido bloqueada de 
+                                        nuestro sistema,
+                                        Queremos agradecerte por haber formado parte de 
+                                        nuestra comunidad. Tenemos una fuerte política en
+                                        cuanto a la seguridad y bienestar de nuestros Usuarios,
+                                        lamentablemente hemos detectado que tu cuenta ha
+                                        infringido nuestras normas de seguridad. Por lo que
+                                        hemos decidido bloquear tu cuenta de forma
+                                        permanente.
+
+                                        A continuación, proporcionamos algunos detalles 
+                                        relacionados con la eliminación de tu cuenta:
+
+                                        -Fecha del bloqueo de cuenta: ${deletedAt}
+                                        -Nombre de usuario asociado: ${username}
+
+                                        Si tienes alguna queja o necesitas más información, 
+                                        no dudes en  comunicarte con nuestro equipo de atención
+                                        al cliente al Correo Electrónico: 
+                                        soporte.nest.app@gmail.com.&nbsp;</strong
+
+                                        
                                       >
                                     </p>
                                     <p
@@ -732,4 +744,5 @@
       </table>
     </div>
   </body>
-</html>
+</html>`;
+};

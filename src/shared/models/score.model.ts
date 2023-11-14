@@ -13,16 +13,13 @@ import { User, Post } from '.';
 enum scoreType {
   CLIENT = 'CLIENT',
   OWNER = 'OWNER',
-  POST = 'POST',
 }
 
 @Table({
   tableName: 'scores',
-  timestamps: false,
 })
 export class Score extends Model {
   @PrimaryKey
-  @AllowNull(false)
   @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4 })
   id: string;
 
