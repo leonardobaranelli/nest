@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { loginUserAsync, logout } from "../../../redux/features/UserSlice";
+import { loginUserAsync, authenticateUserWithTokenAsync, logout } from "../../../redux/features/UserSlice";
 import Link from "next/link";
+import { useUserVerifyQuery } from "@/redux/services/authentication";
 
 const Login = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,7 +22,23 @@ const Login = () => {
         email,
         password,
       }));
+
+      localStorage.setItem('token', JSON.stringify(response.payload));
+
+      const { email: userEmail, token } = response.payload;
+      const userVerifyResponse = useUserVerifyQuery({
+        email: userEmail,
+        token: token,
+      });
+
       console.log(response);
+      
+
+      console.log("verificacion",userVerifyResponse);
+      localStorage.setItem('user', JSON.stringify(userVerifyResponse));
+
+
+      // localStorage.setItem('user', JSON.stringify(response));// colocar local store
     } catch (error) {
       setLoginError((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Error desconocido");
     }
@@ -31,6 +48,13 @@ const Login = () => {
     dispatch(logout());
   };
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      dispatch(authenticateUserWithTokenAsync(storedToken));
+    }
+  }, []);
+  
   return (
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
       <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
@@ -40,7 +64,7 @@ const Login = () => {
       {isAuthenticated ? (
         <div>
           <p>¡Inicio de sesión exitoso!</p>
-          <Link href="/Views/home">Ir al Home</Link>
+          <Link href="/">Ir al Home</Link>
           {/* <button onClick={handleLogout}>Cerrar sesión</button> */}
         </div>
       ) : (

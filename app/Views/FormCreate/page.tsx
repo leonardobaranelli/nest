@@ -1,5 +1,6 @@
 "use client";
 import React, { SyntheticEvent } from "react";
+import { useRouter } from 'next/navigation';
 import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
@@ -15,6 +16,8 @@ import Link from "next/link";
 import { ChangeEvent } from "react";
 import { Post } from "@/redux/services/getPost";
 import { error } from "console";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 export interface Errors {
   days: string;
@@ -243,9 +246,40 @@ export default function Formulario() {
     }
   };
 
+  const dispatch = useDispatch()
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  useEffect(() => {
+    // const storedToken = localStorage.getItem("token");
+    // if (storedToken) {
+    //   dispatch(storedToken);
+    // }
+  }, []);
+
+  if (isAuthenticated) {return (
+
+
   useEffect(() => {}, []);
 
+  // useEffect(() => {
+  //   // veo  si  hay  algo en  el  local 
+  //       const dataInLocalStorage = localStorage.getItem('user');
+    
+  //       if (dataInLocalStorage) {
+  //         console.log("esto es ellocal storage:", dataInLocalStorage);
+  //       } else {
+  //         console.log("Holis");
+  //       }
+  //     }, []); 
+    
+  //     if (!localStorage.getItem('tuClave')) {
+  //       return null; 
+  //       // si  no  hay  nada  no renderiza nada 
+  //       // aqui  tien  que  renderizar un  componente  que  te mande  a  otro lado 
+    
+  //     }
+
   return (
+
     <div>
       <div className=" p-4 bg-[#fc9a84]">
         <nav className=" flex items-center justify-between sm:h-10">
@@ -565,4 +599,7 @@ export default function Formulario() {
       </div>
     </div>
   );
-}
+} else {
+  const router = useRouter();
+  router.push('/Views/Login');
+}} 
