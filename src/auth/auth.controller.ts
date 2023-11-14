@@ -9,31 +9,30 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async register(
+  register(
     @Body()
     createUserDto: CreateUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.authService.register(createUserDto);
-    return result;
+    return this.authService.register(createUserDto).catch((e) => {
+      throw e;
+    });
   }
-  
+
   @Post('login')
-  async login(
+  login(
     @Body()
     loginUserDto: LoginUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.authService.login(loginUserDto);
-    return result;
+    return this.authService.login(loginUserDto).catch((e) => {
+      throw e;
+    });
   }
 
   @Get('google')
-  async googleUrl(@Res({ passthrough: true }) res: Response) {
-    this.authService
-      .googleUrl()
-      .then((url) => res.redirect(url))
-      .catch((err) => console.log(err));
+  googleUrl(@Res({ passthrough: true }) res: Response) {
+    res.redirect(this.authService.googleUrl());
   }
 
   @Get('google/callback')
@@ -45,13 +44,14 @@ export class AuthController {
 
     res.cookie('token', token, { httpOnly: true });
     res.cookie('email', email);
-    
-    res.redirect(`${process.env.FRONTEND_URL}/Views/home`); // Frontend url
 
+    res.redirect(`${process.env.FRONTEND_URL}/Views/home`);
   }
 
   @Get('verify')
   verify(@Query('token') token: string, @Query('email') email: string) {
-    return this.authService.validateUser(email, token);
+    return this.authService.validateUser(email, token).catch((e) => {
+      throw e;
+    });
   }
 }

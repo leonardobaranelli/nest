@@ -11,15 +11,15 @@ export class CreatePostDto {
 
   @IsNotEmpty()
   @IsNumber()
-  days: number;
+  days: number; //❌ --> ENUM: 1, 7, 15, 30, 60, 90
 
   @IsNotEmpty()
   @IsString()
-  condition: string;
+  condition: string; //rent - sell
 
   @IsNotEmpty()
   @IsString()
-  type: string;
+  type: string; //❓ --> ENUM: CASA, DEPARTAMENTO, LOCAL, OFICINA, TERRENO, OTRO
 
   @IsNotEmpty()
   images: Array<string>;

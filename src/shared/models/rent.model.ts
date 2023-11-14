@@ -19,6 +19,12 @@ export class Rent extends Model {
   @Column({ allowNull: false, type: DataType.STRING })
   endDate: string;
 
+  @Column({ allowNull: false, type: DataType.REAL })
+  amount: number;
+
+  @Column({ allowNull: false, type: DataType.INTEGER })
+  guests: number; //Opcional en el front
+
   @ForeignKey(() => Post)
   @Column({ allowNull: false, type: DataType.UUID })
   postId: string;

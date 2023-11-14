@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateRentDto {
   // Data Transfer Object (DTO) for creating a post || Posts
@@ -10,6 +10,14 @@ export class CreateRentDto {
   @IsNotEmpty()
   @IsString()
   endDate: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  amount: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  guests: number;
 
   @IsNotEmpty()
   @IsString()

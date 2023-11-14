@@ -6,7 +6,6 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { Post, Rent } from '../shared/models';
 import { CreatePostDto } from './dto/create-post.dto';
-import { CreateRentDto } from './dto/create-rent.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 export interface PostWithScore extends Post {
@@ -49,7 +48,7 @@ export class PostService {
       })
       .catch((e) => {
         throw new InternalServerErrorException(
-          'Error obteniendo las publicaciones de la DB',
+          'Error obteniendo las publicaciones',
         );
       })
       .then((posts) => {
@@ -69,7 +68,7 @@ export class PostService {
       })
       .catch((e) => {
         throw new InternalServerErrorException(
-          'Error obteniendo las publicaciones de la DB',
+          'Error obteniendo las publicaciones',
         );
       });
   }
@@ -85,7 +84,7 @@ export class PostService {
       })
       .catch((e) => {
         throw new InternalServerErrorException(
-          'Error obteniendo las publicaciones de la DB',
+          'Error obteniendo las publicaciones',
         );
       });
   }
@@ -101,18 +100,14 @@ export class PostService {
         return this.postsWithScore([post])[0];
       })
       .catch((e) => {
-        throw new InternalServerErrorException(
-          'Error obteniendo los detalles de la DB',
-        );
+        throw new InternalServerErrorException('Error obteniendo los detalles');
       });
   }
 
   create(createPostDto: CreatePostDto) {
     // Add a new immovable to the database on sequelize
     return this.postsModel.create({ ...createPostDto }).catch((e) => {
-      throw new InternalServerErrorException(
-        'Error al crear publicación en la DB',
-      );
+      throw new InternalServerErrorException('Error al crear publicación');
     });
   }
 
@@ -124,7 +119,7 @@ export class PostService {
       })
       .catch((e) => {
         throw new InternalServerErrorException(
-          'Error al actualizar publicación en la DB',
+          'Error al actualizar publicación',
         );
       })
       .then(([post]) => {
@@ -155,17 +150,9 @@ export class PostService {
       });
   }
 
-  createRent(createRentDto: CreateRentDto) {
-    return this.rentModel.create({ ...createRentDto }).catch((e) => {
-      throw new InternalServerErrorException('Error al crear Reserva en la DB');
-    });
-  }
-
   findAllRents() {
     return this.rentModel.findAll().catch((e) => {
-      throw new InternalServerErrorException(
-        'Error obteniendo las reservas de la DB',
-      );
+      throw new InternalServerErrorException('Error obteniendo las Reservas');
     });
   }
 
@@ -179,4 +166,10 @@ export class PostService {
         throw new BadRequestException(e.message);
       });
   }
+  /*
+  createRent(createRentDto: CreateRentDto) {
+    return this.rentModel.create({ ...createRentDto }).catch((e) => {
+      throw new InternalServerErrorException('Error al crear Reserva');
+    });
+  }*/
 }

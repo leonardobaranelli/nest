@@ -10,7 +10,6 @@ import {
   UploadedFiles,
   BadRequestException,
 } from '@nestjs/common';
-import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -65,13 +64,6 @@ export class PostController {
     });
   }
 
-  @Post('rent')
-  createRent(@Body() createRentDto: CreateRentDto) {
-    return this.postService.createRent(createRentDto).catch((e) => {
-      throw e;
-    });
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postService.update(id, updatePostDto).catch((e) => {
@@ -85,4 +77,12 @@ export class PostController {
       throw e;
     });
   }
+
+  /*
+  @Post('rent')
+  createRent(@Body() createRentDto: CreateRentDto) {
+    return this.postService.createRent(createRentDto).catch((e) => {
+      throw e;
+    });
+  }*/
 }
