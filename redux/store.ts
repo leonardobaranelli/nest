@@ -11,6 +11,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import scoresReducer from './features/ScoreSlice';
 
 
+
 export const store = configureStore({
     reducer: {
       posteo: postReducer,

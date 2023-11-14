@@ -7,9 +7,11 @@ import { loginUserAsync, authenticateUserWithTokenAsync, logout } from "../../..
 import Link from "next/link";
 import { useUserVerifyQuery } from "@/redux/services/authentication";
 
+
 const Login = () => {
   const dispatch: AppDispatch = useDispatch();
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  const keys = useSelector((state: RootState) => state.user.keys);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       setLoginError(null);
-      const response = await dispatch(loginUserAsync({
+      await dispatch(loginUserAsync({
         email,
         password,
       }));
@@ -39,6 +41,7 @@ const Login = () => {
 
 
       // localStorage.setItem('user', JSON.stringify(response));// colocar local store
+
     } catch (error) {
       setLoginError((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Error desconocido");
     }
@@ -49,11 +52,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      dispatch(authenticateUserWithTokenAsync(storedToken));
-    }
-  }, []);
+    if (keys?.token) dispatch(authenticateUserWithTokenAsync(keys));
+  }, [keys]);
   
   return (
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
