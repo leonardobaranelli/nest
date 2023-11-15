@@ -109,7 +109,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
       <div className='flex flex-col justify-around gap-8'>
         <div>
           <h2 className="text-xl font-bold text-center">
-            <Link href={`/Views/${properties.id}`}>{properties.title}</Link>
+            {/* <Link href={`/Views/${properties.id}`}> */}<p>{properties.title}</p>{/* </Link> */}
           </h2>
           <h2 className='text-center mt-5 text-xl font-semibold'>${properties.price}</h2>
         </div>
@@ -121,7 +121,9 @@ const Card: React.FC<CardsProps> = ({properties}) => {
             Dirección: {properties.streetName} {properties.floorNumber}
           </p>
           <p className="text-gray-600">Ubicación: {properties.country}, {properties.city}</p>
-          <div className="flex justify-end items-center">
+          <div className="flex justify-between items-center mt-5">
+            <Link href={`/Views/${properties.id}`}><button className="text-white bg-[#FD8974]
+ hover:bg-[#E07564] font-medium rounded-lg text-sm px-5 py-2.5 text-center rounded-full">Mas Detalle</button></Link>
             <button onClick={toggleFavorite} className={`favorite-button ${isFavorite ? 'favorite' : ''}`}>
               {isFavorite ? (
                 <img src={favoriteImageUrl} width={40} height={40} alt="Favorito" />

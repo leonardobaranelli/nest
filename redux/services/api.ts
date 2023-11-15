@@ -37,6 +37,7 @@ type RolType = Rols;
 
 export interface Users {
   id: string;
+  type?:string;
   rol: RolType;
   username: string;
   email: string;

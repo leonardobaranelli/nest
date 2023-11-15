@@ -270,36 +270,7 @@ export default function Formulario() {
 if (show) {
   return (
     <div>
-      <div className=" p-4 bg-[#fc9a84]">
-        <nav className=" flex items-center justify-between sm:h-10">
-          <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-            <Link
-              href="../../Views/home"
-              className="font-medium text-gray-500 hover:text-gray-900"
-            >
-              Home
-            </Link>
-            <Link
-              href="../../Views/Buy"
-              className="font-medium text-gray-500 hover:text-gray-900"
-            >
-              Venta
-            </Link>
-            <Link
-              href="../../Views/Rent"
-              className="font-medium text-gray-500 hover:text-gray-900"
-            >
-              Alquiler
-            </Link>
-            <Link
-              href=""
-              className=" font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Log in
-            </Link>
-          </div>
-        </nav>
-      </div>
+      <Navbar/>
       <div className="flex items-center justify-center min-h-screen p-5 md:p-10 mt-0 z-10">
         <div className="md:flex md:items-center z-10">
           <form

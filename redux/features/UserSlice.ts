@@ -9,7 +9,6 @@ const axiosInstance = axios.create({
 export const loginUserAsync = createAsyncThunk("user/login", async (loginData: Login) => {
   try {
     const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, loginData);
-    console.log("Data --> ",data);
     const keys = data;
     localStorage.setItem('keys', JSON.stringify({...keys}));
     return {...keys};

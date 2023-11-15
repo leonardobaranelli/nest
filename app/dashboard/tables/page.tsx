@@ -24,9 +24,11 @@ const TablesPage = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (!isAuthenticated)
+   if (!isAuthenticated)
+  //  if (false)
       dispatch(authenticateUserWithTokenAsync());
-    else if ( user?.rol !== "admin") {
+  else if ( user?.rol !== "admin") {
+  //    else if ( false) {
       router.push("/notfound");
     } else {
       setShow(true);

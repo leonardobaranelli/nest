@@ -41,16 +41,16 @@ function FavoriteCard() {
           <div className="flex flex-row space-x-4">
             {favoriteProperties.map((property, index) => (
               <div key={property.postId} className={`transition-transform transform ${index === currentPropertyIndex ? 'scale-100' : 'scale-90'}`}>
-                <div className="grid grid-cols-3 gap-2">
-                  {property?.images.map((image, imageIndex) => (
-                    <img
-                      key={imageIndex}
-                      src={image}
-                      className="rounded-md"
-                      alt={`Property Image ${imageIndex}`}
-                    />
-                  ))}
-                </div>
+<div className="grid grid-cols-3 gap-2">
+  {property?.images.length > 0 && ( 
+    <img
+      src={property.images[0]}  
+      className="rounded-md"
+      alt={`Property Image 0`} 
+    />
+  )}
+</div>
+
                 <Link href={`/Views/${property.postId}`}>
                   <h1 className="text-xl font-bold text-blue-500 cursor-pointer hover:underline">{property.title}</h1>
                 </Link>
