@@ -31,10 +31,8 @@ function Page() {
     <div>
       <Navbar/>
     <div className='flex flex-col gap-20'>
-      <button onClick={() => setShowFilters(!showFilters)}>
-        <img src="/filter.png" width={25} height={25} alt="Filter" />Filtros
-      </button>
-      {showFilters && <DisplayFilter />}
+      
+      {<DisplayFilter />}
       <div className="flex gap-10 justify-center">
         {isLoading ? (
           <img src="/Infinity-4.5s-224px.gif" alt="Cargando..." />

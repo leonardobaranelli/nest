@@ -10,8 +10,6 @@ import { favoritesApi } from './services/favorite';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import scoresReducer from './features/ScoreSlice';
 
-
-
 export const store = configureStore({
     reducer: {
       posteo: postReducer,
@@ -19,6 +17,7 @@ export const store = configureStore({
       selec: selecReducer,
       favorite: favoriteReducer,
       user: userReducer,
+      favorites: favoriteReducer,
       scores: scoresReducer,
       [postsApi.reducerPath]: postsApi.reducer, 
       favoritesApi: favoritesApi.reducer,

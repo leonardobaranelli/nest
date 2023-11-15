@@ -12,16 +12,8 @@ const Header = () => {
                         Home
                     </Link>
                 </div>
-                <div>
-                    <div className='flex'>
-                        <div>
-                            <p>Nombre</p>
-                            <p>Rol</p>
-                        </div>
-                        <div>
-                            <p>Avatar</p>
-                        </div>
-                    </div>
+                <div className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent">
+                    <p>Panel de Administrador</p>
                 </div>
             </nav>
         </>

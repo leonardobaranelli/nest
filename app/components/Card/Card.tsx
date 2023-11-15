@@ -1,12 +1,11 @@
 'use client'
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useAppDispatch } from '@/redux/hooks';
-import { add, remove } from '@/redux/features/Favorite';
+import { useAppDispatch,useAppSelector } from '@/redux/hooks';
 import { Property } from '@/redux/features/SelecSlice';
-
 import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation, useGetFavoritesQuery } from '@/redux/services/favorite';
 import StarRating from '../StarRating/StarRating';
+import { getFavorite } from '@/redux/features/Favorite';
 
 
 interface CardsProps {  
@@ -20,7 +19,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
 
   const [deleteFavorite]=useDeleteFavoriteMutation()
   const [addFavorite]=useAddFavoriteMutation()
-  const { data: favoriteProperties } = useGetFavoritesQuery({ userId: 'c2ae643d-6871-4004-acb4-d83b90c7b8fa' });
+  const user = useAppSelector((state) => state.user.user);
 
   const nextImage = () => {
     if (currentImage < properties.images.length - 1) {
@@ -35,17 +34,20 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   };
 
 
-
+  
   const { id, title, price, images } = properties;
-  const userId = "c13784e7-1045-474d-869e-886ea55f9092";
+  
+  
+  const userId = user?.id;
   const postId=id
 
-  const toggleFavorite = () => {
+  const toggleFavorite = async() => {
     setIsFavorite(!isFavorite);
     
     if (isFavorite) {
-      deleteFavorite({ userId, postId });
-    } else {
+      deleteFavorite({ userId, postId })
+      // dispatch(getFavorite(userId));
+    } else { 
       const post: Post = {
         userId,
         postId,
@@ -53,19 +55,12 @@ const Card: React.FC<CardsProps> = ({properties}) => {
         title,
         price,
       };
-    
       addFavorite(post);
-      
- 
     }
 
+    await dispatch(getFavorite(userId));
   };
-        
-
-  
-  
-  
-  
+      
   
 
   const favoriteImageUrl = '/dislike.png';
@@ -121,12 +116,12 @@ const Card: React.FC<CardsProps> = ({properties}) => {
         <div className="p-4">
           {/* Utiliza el componente StarRating para mostrar el puntaje como estrellas */}
           <StarRating score={properties.score} />
-          <p className="text-gray-600">{properties.condition}</p>
-          <p className="text-gray-600">
-            <img src="/location .png" width={30} height={30} alt="direccion" /> {properties.type} en {properties.streetName} {properties.floorNumber}
+          {/* <p className="text-gray-600">{properties.condition}</p> */}
+          <p className="text-gray-600 flex items-center">
+            Dirección: {properties.streetName} {properties.floorNumber}
           </p>
-          <p className="text-gray-600">{properties.country}, {properties.city}</p>
-          <div className="flex justify-end items-center mt-4">
+          <p className="text-gray-600">Ubicación: {properties.country}, {properties.city}</p>
+          <div className="flex justify-end items-center">
             <button onClick={toggleFavorite} className={`favorite-button ${isFavorite ? 'favorite' : ''}`}>
               {isFavorite ? (
                 <img src={favoriteImageUrl} width={40} height={40} alt="Favorito" />

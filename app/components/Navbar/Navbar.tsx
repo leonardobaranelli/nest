@@ -15,6 +15,9 @@ const Navbar = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
+  const user = useSelector(
+    (state: RootState) => state.user.user
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -25,10 +28,10 @@ const Navbar = () => {
   const renderLoginButton = () => {
     if (isAuthenticated) {
       // Si el usuario está autenticado, muestra un botón de "Logout"
-      return <button onClick={handleLogout}>Logout</button>;
+      return <button onClick={handleLogout}>Log Out</button>;
     } else {
       // Si el usuario no está autenticado, muestra un botón de "Login"
-      return <Link href="/Views/Login">Log in</Link>;
+      return <Link href="/Views/Login">Log In</Link>;
     }
   };
   const handleLogout = () => {
@@ -89,7 +92,7 @@ const Navbar = () => {
             {!isHome
               ? (
               <Link
-                className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                className="block py-2 pl-3 pr-4 text-white rounded md:bg-transparent hover:text-black"
                 href="../../Views/home"
               >
                 Home
@@ -99,7 +102,7 @@ const Navbar = () => {
               ? (
               <li>
                 <Link
-                  className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-white rounded md:bg-transparent hover:text-black"
                   href="../../Views/Rent"
                 >
                   Alquilar
@@ -110,7 +113,7 @@ const Navbar = () => {
               ? (
               <li>
                 <Link
-                  className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                  className="block py-2 pl-3 pr-4 text-white rounded md:bg-transparent hover:text-black"
                   href="../../Views/Buy"
                 >
                   Comprar
@@ -121,24 +124,24 @@ const Navbar = () => {
               ? (
               <li>
                 <Link
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0"
+                  className="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 hover:text-black"
                   href="../../Views/FormCreate"
                 >
                   Publicar Inmueble
                 </Link>
               </li>) : null
             }
-              {isAuthenticated ? (
+              {isAuthenticated && user?.rol === "admin" ? (
                 <li>
                   <Link
-                    className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent"
+                    className="block py-2 pl-3 pr-4 text-white rounded md:bg-transparent hover:text-black"
                     href="../../dashboard/tables"
                   >
                     Dashboard
                   </Link>
                 </li>
               ) : null}
-              <li className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400">
+              <li className="block py-2 pl-3 pr-4 text-white rounded-full hover:bg-[#ff5d398f] shadow-md hover:text-black" >
                 {renderLoginButton()}
               </li>
             </ul>
@@ -152,6 +155,6 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; */}
+export default Navbar; 
 
 

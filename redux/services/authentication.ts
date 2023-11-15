@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-
-require('dotenv').config();
-
-const { DEPLOY_BACK_URL } = process.env;
+enum Rols {
+  admin = "admin",
+  user = "user",
+}
+type RolType = Rols;
 
 export interface UserData {
   id: string;
-  rol: string;
+  rol: RolType;
   username: string;
   email: string;
   password: string;
@@ -20,11 +21,10 @@ export interface UserData {
 
 export const usersApi = createApi({
   reducerPath: "usersApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/" }),
-  // baseQuery: fetchBaseQuery({ baseUrl: DEPLOY_BACK_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL }),  
   endpoints: (builder) => ({
     userVerify: builder.query<UserData, { email: string, token: string }>({
-      query: ({ email, token }) => `auth/verify?email=${email}&token=${token}`,
+      query: ({ email, token }) => `/auth/verify?email=${email}&token=${token}`,
     }),
   }),
 });

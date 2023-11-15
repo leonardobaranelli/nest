@@ -9,7 +9,8 @@ const axiosInstance = axios.create({
 export const loginUserAsync = createAsyncThunk("user/login", async (loginData: Login) => {
   try {
     const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, loginData);
-    const keys:{ token: string, email: string } = data;
+    console.log("Data --> ",data);
+    const keys = data;
     localStorage.setItem('keys', JSON.stringify({...keys}));
     return {...keys};
   } catch (error) {
@@ -29,7 +30,7 @@ export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticat
       token: `${keys?.token}`,
     });
     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/token?${queryParams.toString()}`);
-    const { id, password, deletedAt, createdAt, updatedAt, ...userData } = data;
+    const { password, deletedAt, createdAt, updatedAt, ...userData } = data;
     return userData
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error; //Generalmente significa reLogear
@@ -57,6 +58,7 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
+      localStorage.removeItem("keys")
     },
     setUserStatus: (state, action) => {
       state.isAuthenticated = action.payload.isAuthenticated;

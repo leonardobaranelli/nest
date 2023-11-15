@@ -4,12 +4,19 @@ import { useAppDispatch } from "@/redux/hooks";
 import { updateState } from "@/redux/features/GlobalSlice";
 import { useGetPostsByConditionQuery} from "@/redux/services/api";
 import { updateSelec } from "@/redux/features/SelecSlice";
+import axios from "axios";
 
 
 const Alquiler = () => {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("rent");
 
+  const forceEracerProperty = async ()=>{
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`)
+    
+    
+    }
   
   useEffect(() => {
     if (!isLoading && !isError) {

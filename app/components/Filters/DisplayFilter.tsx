@@ -50,23 +50,27 @@ const DisplayFilter: React.FC = () => {
   };
 
   return (
-    <div className="flex gap-5 m-9">
+  
+  
+
+<div className="mx-auto bg-gray-100 rounded-lg m-5 p-5 relative w-1/2">
+    <div className="flex items-center justify-center mx-auto">
       <div>
-        <label htmlFor="selectedPriceRange">Filtrar por Precio:</label>
-        <select
-          id="selectedPriceRange"
-          value={filters.selectedPriceRange}
-          onChange={(e) => handleFilterChange("selectedPriceRange", e.target.value)}
-        >
-          <option value="">Selecciona un rango de precio</option>
-        <option value="lessThan1000">Menor que 1000</option>
-        <option value="1000To10000">Entre 1000 y 10000</option>
-        <option value="greaterThan10000">Mayor que 10000</option>
+          <select className="border border-gray-200 m-1 mx-5 py-4 rounded-lg" 
+            id="selectedPriceRange"
+            value={filters.selectedPriceRange}
+            onChange={(e) => handleFilterChange("selectedPriceRange", e.target.value)}
+          >
+          <option value="">Selecciona un rango de precios</option>  
+          <option value="lessThan1000">Menor que 1000</option>
+          <option value="1000To10000">Entre 1000 y 10000</option>
+          <option value="greaterThan10000">Mayor que 10000</option>
         </select>
       </div>
+
       <div>
-        <label htmlFor="selectedCountry">Filtrar por País:</label>
-        <select
+       
+        <select className="border border-gray-200 m-1 mx-5 py-4 rounded-lg" 
           id="selectedCountry"
           value={filters.selectedCountry}
           onChange={(e) => handleFilterChange("selectedCountry", e.target.value)}
@@ -79,9 +83,10 @@ const DisplayFilter: React.FC = () => {
           ))}
         </select>
       </div>
+
       <div>
-        <label htmlFor="selectedCity">Filtrar por Ciudad:</label>
-        <select
+      
+        <select className="border border-gray-200 m-1 mx-5 py-4 rounded-lg" 
           id="selectedCity"
           value={filters.selectedCity}
           onChange={(e) => handleFilterChange("selectedCity", e.target.value)}
@@ -94,10 +99,14 @@ const DisplayFilter: React.FC = () => {
           ))}
         </select>
       </div>
-      <div>
-        <button onClick={applyFilters}>Buscar</button>
-        <button onClick={clearFilters}>Limpiar</button>
+    
+    </div>
+
+    <div className="flex justify-around mt-4">
+        <button className="bg-[#FD8974] py-2 hover:bg-[#E07564] text-white px-5 rounded " onClick={applyFilters}>Buscar</button>
+        <button className="bg-[#FD8974] py-2 hover:bg-[#E07564] text-white px-5 rounded" onClick={clearFilters}>Limpiar</button>
       </div>
+    
     </div>
   );
 };

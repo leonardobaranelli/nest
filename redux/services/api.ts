@@ -2,9 +2,8 @@ import { User } from "@/app/shared/userTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { type } from "os";
 
-export interface Post {
-  days: number | null;
-  type: string;
+export interface Post {  
+  available: boolean;
   condition: string;
   image: string[];
   title: string;
@@ -55,20 +54,20 @@ export const postsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL }),
   endpoints: (builder) => ({
     getPostsByCondition: builder.query<Post[], string>({
-      query: (condition) => `posts/condition/${condition}`,
+      query: (condition) => `/posts/condition/${condition}`,
     }),
     getPosts: builder.query<Post[], string>({
-      query: () => "posts",
+      query: () => "/posts",
     }),
     createPost: builder.mutation<Post, Partial<Post>>({
       query: (newPost) => ({
-        url: "posts",
+        url: "/posts",
         method: "POST",
         body: newPost,
       }),
     }),
     getPost: builder.query<Post, string | number>({
-      query: (id) => `posts/${id}`,
+      query: (id) => `/posts/${id}`,
     }),
 
     updatePost: builder.mutation<
@@ -77,35 +76,35 @@ export const postsApi = createApi({
     >({
 
       query: ({ id, updatedPost }) => ({
-        url: `posts/${id}`,
+        url: `/posts/${id}`,
         method: "PATCH",
         body: updatedPost,
       }),
     }),
     deletePost: builder.mutation<void, number>({
       query: (id) => ({
-        url: `posts/${id}`,
+        url: `/posts/${id}`,
         method: "DELETE",
       }),
     }),
     getUser: builder.query<Users[], string>({
-      query: () => "users",
+      query: () => "/users",
     }),
     deleteUser: builder.mutation<User, string>({
       query: (id) => ({
-        url: `posts/${id}`,
+        url: `/posts/${id}`,
         method: "DELETE",
       }),
     }),
     getScore: builder.query<number | null, string>({
-      query: (postId) => `score/${postId}`, // Ruta actualizada para obtener el score de un post
+      query: (postId) => `/score/${postId}`, // Ruta actualizada para obtener el score de un post
     }),
     getReviews: builder.query<Score[], string>({
-      query: (postId) => `score/${postId}`, // Ruta actualizada para obtener las reseñas de un post
+      query: (postId) => `/score/${postId}`, // Ruta actualizada para obtener las reseñas de un post
     }),
     createScore: builder.mutation<Score, Partial<Score>>({
       query: (newScore) => ({
-        url: 'score/create', // Ruta actualizada para crear un score
+        url: '/score/create', // Ruta actualizada para crear un score
         method: 'POST',
         body: newScore,
       }),

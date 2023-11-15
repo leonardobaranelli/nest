@@ -15,7 +15,6 @@ function SearchBar() {
       return values.some((value) => value.includes(searchTerm));
     });
 
-    console.log("Objetos que contienen la palabra:", filteredPosts);
     dispatch(updateState(filteredPosts || []))
   };
 

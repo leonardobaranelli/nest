@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+require('dotenv').config();
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import StarRating from '../StarRating/StarRating';
 
-const   DEPLOY_BACK_URL = "http://localhost:3001";
+interface ReviewFormProps {
+  postId: string | number;
+}
 
-const ReviewForm = ({ postId }) => {
-  const [reviewData, setReviewData] = useState({
-    "score": 0,
-    "type": "user",
-    "feedBack": "",
-    "postId": postId,
+interface ReviewData {
+  score: number;
+  type: string;
+  feedBack: string;
+  postId: string | number;
+}
+
+const ReviewForm: React.FC<ReviewFormProps> = ({ postId }) => {
+  const [reviewData, setReviewData] = useState<ReviewData>({
+    score: 1,
+    type: 'user',
+    feedBack: '',
+    postId: postId,
   });
 
-  const handleFeedbackChange = (e) => {
+  const handleFeedbackChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setReviewData((prevData) => ({
       ...prevData,
@@ -21,69 +31,63 @@ const ReviewForm = ({ postId }) => {
     }));
   };
 
-  const handleScoreChange = (e) => {
+  const handleScoreChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
   
     // Validación: solo permite dígitos del 1 al 10
-    const validatedValue = inputValue.replace(/\D/g, ''); 
+    const validatedValue = inputValue.replace(/\D/g, '');
   
     // Actualiza el estado con el valor validado
     setReviewData((prevData) => ({
       ...prevData,
-      score: validatedValue,
+      score: validatedValue === '' ? 0 : parseInt(validatedValue),
     }));
   };
-  
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-        console.log(DEPLOY_BACK_URL)
-        if (!postId) {
-            console.error("postId is undefined");
-            // Puedes manejar este caso de otra manera, como mostrar un mensaje de error al usuario
-            return;
-        }
-        console.log('Datos de la reseña:', reviewData);
-        const response = await axios.post(`${DEPLOY_BACK_URL}/score/create`, reviewData);
+      if (!postId) {
+        console.error("postId is undefined");
+        return;
+      }
 
-    
-    if (response.status === 200 || response.status === 201) {
+      console.log('Datos de la reseña:', reviewData);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/score/create`, reviewData);
+
+      if (response.status === 200 || response.status === 201) {
         if (response.data && response.data.id) {
           Swal.fire({
-            icon: "success",
-            title: "Creado con Éxito",
+            icon: 'success',
+            title: 'Reseña creada con Éxito',
             showConfirmButton: false,
             timer: 1500,
             didClose: () => {
-                // Recarga la página después de que se ha cerrado la alerta
-                window.location.reload();
-              },
+              window.location.reload();
+            },
           });
-
         } else {
           Swal.fire({
-            icon: "error",
-            title: "Error al Crear",
+            icon: 'error',
+            title: 'Error al Crear',
             showConfirmButton: false,
             timer: 1500,
           });
         }
       } else {
         Swal.fire({
-          icon: "error",
-          title: "Error al Crear",
+          icon: 'error',
+          title: 'Error al Crear',
           showConfirmButton: false,
           timer: 1500,
         });
       }
-
     } catch (error) {
-      console.error("Error al realizar la solicitud POST:", error);
+      console.error('Error al realizar la solicitud POST:', error);
 
       Swal.fire({
-        icon: "error",
-        title: "Error al Crear",
+        icon: 'error',
+        title: 'Error al Crear',
         showConfirmButton: false,
         timer: 1500,
       });
@@ -113,21 +117,18 @@ const ReviewForm = ({ postId }) => {
           </label>
           <div className="flex items-center">
             <input
-              type="number" // Cambiado de "number" a "text"
-              pattern="[0-9]|10" // Patrón para permitir solo dígitos del 1 al 10
-              maxLength="2" // Limita la longitud a 2 caracteres
+              type="text"
+              pattern="[0-9]|10"
               value={reviewData.score}
               onChange={handleScoreChange}
               onBlur={() => {
-                // Convierte el valor a un número después de que el usuario haya terminado de escribir
-                const parsedValue = parseInt(reviewData.score);
+                const parsedValue = parseInt(reviewData.score.toString());
                 if (!isNaN(parsedValue) && parsedValue >= 1 && parsedValue <= 10) {
                   setReviewData((prevData) => ({
                     ...prevData,
                     score: parsedValue,
                   }));
                 } else {
-                  // Si el valor no es válido, restablece a 0
                   setReviewData((prevData) => ({
                     ...prevData,
                     score: 0,
@@ -136,7 +137,7 @@ const ReviewForm = ({ postId }) => {
               }}
               className="w-16 px-3 py-2 border rounded-md mr-2"
             />
-            <StarRating score={parseFloat(reviewData.score)} onChange={handleScoreChange} />
+            <StarRating score={parseFloat(reviewData.score.toString())} />
           </div>
         </div>
         <button

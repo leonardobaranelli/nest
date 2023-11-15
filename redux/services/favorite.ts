@@ -1,9 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-require('dotenv').config();
-
-const { DEPLOY_BACK_URL } = process.env;
-
 export interface Post {
   userId: string;
   postId: string;
@@ -12,18 +8,17 @@ export interface Post {
   price: number;
 }
 
-
 export const favoritesApi = createApi({
   reducerPath: "favoritesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/" }),
-  // baseQuery: fetchBaseQuery({ baseUrl: DEPLOY_BACK_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL }),
+  
   endpoints: (builder) => ({
     getFavorites: builder.query<Post[], { userId: string }>({
-      query: ({ userId }) => `favorites/${userId}`,
+      query: ({ userId }) => `/favorites/${userId}`,
     }),
     addFavorite: builder.mutation<void, Post>({
       query: (post) => ({
-        url: 'favorites',
+        url: '/favorites',
         method: 'POST',
         body: {
           userId: post.userId,
@@ -37,7 +32,7 @@ export const favoritesApi = createApi({
     
     deleteFavorite: builder.mutation<void, { userId: string; postId: string }>({
       query: ({ userId, postId }) => ({
-        url: 'favorites/delete',
+        url: '/favorites/delete',
         method: 'DELETE',
         body: {
           userId,
