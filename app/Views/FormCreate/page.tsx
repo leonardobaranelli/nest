@@ -30,7 +30,7 @@ export interface Errors {
   streetName: string;
   streetNumber: string | number;
   floorNumber: string | number;
-  aptNumber: string | number;
+  aptNumber: string;
   price: string | number;
   description: string;
   [key: string]: string | string[] | number | null;
@@ -46,7 +46,7 @@ export interface Values {
   streetName: string;
   streetNumber: string;
   floorNumber: number;
-  aptNumber: number;
+  aptNumber: string;
   price: number;
   description: string;
   images: string[];
@@ -85,7 +85,7 @@ export default function Formulario() {
     streetName: "",
     streetNumber: "",
     floorNumber: 0,
-    aptNumber: 0,
+    aptNumber: "",
     price: 0,
     description: "",
   });
@@ -135,7 +135,7 @@ export default function Formulario() {
   ) {
     const { name, value } = event.target;
     // Solo aplica parseInt en campos numéricos
-    if (["days", "floorNumber", "aptNumber", "price"].includes(name)) {
+    if (["days", "floorNumber", "price"].includes(name)) {
       setValues({
         ...values,
         [name]: value === "" ? null : parseInt(value, 10),
@@ -219,7 +219,10 @@ export default function Formulario() {
             title: "Creado con Éxito",
             showConfirmButton: false,
             timer: 1500,
-          });
+          }).then(()=>{
+            window.location.href = '/Views/home'; 
+          })
+
         } else {
           Swal.fire({
             icon: "error",
@@ -259,7 +262,7 @@ export default function Formulario() {
     if (!isAuthenticated) {
       router.push("/Views/Login");
     }
- }, [isAuthenticated]);
+  }, [isAuthenticated]);
 
   return (
     <div>
@@ -446,7 +449,7 @@ export default function Formulario() {
               <input
                 type="number"
                 name="floorNumber"
-                value={values.floorNumber}
+                value={values.floorNumber || ""}
                 onChange={handleChange}
                 className="border-2 border-gray-300 p-2 w-2/4 rounded-lg"
               />
@@ -462,9 +465,9 @@ export default function Formulario() {
             <div className="mb-5">
               <label>Apartamento: </label>
               <input
-                type="number"
+                type="text"
                 name="aptNumber"
-                value={values.aptNumber}
+                value={values.aptNumber || ""}
                 onChange={handleChange}
                 className="border-2 border-gray-300 p-2 w-3/4 rounded-lg"
               />
@@ -485,7 +488,7 @@ export default function Formulario() {
                 step="0.01"
                 min="0"
                 max="999999999999999"
-                value={values.price}
+                value={values.price || ""}
                 onChange={handleChange}
                 onFocus={() => setFocused("price")}
                 onBlur={() => setFocused(null)}
