@@ -1,15 +1,29 @@
 "use client";
-
+import React, { SyntheticEvent } from "react";
+import { AxiosResponse } from "axios";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useGetPostQuery } from "@/redux/services/api";
 import Swal from "sweetalert2";
 import { Post } from "@/redux/services/getPost";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
+import ReviewForm from '../../components/ReviewForm/ReviewForm'
+import ScoreComponent from "@/app/components/ReviewCards/ReviewCards";
+import { ChangeEvent } from "react";
+import axios from "axios";
+
+export interface ReviewData {
+  type: string,
+  feedBack: string,
+  score: number,
+  postId: string,
+}
 
 function Detail() {
+
   const { Detail } = useParams<{ Detail: string }>();
+
   const [property, setPropertyServer] = useState<Post | undefined>(undefined);
 
   const { data } = useGetPostQuery(Detail);
@@ -23,42 +37,54 @@ function Detail() {
       largeImage.src = smallImage.src;
       smallImage.src = tempSrc;
     }
-  }
-  
+  }  
+
   useEffect(() => {
     setPropertyServer(data);
   }, [data]);
-  const stripePayment = async () => {
-    
-      try {                
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/payment/createStripeCS`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name: property?.title, price: Number(property?.price) * 100, currency: 'usd' }),
-        });
-        
-        const { sessionId } = await response.json();                
-        
-        const stripeApiKey = process.env.NEXT_PUBLIC_STRIPE_API_KEY ?? '';
-        const stripe = await loadStripe(stripeApiKey);
 
-        const result = await stripe?.redirectToCheckout({ sessionId });
-        
-        if (result?.error) {
-          console.error(result.error.message);
-        }
-      } catch (error) {
-        console.error('Error al procesar el pago:', error);
+  const stripePayment = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/payment/createStripeCS`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: property?.title,
+          price: Number(property?.price) * 100,
+          currency: 'usd',
+          postId: property?.id,
+        }),
+      });
+  
+      const { sessionId } = await response.json();      
+  
+      const stripeApiKey = process.env.NEXT_PUBLIC_STRIPE_API_KEY ?? '';
+      const stripe = await loadStripe(stripeApiKey);
+  
+      if (!stripe) {
+        console.error('Error al cargar la instancia de Stripe');
+        return;
       }
+  
+      const result = await stripe.redirectToCheckout({ sessionId });
+  
+      if (result?.error) {
+        console.error('Error al redirigir a checkout:', result.error.message);
+      } else {
+        console.log('Redirigiendo al pago desde el backend...');
+      }
+    } catch (error) {
+      console.error('Error al procesar el pago:', error);
+    }
   };
 
   if (!property) {
     return <div>Propiedad no encontrada</div>;
   }
 
-const coinbasePayment = async (): Promise<void> => {
+  const coinbasePayment = async (): Promise<void> => {
     try {
       const response = await fetch('https://api.commerce.coinbase.com/charges', {
         method: 'POST',
@@ -87,7 +113,9 @@ const coinbasePayment = async (): Promise<void> => {
     } catch (error) {
       console.error('Error al procesar el pago con Coinbase Commerce:', error);
     }
-};
+  };
+
+
 
   const handleReserv = () => {
     Swal.fire({
@@ -114,6 +142,7 @@ const coinbasePayment = async (): Promise<void> => {
         });      }
     });
   };
+  
   return (
     <div className="flex flex-col lg:gap-24">
       <div className="p-4 bg-[#fc9a84] flex items-center justify-around">
@@ -145,7 +174,7 @@ const coinbasePayment = async (): Promise<void> => {
                 <h4 className="mb-2 text-3xl font-bold tracking-tight text-gray-900">{property.title}</h4>
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">${property.price}</h5>
                 <p className="mb-3 font-normal text-gray-700">{property.description}</p>
-                <p>{property.condition === "sell" ? <p>En Venta</p> : <p>En Alquiler</p>}</p>
+                <p>{property.condition === "sell" ? "En Venta" : "En Alquiler"}</p>
                 <p>Dias: {property.days}</p>
                 <p>Locacion: {property.country} {property.city}</p>
                 <p>Domicilio: {property.streetName} {property.streetNumber} {property.aptNumber}</p>
@@ -157,7 +186,14 @@ const coinbasePayment = async (): Promise<void> => {
                 </div>
             </div>
         </div>
+  
       </div>
+      <div className="flex flex-col justify-between p-4 leading-normal text-center w-full">
+                    {/* Otras partes del detalle del post */}
+                    <h2 className="mt-10 text-3xl font-bold text-pink-600 mb-6">Reseñas</h2>
+                  <ScoreComponent postId={property.id}/>
+                  {property && <ReviewForm postId={property.id} />}
+            </div>
     </div>
   );
 }

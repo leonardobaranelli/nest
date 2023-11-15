@@ -1,6 +1,7 @@
 const gitBranch = require('git-branch');
 
 module.exports = async () => {
+  
   const currentBranch = await gitBranch();
   const isMainBranch = currentBranch === 'main';
 
@@ -18,4 +19,9 @@ module.exports = async () => {
       NEXT_PUBLIC_BACKEND_URL: backUrl,
     },
   };
+};
+module.exports = {
+  images: {
+    domains: ['http2.mlstatic.com'],
+  },
 };

@@ -1,5 +1,6 @@
 "use client";
 import React, { SyntheticEvent } from "react";
+import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
@@ -15,6 +16,8 @@ import Link from "next/link";
 import { ChangeEvent } from "react";
 import { Post } from "@/redux/services/getPost";
 import { error } from "console";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 export interface Errors {
   days: string;
@@ -27,7 +30,7 @@ export interface Errors {
   streetName: string;
   streetNumber: string | number;
   floorNumber: string | number;
-  aptNumber: string | number;
+  aptNumber: string;
   price: string | number;
   description: string;
   [key: string]: string | string[] | number | null;
@@ -43,7 +46,7 @@ export interface Values {
   streetName: string;
   streetNumber: string;
   floorNumber: number;
-  aptNumber: number;
+  aptNumber: string;
   price: number;
   description: string;
   images: string[];
@@ -51,9 +54,10 @@ export interface Values {
 
 export default function Formulario() {
   //Estados
+  const router = useRouter();
 
   const [focused, setFocused] = useState<string | null>(null);
-
+  const [show, setShow] = useState(false);
   const [files, setFile] = useState([]);
   const [errors, setErrors] = useState<Errors>({
     days: "",
@@ -81,7 +85,7 @@ export default function Formulario() {
     streetName: "",
     streetNumber: "",
     floorNumber: 0,
-    aptNumber: 0,
+    aptNumber: "",
     price: 0,
     description: "",
   });
@@ -131,7 +135,7 @@ export default function Formulario() {
   ) {
     const { name, value } = event.target;
     // Solo aplica parseInt en campos numéricos
-    if (["days", "floorNumber", "aptNumber", "price"].includes(name)) {
+    if (["days", "floorNumber", "price"].includes(name)) {
       setValues({
         ...values,
         [name]: value === "" ? null : parseInt(value, 10),
@@ -154,7 +158,7 @@ export default function Formulario() {
           const formFile = new FormData();
           formFile.append("files", file);
           let response: AxiosResponse;
-  
+
           try {
             response = await axios.post(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/upload`,
@@ -168,13 +172,13 @@ export default function Formulario() {
         })
       );
 
-      console.log(newImages)
-  
+      console.log(newImages);
+
       setValues((prevValues) => ({
         ...prevValues,
         images: [...prevValues.images, ...newImages],
       }));
-  
+
       setErrors(
         validate({
           ...values,
@@ -200,7 +204,10 @@ export default function Formulario() {
     const formErrors = validate(values);
     setErrors(formErrors);
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`, values);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`,
+        values
+      );
 
       console.log("respuesta de la solicitud post:", response.data);
 
@@ -212,7 +219,10 @@ export default function Formulario() {
             title: "Creado con Éxito",
             showConfirmButton: false,
             timer: 1500,
-          });
+          }).then(()=>{
+            window.location.href = '/Views/home'; 
+          })
+
         } else {
           Swal.fire({
             icon: "error",
@@ -243,7 +253,16 @@ export default function Formulario() {
     }
   };
 
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
+  );
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/Views/Login");
+    }
+  }, [isAuthenticated]);
 
   return (
     <div>
@@ -277,7 +296,6 @@ export default function Formulario() {
           </div>
         </nav>
       </div>
-
       <div className="flex items-center justify-center min-h-screen p-5 md:p-10 mt-0 z-10">
         <div className="md:flex md:items-center z-10">
           <form
@@ -361,7 +379,9 @@ export default function Formulario() {
               />
               <div className="mb-2">
                 {errors.country && focused === "country" && (
-                  <span className="text-red-500 text-sm">{errors.country}</span>
+                  <span className="text-red-500 text-sm">
+                    {errors.country}
+                  </span>
                 )}
               </div>
             </div>
@@ -429,7 +449,7 @@ export default function Formulario() {
               <input
                 type="number"
                 name="floorNumber"
-                value={values.floorNumber}
+                value={values.floorNumber || ""}
                 onChange={handleChange}
                 className="border-2 border-gray-300 p-2 w-2/4 rounded-lg"
               />
@@ -445,9 +465,9 @@ export default function Formulario() {
             <div className="mb-5">
               <label>Apartamento: </label>
               <input
-                type="number"
+                type="text"
                 name="aptNumber"
-                value={values.aptNumber}
+                value={values.aptNumber || ""}
                 onChange={handleChange}
                 className="border-2 border-gray-300 p-2 w-3/4 rounded-lg"
               />
@@ -468,7 +488,7 @@ export default function Formulario() {
                 step="0.01"
                 min="0"
                 max="999999999999999"
-                value={values.price}
+                value={values.price || ""}
                 onChange={handleChange}
                 onFocus={() => setFocused("price")}
                 onBlur={() => setFocused(null)}
@@ -563,6 +583,44 @@ export default function Formulario() {
           </form>
         </div>
       </div>
-    </div>
+    </div>    
   );
 }
+
+  // if (isAuthenticated) setShow(true);
+// }, [isAuthenticated]);
+
+// if (show) {
+//   return (
+//     <div>
+//       <div className=" p-4 bg-[#fc9a84]">
+//         <nav className=" flex items-center justify-between sm:h-10">
+//           <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+//             <Link
+//               href="../../Views/home"
+//               className="font-medium text-gray-500 hover:text-gray-900"
+//             >
+//               Home
+//             </Link>
+//             <Link
+//               href="../../Views/Buy"
+//               className="font-medium text-gray-500 hover:text-gray-900"
+//             >
+//               Venta
+//             </Link>
+//             <Link
+//               href="../../Views/Rent"
+//               className="font-medium text-gray-500 hover:text-gray-900"
+//             >
+//               Alquiler
+//             </Link>
+//             <Link
+//               href=""
+//               className=" font-medium text-indigo-600 hover:text-indigo-500"
+//             >
+//               Log in
+//             </Link>
+
+        //     </div>
+        //   </nav>
+        // </div>

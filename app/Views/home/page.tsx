@@ -1,4 +1,6 @@
-"use client";
+"use client"
+
+// En Home.tsx
 import React, { useEffect, useState } from 'react';
 import Cards from '@/app/components/Cards/Cards';
 import Navbar from '@/app/components/Navbar/Navbar';
@@ -8,38 +10,36 @@ import { updateState } from '@/redux/features/GlobalSlice';
 import { useGetPostsQuery } from '@/redux/services/api';
 import { updateSelec } from '@/redux/features/SelecSlice';
 import FavoriteCard from '@/app/components/favorites/favorites';
+import FilterModal from '@/app/components/favorites/FilterModal';
+import { useGetFavoritesQuery } from '@/redux/services/favorite';
 import DisplayFilter from '@/app/components/Filters/DisplayFilter';
+import { getFavorite } from '@/redux/features/Favorite';
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsQuery('');
   const homeState = useAppSelector((state) => state.home.properties);
-  const favoriteState = useAppSelector((state) => state.favorite.properties);
-  const [showFavoriteNotification, setShowFavoriteNotification] = useState(false);
 
+const user = useAppSelector((state) => state.selec.properties);
+
+  const [showFilterModal, setShowFilterModal] = useState(false);
+
+  const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f";
   useEffect(() => {
     if (!isLoading && !isError) {
       dispatch(updateState(posts || []));
       dispatch(updateSelec(posts || []));
     }
   }, [posts, isLoading, isError]);
-
-  useEffect(() => {
-    // Mostrar la notificación de favoritos cuando hay propiedades favoritas
-    if (favoriteState.length > 0) {
-      setShowFavoriteNotification(true);
-    } else {
-      setShowFavoriteNotification(false);
-    }
-  }, [favoriteState]);
-
+  const toggleFilterModal = () => {
+    setShowFilterModal(!showFilterModal);
+    dispatch(getFavorite(userId));
+  };
+  console.log("user",user);
   return (
     <div>
       <Navbar />
-
-      <div>
-        <img src="/filter.png" width={25} height={25} alt="Filter" /><DisplayFilter />
-      </div>
+      <DisplayFilter/>
 
       <div className="flex gap-10 justify-center">
         {isLoading ? (
@@ -52,14 +52,19 @@ const Home = () => {
           <Errors />
         )}
       </div>
-      {showFavoriteNotification && (
-        <div className="fixed top-10 right-10 h-1/4 w-1/4 bg-white z-50 p-4 border border-gray-300 rounded-lg shadow-lg">
-          <FavoriteCard /> {/* Muestra las propiedades favoritas en la notificación */}
-          <button onClick={() => setShowFavoriteNotification(false)}>Cerrar</button>
-        </div>
-      )}
+
+      <img     
+        src="/dislike.png"  
+        alt="Mostrar Modal"
+        onClick={toggleFilterModal}
+        className="fixed bottom-4 right-4 cursor-pointer"
+        style={{ width: '50px', height: '50px' }}  
+      />
+
+      {showFilterModal && <FilterModal onClose={toggleFilterModal} />}
     </div>
   );
 };
 
 export default Home;
+
