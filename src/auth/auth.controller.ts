@@ -89,9 +89,9 @@ export class AuthController {
 
     const { token } = await this.authService.login(user);
 
-    req.res.cookie('token', token, { httpOnly: true });
+    req.res.cookie('token', token);
     req.res.cookie('email', email);
 
-    req.res.redirect(`${process.env.FRONTEND_URL}`); // Frontend url
+    req.res.redirect('https://pf-nest.vercel.app/Views/Login'); // Frontend url
   }
 }
