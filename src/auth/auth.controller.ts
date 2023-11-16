@@ -53,10 +53,10 @@ export class AuthController {
   ) {
     const { token, email } = await this.authService.googleLogin(code);
 
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token);
     res.cookie('email', email);
 
-    res.redirect(`${process.env.FRONTEND_URL}/Views/home`);
+    res.redirect(`${process.env.FRONTEND_URL}/Views/Login`);
   }
 
   @Get('token')
