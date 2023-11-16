@@ -93,7 +93,7 @@ const Venta = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{sell.type}</p>
+              {/* <p className="text-meta-5">{sell.type}</p> */}
             </div>
           </div>
         ))}

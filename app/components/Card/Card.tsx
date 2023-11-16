@@ -8,15 +8,13 @@ import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation, useGetFavorite
 import StarRating from '../StarRating/StarRating';
 import { getFavorite } from '@/redux/features/Favorite';
 
-<!-- import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { Property } from '@/redux/features/SelecSlice';
+// <!-- import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+// import { Property } from '@/redux/features/SelecSlice';
 
-import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation} from '@/redux/services/favorite';
-import StarRating from '../StarRating/StarRating';
-import { getFavorite } from '@/redux/features/Favorite';
- -->
-
-
+// import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation} from '@/redux/services/favorite';
+// import StarRating from '../StarRating/StarRating';
+// import { getFavorite } from '@/redux/features/Favorite';
+//  -->
 
 interface CardsProps {  
   properties: Property;
@@ -26,15 +24,10 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.user);
-
+  
   const [deleteFavorite]=useDeleteFavoriteMutation()
   const [addFavorite]=useAddFavoriteMutation()
-
   const user = useAppSelector((state) => state.user.user);
-
-  
-
 
   const nextImage = () => {
     if (currentImage < properties.images.length - 1) {
@@ -47,12 +40,8 @@ const Card: React.FC<CardsProps> = ({properties}) => {
       setCurrentImage(currentImage - 1);
     }
   };
-
-
-  
-  const { id, title, price, images } = properties;
-
-  
+ 
+  const { id, title, price, images } = properties;  
   
   const userId = user?.id;
 
@@ -60,26 +49,37 @@ const Card: React.FC<CardsProps> = ({properties}) => {
 
   const postId=id
 
-  const toggleFavorite = async() => {
-    setIsFavorite(!isFavorite);
-    
-    if (isFavorite) {
-      deleteFavorite({ userId, postId })
+  const toggleFavorite = async () => {
+  setIsFavorite(!isFavorite);
+
+  if (isFavorite) {
+    // Asegurarte de que userId no sea undefined
+    if (userId) {
+      deleteFavorite({ userId, postId });
       // dispatch(getFavorite(userId));
-
-    } else { 
-      const post: Post = {
-        userId,
-        postId,
-        images,
-        title,
-        price,
-      };
-      addFavorite(post);
+    } else {
+      // Manejar el caso en que userId es undefined
+      console.error("userId is undefined");
     }
+  } else {
+    const post: Post = {
+      userId: userId || "",
+      postId,
+      images,
+      title,
+      price,
+    };
+    addFavorite(post);
+  }
 
+  // Asegurarte de que userId no sea undefined antes de llamar a dispatch
+  if (userId) {
     await dispatch(getFavorite(userId));
-  };
+  } else {
+    // Manejar el caso en que userId es undefined
+    console.error("userId is undefined");
+  }
+};
       
   
 
@@ -157,7 +157,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
         </div>
         <div className="p-4">
           {/* Utiliza el componente StarRating para mostrar el puntaje como estrellas */}
-          <StarRating score={properties.score} />
+          <StarRating score={properties.score || 0} />
           {/* <p className="text-gray-600">{properties.condition}</p> */}
           <p className="text-gray-600 flex items-center">
             Dirección: {properties.streetName} {properties.floorNumber}
