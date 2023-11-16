@@ -1,8 +1,8 @@
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { useGetFavoritesQuery } from '@/redux/services/favorite';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '@/redux/hooks';
+
 
 interface Property {
   userId: string;
@@ -14,6 +14,7 @@ interface Property {
 
 function FavoriteCard() {
   const favoriteProperties = useAppSelector((state) => state.favorites.posts);
+
   const dispatch = useAppDispatch();
   const [currentPropertyIndex, setCurrentPropertyIndex] = useState(0);
 
@@ -25,17 +26,21 @@ function FavoriteCard() {
     setCurrentPropertyIndex((prevIndex) => (prevIndex - 1 + favoriteProperties.length) % favoriteProperties.length);
   };
 
+
   useEffect(() => {
     setCurrentPropertyIndex(0);
   }, [favoriteProperties]);
 
   console.log("lo de fav", favoriteProperties);
 
+
   return (
     <div className="bg-gray-100 p-4">
       {favoriteProperties && favoriteProperties.length > 0 ? (
         <div>
+
           <div className="flex flex-row space-x-4">
+
             <div className={`transition-transform transform scale-100 text-center`}>
             <div className="mx-auto"> 
   {favoriteProperties[currentPropertyIndex]?.images.length > 0 && (
@@ -53,6 +58,7 @@ function FavoriteCard() {
               </Link>
               <p className="text-gray-700">Precio: ${favoriteProperties[currentPropertyIndex].price}</p>
             </div>
+
           </div>
           <div className="flex justify-between mt-4">
             <button
@@ -79,3 +85,4 @@ function FavoriteCard() {
 }
 
 export default FavoriteCard;
+

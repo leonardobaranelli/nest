@@ -8,17 +8,26 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { updateState } from '@/redux/features/GlobalSlice';
 import { useGetPostsQuery } from '@/redux/services/api';
 import { updateSelec } from '@/redux/features/SelecSlice';
-import FavoriteCard from '@/app/components/favorites/favorites';
+//import FavoriteCard from '@/app/components/favorites/favorites';
 import FilterModal from '@/app/components/favorites/FilterModal';
 import { useGetFavoritesQuery } from '@/redux/services/favorite';
 import DisplayFilter from '@/app/components/Filters/DisplayFilter';
 import { getFavorite } from '@/redux/features/Favorite';
+
 import {authenticateUserWithTokenAsync} from "@/redux/features/UserSlice"
 import { RootState } from '@/redux/store';
+
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsQuery('');
+
+
+//   const homeState = useAppSelector((state) => state.home.properties);
+
+// const user = useAppSelector((state) => state.selec.properties);
+
+
   const [showFilterModal, setShowFilterModal] = useState(false);
   const homeState = useAppSelector((state) => state.home.properties);
   const isAuthenticated = useAppSelector(
@@ -26,6 +35,7 @@ const Home = () => {
   );
   const user = useAppSelector((state) => state.user.user)
   const userId = user?.id;
+
   
   useEffect(() => {
     if (!isAuthenticated) {
@@ -33,15 +43,16 @@ const Home = () => {
     }
   }, [isAuthenticated]);
   
+
   useEffect(() => {
     if (!isLoading && !isError) {
       dispatch(updateState(posts || []));
       dispatch(updateSelec(posts || []));
     }
   }, [posts, isLoading, isError]);
-
   const toggleFilterModal = () => {
     setShowFilterModal(!showFilterModal);
+
     if(userId)
       dispatch(getFavorite(userId));
   };
@@ -80,3 +91,10 @@ const Home = () => {
 
 export default Home;
 
+// dispatch(getFavorite(userId));
+// };
+// console.log("user",user);
+// return (
+//   <div>
+//     <Navbar />
+//     <DisplayFilter/> 

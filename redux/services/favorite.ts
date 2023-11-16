@@ -10,8 +10,13 @@ export interface Post {
 
 export const favoritesApi = createApi({
   reducerPath: "favoritesApi",
+
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL }),
   
+
+//   refetchOnFocus: true,
+ 
+
   endpoints: (builder) => ({
     getFavorites: builder.query<Post[], { userId: string }>({
       query: ({ userId }) => `/favorites/${userId}`,

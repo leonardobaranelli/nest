@@ -139,6 +139,7 @@ const Navbar = () => {
                   </Link>
                 </li>
               ) : null}
+
               <li className="block py-2 pl-3 pr-4 text-white rounded-full hover:bg-[#ff5d398f] shadow-md hover:text-black" >
                 {renderLoginButton()}
               </li>
@@ -237,5 +238,31 @@ export default Navbar;
   </nav>
 </header>
 </div> */}
+
+              {/*                     <li>
+
+                        <Link
+                        className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400"
+                        href="../../Views/Login">
+                        Log in
+                        </Link>
+                    </li> */}
+
+
+//               <li className="block py-2 pl-3 pr-4 text-gray-900 rounded-full hover:bg-yellow-400">
+//                 {renderLoginButton()}
+//               </li>
+//             </ul>
+//           </div>
+
+//         </div>
+//       </nav>
+//     </div>
+
+//   );
+// };
+
+// export default Navbar; 
+
 
 
