@@ -26,7 +26,13 @@ const Alquiler = () => {
             property.id === id ? { ...property, deletedAt: new Date().toISOString() } : property
             )
             );
-            
+            Swal.fire({
+              icon: "success",
+              title: "Eliminado exitosamente",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            });
             await axios.delete(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/${id}`)
       } else {
@@ -44,7 +50,7 @@ const Alquiler = () => {
   
   useEffect(() => {
     setProperty(posts || [])
-  }, [property]);
+  }, [posts]);
   
   return (
     <div className="rounded-sm border border-stroke text-center bg-white pb-2.5 shadow-default sm:px-7.5 xl:pb-1">

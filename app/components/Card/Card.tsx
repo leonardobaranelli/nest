@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { useAppDispatch,useAppSelector } from '@/redux/hooks';
 import { Property } from '@/redux/features/SelecSlice';
@@ -116,8 +117,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
           </p>
           <p className="text-gray-600">Ubicación: {properties.country}, {properties.city}</p>
           <div className="flex justify-between items-center mt-5">
-            <Link href={`/Views/${properties.id}`}><button className="text-white bg-[#FD8974]
- hover:bg-[#E07564] font-medium rounded-lg text-sm px-5 py-2.5 text-center rounded-full">Mas Detalle</button></Link>
+            <Link href={`/Views/${properties.id}`}><button className="text-white bg-[#FD8974] hover:bg-[#E07564] font-medium rounded-lg text-sm px-5 py-2.5 text-center rounded-full">Mas Detalle</button></Link>
             <button onClick={toggleFavorite} className={`favorite-button ${isFavorite ? 'favorite' : ''}`}>
               {isFavorite ? (
                 <img src={favoriteImageUrl} width={40} height={40} alt="Favorito" />
@@ -133,5 +133,3 @@ const Card: React.FC<CardsProps> = ({properties}) => {
 };
 
 export default Card;
-
-

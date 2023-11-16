@@ -16,12 +16,14 @@ export const loginUserAsync = createAsyncThunk("user/login", async (loginData: L
   }
 });
 
-export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async () => {
+export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async (param: { email: string, token: string } | void) => {
   try {
     const stringKeys = localStorage.getItem('keys');
     const keys = stringKeys 
       ? JSON.parse(stringKeys)
-      : null;
+      : param !== undefined
+        ? { email: param.email, token: param.token }
+        : null;
     
     const queryParams = new URLSearchParams({
       email: `${keys?.email}`,
