@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface Property {
-  priceRange: any;
-  type:string;
+  priceRange: any;  
   available: boolean;
   condition: string;
   image: string[];
