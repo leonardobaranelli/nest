@@ -25,7 +25,7 @@ export class User extends Model {
     values: ['user', 'admin'],
     defaultValue: 'user',
   })
-  rol: string;
+  rol: 'user' | 'admin';
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
   username: string;
