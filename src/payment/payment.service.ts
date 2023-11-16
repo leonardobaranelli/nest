@@ -19,22 +19,25 @@ export class PaymentService {
     const stripeCharges = await this.stripeClient.charges.list();
 
     const filteredCharges = stripeCharges.data.filter(
-      (charge) => charge.amount_refunded === 0 && charge.currency === 'usd' && !charge.livemode
+      (charge) =>
+        charge.amount_refunded === 0 &&
+        charge.currency === 'usd' &&
+        !charge.livemode,
     );
 
     return {
       stripeCharges: filteredCharges,
     };
-  }  
+  }
 
   async createStripeCS(productData: {
     name: string;
     price: number;
     currency: string;
-    postId: string;    
+    postId: string;
   }): Promise<string> {
     let session;
-  
+
     try {
       session = await this.stripeClient.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -50,7 +53,7 @@ export class PaymentService {
             quantity: 1,
           },
         ],
-        mode: 'payment',        
+        mode: 'payment',
         success_url: `${process.env.FRONTEND_URL}/Views/Payment?postId=${productData.postId}`,
         cancel_url: `${process.env.FRONTEND_URL}`,
         payment_intent_data: {
@@ -63,12 +66,12 @@ export class PaymentService {
       console.error('Error creating Stripe session:', error);
       throw new Error('Error creating Stripe session');
     }
-  
+
     if (!session || !session.id) {
       console.error('Error: La sesión de Stripe no se creó correctamente.');
       throw new Error('Error creating Stripe session');
     }
-  
+
     return session.id;
   }
 
@@ -85,17 +88,17 @@ export class PaymentService {
     const testCharges = await this.stripeClient.charges.list({
       limit: 100,
     });
-  
+
     let chargesToRefund = testCharges.data.filter((charge) => !charge.refunded);
-  
+
     if (chargesToRefund.length === 0) {
       console.log('No charges to refund.');
       return;
     }
-  
+
     for (const charge of chargesToRefund) {
       console.log(`Processing charge: ${charge.id}`);
-  
+
       try {
         console.log(`Refunding charge: ${charge.id}`);
         await this.refundStripeCharge(charge.id);
@@ -104,13 +107,15 @@ export class PaymentService {
         console.error(`Error refunding charge ${charge.id}:`, error);
       }
     }
-  
+
     console.log('Cleaning completed.');
   }
 
   async getCoinbaseCharges(): Promise<any> {
     try {
-      const coinbaseCharges: any = await (this.coinbaseClient as any).listCharges();
+      const coinbaseCharges: any = await (
+        this.coinbaseClient as any
+      ).listCharges();
       return {
         coinbaseCharges,
       };

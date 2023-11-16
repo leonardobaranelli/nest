@@ -54,7 +54,7 @@ export class ScoreService {
         'No se puede modificar el Score después de 24hs de su creación',
       );
     }
-    
+
     if (score.updatedAt !== score.createdAt) {
       let updateTime = new Date(score.updatedAt).getTime();
       if (currentTime - updateTime > maxTime / 12) {

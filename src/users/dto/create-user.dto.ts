@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsDate,
   MinLength,
+  IsUrl,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -50,4 +51,8 @@ export class CreateUserDto {
   @IsOptional()
   @IsDate()
   readonly deletedAt?: Date;
+
+  @IsOptional()
+  @IsUrl()
+  readonly avatar_url?: string;
 }
