@@ -9,7 +9,6 @@ import {
   IsDate,
   IsBoolean,
 } from 'class-validator';
-import { Is } from 'sequelize-typescript';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsUUID(4)

@@ -5,17 +5,13 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { validate } from 'class-validator';
 import { HttpService } from '@nestjs/axios';
 import { UserService } from 'src/users/user.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginUserDto } from './dto/loginUserDto';
-import { plainToClass } from 'class-transformer';
-import { FacebookUserDto } from './dto/facebookUserDto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
 import { AppMailerService } from 'src/mailer/mailer.service';
-import { User } from 'src/shared/models';
 
 interface FacebookData {
   id: string;
@@ -204,7 +200,7 @@ export class AuthService {
           firstName: given_name,
           lastName: family_name,
           password: await bcryptjs.hashSync(googleId, 10),
-          // avatar: picture,
+          avatar_url: picture,
         })
         .then((user) => {
           this.mailerService.created({

@@ -8,18 +8,9 @@ import {
 
 export class CreatePostDto {
   // Data Transfer Object (DTO) for creating a post || Posts
-
-  @IsNotEmpty()
-  @IsNumber()
-  days: number; //❌ --> ENUM: 1, 7, 15, 30, 60, 90
-
   @IsNotEmpty()
   @IsString()
   condition: string; //rent - sell
-
-  @IsNotEmpty()
-  @IsString()
-  type: string; //❓ --> ENUM: CASA, DEPARTAMENTO, LOCAL, OFICINA, TERRENO, OTRO
 
   @IsNotEmpty()
   images: Array<string>;

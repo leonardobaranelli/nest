@@ -6,7 +6,6 @@ import * as cookieParser from 'cookie-parser';
 import * as gitBranch from 'git-branch';
 
 async function bootstrap() {
-
   const currentBranch = await gitBranch();
   const isMainBranch = currentBranch === 'main';
 
@@ -28,14 +27,13 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-
     origin: frontUrl,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
   });
   const sequelize = app.get(Sequelize);
-  await sequelize.sync({ alter: true});
+  await sequelize.sync({ alter: true });
   app.use(cookieParser());
   await app.listen(3001);
 }

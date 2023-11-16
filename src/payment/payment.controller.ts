@@ -6,7 +6,7 @@ export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Get('stripeCharges')
-  async getStripeCharges(): Promise<any> {    
+  async getStripeCharges(): Promise<any> {
     const { stripeCharges } = await this.paymentService.getStripeCharges();
     return {
       stripeCharges,
@@ -15,7 +15,13 @@ export class PaymentController {
 
   @Post('createStripeCS')
   async createStripeCS(
-    @Body() productData: { name: string; price: number; currency: string; postId: string }, 
+    @Body()
+    productData: {
+      name: string;
+      price: number;
+      currency: string;
+      postId: string;
+    },
   ) {
     const sessionId = await this.paymentService.createStripeCS(productData);
     return { sessionId, postId: productData.postId };
@@ -27,7 +33,7 @@ export class PaymentController {
   }
 
   @Get('coinbaseCharges')
-  async getCoinbaseCharges(): Promise<any> {    
+  async getCoinbaseCharges(): Promise<any> {
     const { coinbaseAccounts } = await this.paymentService.getCoinbaseCharges();
     return {
       coinbaseAccounts,
@@ -35,8 +41,9 @@ export class PaymentController {
   }
 
   @Get('coinbaseAccounts')
-  async getCoinbaseAccounts(): Promise<any> {    
-    const { coinbaseAccounts } = await this.paymentService.getCoinbaseAccounts();
+  async getCoinbaseAccounts(): Promise<any> {
+    const { coinbaseAccounts } =
+      await this.paymentService.getCoinbaseAccounts();
     return {
       coinbaseAccounts,
     };
