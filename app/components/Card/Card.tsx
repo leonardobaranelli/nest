@@ -57,40 +57,11 @@ const Card: React.FC<CardsProps> = ({ properties }) => {
       };
       addFavorite(post);
     }
-  } else {
-    const post: Post = {
-      userId: userId || "",
-      postId,
-      images,
-      title,
-      price,
-    };
-    addFavorite(post);
-  }
-
-  // Asegurarte de que userId no sea undefined antes de llamar a dispatch
-  if (userId) {
     await dispatch(getFavorite(userId));
-  };  
-//     } else {
-       
-//               const post: Post = {
-//                 userId,
-//                 postId,
-//                 images,
-//                 title,
-//                 price,
-//               };            
-//               addFavorite(post);        
- 
-//     }
-//                await dispatch(getFavorite(userId));
-   };     
-
+  } 
 
   const favoriteImageUrl = '/dislike.png';
   const notFavoriteImageUrl = '/like.png';
-  console.log("user",user); 
 
   return (
     <div className="w-80 sm:w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
