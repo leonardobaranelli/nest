@@ -14,6 +14,9 @@ import { AppMailerModule } from './mailer/mailer.module';
 import { ScoreModule } from './score/score.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { RentModule } from './rent/rent.module';
+import { Sell } from './shared/models/sell.model';
+import { SellModule } from './sell/sell.module';
+import { CommentModule } from './comment/comment.module';
 
 config();
 
@@ -31,7 +34,7 @@ config();
       //username: process.env.DEV_DB_USER,
       //password: process.env.DEV_DB_PASS,
       port: 5432,
-      models: [User, Post, Rent, Comment, Score, Favorite],
+      models: [User, Post, Rent, Comment, Score, Favorite, Sell],
       dialectOptions: {
         ssl: {
           require: true,
@@ -49,6 +52,8 @@ config();
     ScoreModule,
     FavoritesModule,
     RentModule,
+    SellModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
