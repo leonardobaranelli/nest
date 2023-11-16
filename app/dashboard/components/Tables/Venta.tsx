@@ -157,6 +157,7 @@ const Ventas = () => {
                   </svg>
               </button>
               )}
+
             </div>
           </div>
         ))}

@@ -26,4 +26,6 @@ const StarRating: React.FC<StarRatingProps> = ({ score }) => {
   return <div>{stars}</div>;
 };
 
+
 export default StarRating;
+
