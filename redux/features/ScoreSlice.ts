@@ -1,17 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Define una acción asincrónica para cargar todos los puntajes desde el servidor
 export const fetchScores = createAsyncThunk('fetchScores', async () => {
   const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/score`);
   return response.data;
 });
 
-const scoresSlice = createSlice({
-  name: 'scores',
-  initialState: { scores: [], status: 'idle', error: null as string | null },
-  reducers: {
-    // Puedes agregar acciones síncronas aquí para modificar el estado directamente si es necesario
+
+  const scoresSlice = createSlice({
+    name: 'scores',
+    initialState: { scores: [], status: 'idle', error: null as string | null },
+  reducers: {   
+
+
   },
   extraReducers: (builder) => {
     builder
@@ -32,6 +33,3 @@ const scoresSlice = createSlice({
 
 export default scoresSlice.reducer;
 
-
-// Exporta acciones si es necesario
-// export const { actionName } = scoresSlice.actions;

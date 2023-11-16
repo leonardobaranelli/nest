@@ -1,4 +1,4 @@
-require('dotenv').config();
+
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -8,7 +8,6 @@ interface ReviewFormProps {
   postId: string | number;
 }
 
-const { DEPLOY_BACK_URL } = process.env;
 
 interface ReviewData {
   score: number;
@@ -55,7 +54,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ postId }) => {
       }
 
       console.log('Datos de la reseña:', reviewData);
-      const response = await axios.post(`${DEPLOY_BACK_URL}/score/create`, reviewData);
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/score/create`, reviewData);
+
+      
 
       if (response.status === 200 || response.status === 201) {
         if (response.data && response.data.id) {
@@ -121,7 +123,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ postId }) => {
             <input
               type="text"
               pattern="[0-9]|10"
-              maxLength={2}
+
+
+// <!--               maxLength={2} -->
+
               value={reviewData.score}
               onChange={handleScoreChange}
               onBlur={() => {
@@ -154,4 +159,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ postId }) => {
   );
 };
 
+
 export default ReviewForm;
+

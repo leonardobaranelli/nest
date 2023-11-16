@@ -11,8 +11,6 @@ import { favoritesApi } from './services/favorite';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import scoresReducer from './features/ScoreSlice';
 
-
-
 export const store = configureStore({
     reducer: {
       posteo: postReducer,
@@ -28,6 +26,9 @@ export const store = configureStore({
     getDefaultMiddleware().concat(postsApi.middleware, favoritesApi.middleware),
    
 });
+
+// store.subscribe(() => console.log('Nuevo estado:', store.getState()));
+
 setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;

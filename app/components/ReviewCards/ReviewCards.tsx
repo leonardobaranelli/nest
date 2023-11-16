@@ -59,4 +59,6 @@ const ScoreComponent: React.FC<ScoreComponentProps> = ({ postId }) => {
   );
 };
 
+
 export default ScoreComponent;
+

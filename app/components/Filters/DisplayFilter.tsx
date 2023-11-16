@@ -50,55 +50,55 @@ const DisplayFilter: React.FC = () => {
   };
 
   return (
-    <div className="flex gap-5 m-9">
-      <div>
-        <label htmlFor="selectedPriceRange">Filtrar por Precio:</label>
-        <select
-          id="selectedPriceRange"
-          value={filters.selectedPriceRange}
-          onChange={(e) => handleFilterChange("selectedPriceRange", e.target.value)}
-        >
-          <option value="">Selecciona un rango de precio</option>
-        <option value="lessThan1000">Menor que 1000</option>
-        <option value="1000To10000">Entre 1000 y 10000</option>
-        <option value="greaterThan10000">Mayor que 10000</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="selectedCountry">Filtrar por País:</label>
-        <select
-          id="selectedCountry"
-          value={filters.selectedCountry}
-          onChange={(e) => handleFilterChange("selectedCountry", e.target.value)}
-        >
-          <option value="">Selecciona un país</option>
-          {uniqueCountries.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="selectedCity">Filtrar por Ciudad:</label>
-        <select
-          id="selectedCity"
-          value={filters.selectedCity}
-          onChange={(e) => handleFilterChange("selectedCity", e.target.value)}
-        >
-          <option value="">Selecciona una ciudad</option>
-          {uniqueCities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <button onClick={applyFilters}>Buscar</button>
-        <button onClick={clearFilters}>Limpiar</button>
-      </div>
-    </div>
+        <div className="mx-auto bg-gray-50 rounded-lg m-5 p-5 relative w-3/4 sm:w-3/5">
+            <div className="flex flex-col gap-10 items-center xl:justify-center mx-auto xl:flex-row">
+              <div>
+                  <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" 
+                    id="selectedPriceRange"
+                    value={filters.selectedPriceRange}
+                    onChange={(e) => handleFilterChange("selectedPriceRange", e.target.value)}
+                  >
+                  <option value="">Selecciona un rango de precios</option>  
+                  <option value="lessThan1000">Menor que 1000</option>
+                  <option value="1000To10000">Entre 1000 y 10000</option>
+                  <option value="greaterThan10000">Mayor que 10000</option>
+                </select>
+              </div>
+              <div>
+                <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" 
+                  id="selectedCountry"
+                  value={filters.selectedCountry}
+                  onChange={(e) => handleFilterChange("selectedCountry", e.target.value)}
+                >
+                  <option value="">Selecciona un país</option>
+                  {uniqueCountries.map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+              
+                <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" 
+                  id="selectedCity"
+                  value={filters.selectedCity}
+                  onChange={(e) => handleFilterChange("selectedCity", e.target.value)}
+                >
+                  <option value="">Selecciona una ciudad</option>
+                  {uniqueCities.map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="flex justify-center gap-10 mt-4">
+                <button className="bg-[#FD8974] py-2 hover:bg-[#E07564] text-white px-5 rounded " onClick={applyFilters}>Buscar</button>
+                <button className="bg-[#FD8974] py-2 hover:bg-[#E07564] text-white px-5 rounded" onClick={clearFilters}>Limpiar</button>
+              </div>
+            </div>
   );
 };
 

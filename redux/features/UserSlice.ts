@@ -9,26 +9,31 @@ const axiosInstance = axios.create({
 export const loginUserAsync = createAsyncThunk("user/login", async (loginData: Login) => {
   try {
     const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, loginData);
-    const keys:{ token: string, email: string } = data;
-    localStorage.setItem('keys', JSON.stringify({...keys}));
-    return {...keys};
+    localStorage.setItem('keys', JSON.stringify({...data}));
+    return {...data};
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;
   }
 });
 
-export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async (keys: UserState['keys']) => {
+export const authenticateUserWithTokenAsync = createAsyncThunk("user/authenticateWithToken", async (param: { email: string, token: string } | void) => {
   try {
+    const stringKeys = localStorage.getItem('keys');
+    const keys = stringKeys 
+      ? JSON.parse(stringKeys)
+      : param !== undefined
+        ? { email: param.email, token: param.token }
+        : null;
+    
     const queryParams = new URLSearchParams({
       email: `${keys?.email}`,
       token: `${keys?.token}`,
     });
     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/token?${queryParams.toString()}`);
-    const { password, deletedAt, createdAt, updatedAt, ...userData } = data
-    localStorage.setItem('user', JSON.stringify(userData));
-    return data
+    const { password, deletedAt, createdAt, updatedAt, ...userData } = data;
+    return userData
   } catch (error) {
-    throw (error as { response?: { data?: any } })?.response?.data || error;
+    throw (error as { response?: { data?: any } })?.response?.data || error; //Generalmente significa reLogear
   }
 });
 
@@ -38,9 +43,8 @@ async (registerData: Register) => {
     const { data } = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, registerData, {
       withCredentials: true,
     });
-    const keys:{ token: string, email: string } = data;
-    localStorage.setItem('keys', JSON.stringify({...keys}));
-    return {...keys};
+    localStorage.setItem('keys', JSON.stringify({...data}));
+    return {...data};
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;
   }
@@ -53,6 +57,7 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
+      localStorage.removeItem("keys")
     },
     setUserStatus: (state, action) => {
       state.isAuthenticated = action.payload.isAuthenticated;
@@ -69,7 +74,7 @@ export const userSlice = createSlice({
     })
     .addCase(authenticateUserWithTokenAsync.fulfilled, (state, action) => {
       state.isAuthenticated = action.payload ? true : false;
-      state.user = action.payload; 
+      state.user = action.payload;
     });
   },
 });

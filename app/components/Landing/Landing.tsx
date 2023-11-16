@@ -19,6 +19,7 @@ const Landing = () => {
         className="h-full flex flex-col-reverse justify-center items-center gap-6 text-center p-2 sm:flex-row sm:justify-around"
         style={{
           background:
+            
             "linear-gradient(90deg, rgba(255,92,57,1) 0%, rgba(166,85,35,1) 49%, #cfb8b8 100%)",
         }}
       >
