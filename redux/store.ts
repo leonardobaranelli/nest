@@ -30,7 +30,7 @@ export const store = configureStore({
 
 // store.subscribe(() => console.log('Nuevo estado:', store.getState()));
 
-// setupListeners(store.dispatch);
+ setupListeners(store.dispatch);
 
 
 export type RootState = ReturnType<typeof store.getState>;
