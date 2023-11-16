@@ -13,7 +13,7 @@ interface CardsProps {
   properties: Property;
 }
 
-const Card: React.FC<CardsProps> = ({properties}) => {
+const Card: React.FC<CardsProps> = ({ properties }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useAppDispatch();
@@ -34,14 +34,12 @@ const Card: React.FC<CardsProps> = ({properties}) => {
     }
   };
 
-  const { id, title, price, images } = properties;  
-  
+  const { id, title, price, images } = properties;    
   const userId = user?.id;
 
 //   const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f";
 
   const postId=id
-
   const toggleFavorite = async () => {
   setIsFavorite(!isFavorite);
 
@@ -68,10 +66,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   // Asegurarte de que userId no sea undefined antes de llamar a dispatch
   if (userId) {
     await dispatch(getFavorite(userId));
-
   };  
-
-
 //     } else {
        
 //               const post: Post = {
@@ -80,22 +75,17 @@ const Card: React.FC<CardsProps> = ({properties}) => {
 //                 images,
 //                 title,
 //                 price,
-//               };
-            
-//               addFavorite(post);
-              
+//               };            
+//               addFavorite(post);        
  
 //     }
-
 //                await dispatch(getFavorite(userId));
-//   };
-      
+   };     
 
 
   const favoriteImageUrl = '/dislike.png';
   const notFavoriteImageUrl = '/like.png';
-  console.log("user",user);
-  
+  console.log("user",user); 
 
   return (
     <div className="w-80 sm:w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
@@ -166,8 +156,9 @@ const Card: React.FC<CardsProps> = ({properties}) => {
         </div>
       </div>
     </div>
-  );
-};
+    );
+  };
+
 
 export default Card;
 

@@ -236,7 +236,7 @@ export default function Formulario() {
           icon: "error",
           title: "Error al Crear",
           showConfirmButton: false,
-          timer: 1500,<<<<<<< preLanding
+          timer: 1500,
         });
       }
     } catch (error) {
