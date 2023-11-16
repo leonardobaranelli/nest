@@ -11,12 +11,12 @@ function SearchBar() {
 
   const handleSearch = () => {
     const filteredPosts = posts.filter((post) => {
-      const values = Object.values(post).filter((value) => typeof value === 'string');
+      const values = Object.values(post).filter((value) => typeof value === 'string');      
       return values.some((value) => value.includes(searchTerm));
     });
 
-    console.log("Objetos que contienen la palabra:", filteredPosts);
     dispatch(updateState(filteredPosts || []))
+    setSearchTerm("")
   };
 
   return (

@@ -5,6 +5,7 @@ enum Rols {
   type RolType = Rols;
 
 export interface User {
+    id: string;
     username: string;
     email: string;
     firstName: string;
@@ -31,8 +32,8 @@ export interface Register {
 export interface Login {
     email: string;
     password: string;
-    token?:string;
-    storedToken?:string;
+    // token?:string;
+    // storedToken?:string;
 }
 
 export interface UserState {

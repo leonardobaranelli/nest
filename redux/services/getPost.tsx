@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export interface Post {
-  days: number | null;
-  type: string;
+export interface Post {  
+  available: boolean;
   condition: string;
+  image: string[];
   title: string;
   country: string;
   city: string;
@@ -14,11 +14,12 @@ export interface Post {
   aptNumber: number;
   price: number;
   description: string;
-  id: string | number;
+  id: string;
   images: string[];
   userId: string | null;
+  score: number | null;
 }
-//hola
+
 interface PostState {
   posts: Post[];
   originalPosts: Post[];

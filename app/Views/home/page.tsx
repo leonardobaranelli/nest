@@ -1,6 +1,4 @@
 "use client"
-
-// En Home.tsx
 import React, { useEffect, useState } from 'react';
 import Cards from '@/app/components/Cards/Cards';
 import Navbar from '@/app/components/Navbar/Navbar';
@@ -15,16 +13,38 @@ import { useGetFavoritesQuery } from '@/redux/services/favorite';
 import DisplayFilter from '@/app/components/Filters/DisplayFilter';
 import { getFavorite } from '@/redux/features/Favorite';
 
+import {authenticateUserWithTokenAsync} from "@/redux/features/UserSlice"
+import { RootState } from '@/redux/store';
+
+
 const Home = () => {
   const dispatch = useAppDispatch();
   const { data: posts, isLoading, isError } = useGetPostsQuery('');
-  const homeState = useAppSelector((state) => state.home.properties);
 
-const user = useAppSelector((state) => state.selec.properties);
+
+//   const homeState = useAppSelector((state) => state.home.properties);
+
+// const user = useAppSelector((state) => state.selec.properties);
+
 
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const homeState = useAppSelector((state) => state.home.properties);
+  const isAuthenticated = useAppSelector(
+    (state: RootState) => state.user.isAuthenticated
+  );
 
-  const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f";
+
+  useEffect(()=>{
+    if(!isAuthenticated)
+      dispatch(authenticateUserWithTokenAsync())
+  },[isAuthenticated])
+  
+  const user = useAppSelector((state) => state.user.user)
+
+  const userId = user?.id;
+
+<!--   const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f"; -->
+
   useEffect(() => {
     if (!isLoading && !isError) {
       dispatch(updateState(posts || []));
@@ -33,13 +53,27 @@ const user = useAppSelector((state) => state.selec.properties);
   }, [posts, isLoading, isError]);
   const toggleFilterModal = () => {
     setShowFilterModal(!showFilterModal);
-    dispatch(getFavorite(userId));
+
+    if(userId)
+      dispatch(getFavorite(userId));
+  };
+  console.log("este es  el  user",user);
+  
+  return (
+    <div>
+      <Navbar />
+      <div>
+        <DisplayFilter />
+      </div>
+
+<!--     dispatch(getFavorite(userId));
   };
   console.log("user",user);
   return (
     <div>
       <Navbar />
-      <DisplayFilter/>
+      <DisplayFilter/> -->
+
 
       <div className="flex gap-10 justify-center">
         {isLoading ? (

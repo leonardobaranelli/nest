@@ -4,6 +4,9 @@ import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useGetPostQuery } from "@/redux/services/api";
+ 
+import Navbar from "@/app/components/Navbar/Navbar";
+
 import Swal from "sweetalert2";
 import { Post } from "@/redux/services/getPost";
 import Link from "next/link";
@@ -81,7 +84,7 @@ function Detail() {
   };
 
   if (!property) {
-    return <div>Propiedad no encontrada</div>;
+    return <div className="text-center justify-center">Loading..</div>;
   }
 
   const coinbasePayment = async (): Promise<void> => {
@@ -145,9 +148,7 @@ function Detail() {
   
   return (
     <div className="flex flex-col lg:gap-24">
-      <div className="p-4 bg-[#fc9a84] flex items-center justify-around">
-        <Link href="../../Views/home" className="font-medium text-gray-500 hover:text-gray-900">Home</Link>
-      </div>
+      <Navbar />
       <div className="flex justify-center">
         <div className="flex flex-col bg-[#c8a9a435] p-5 items-center border border-gray-200 rounded-lg shadow lg:flex-row lg:p-12">
           <div id="animation-carousel" className="relative w-full" data-carousel="static">
@@ -180,9 +181,22 @@ function Detail() {
                 <p>Domicilio: {property.streetName} {property.streetNumber} {property.aptNumber}</p>
                 <div className="py-4 mt-7">
                   {/* Añadido el formulario para el botón de reserva */}
-                  <form action="#" method="POST" /* onSubmit={stripePayment} */>
+{/*                   <form action="#" method="POST">
                     <button type="submit" onClick={handleReserv} className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Reservar</button>
-                  </form>
+                  </form> */}
+                  {property.available ? (
+                    <form action="#" method="POST">
+                      <button
+                        type="submit"
+                        onClick={handleReserv}
+                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                      >
+                        Reservar
+                      </button>
+                    </form>
+                  ) : (
+                    <p className="text-red-700">Reservado</p>
+                  )}
                 </div>
             </div>
         </div>

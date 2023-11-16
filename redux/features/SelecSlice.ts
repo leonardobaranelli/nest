@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface Property {
   priceRange: any;
-  days: number | null;
-  type: string;
+  type:string;
+  available: boolean;
   condition: string;
   image: string[];
   title: string;
@@ -20,6 +20,7 @@ export interface Property {
   userId: string | null;
   score: number | null;
 }
+
 export interface PropertyReview {
   type: string
   score: string;
