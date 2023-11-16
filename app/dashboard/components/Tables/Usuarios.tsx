@@ -96,13 +96,13 @@ const Usuarios = () => {
           >
             <div className="items-center gap-3 p-2.5 xl:p-5">
               <div className="flex-shrink-0">
-              <p className="text-black dark:text-white">{user.username}</p>
+              <p className="text-black">{user.username}</p>
               </div>
           
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{user.email}</p>
+              <p className="text-black">{user.email}</p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
@@ -110,7 +110,7 @@ const Usuarios = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">{user.id}</p>
+              <p className="text-black">{user.id}</p>
             </div>
             <div className="flex items-center justify-center p-2.5 xl:p-5">
               {/* {serverResponse? <div>{serverResponse}</div>: null} */}

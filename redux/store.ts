@@ -16,7 +16,10 @@ export const store = configureStore({
       posteo: postReducer,
       home: homeReducer,
       selec: selecReducer,
-      user: userReducer,      
+
+      user: userReducer,
+      favorites: favoriteReducer,
+
       scores: scoresReducer,
       favorites: favoritesReducer,
       [postsApi.reducerPath]: postsApi.reducer, 
@@ -29,8 +32,7 @@ export const store = configureStore({
 
 // store.subscribe(() => console.log('Nuevo estado:', store.getState()));
 
- setupListeners(store.dispatch);
-
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

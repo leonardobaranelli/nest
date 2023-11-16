@@ -9,9 +9,8 @@ const axiosInstance = axios.create({
 export const loginUserAsync = createAsyncThunk("user/login", async (loginData: Login) => {
   try {
     const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, loginData);
-    const keys = data;
-    localStorage.setItem('keys', JSON.stringify({...keys}));
-    return {...keys};
+    localStorage.setItem('keys', JSON.stringify({...data}));
+    return {...data};
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;
   }
@@ -42,9 +41,8 @@ async (registerData: Register) => {
     const { data } = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, registerData, {
       withCredentials: true,
     });
-    const keys:{ token: string, email: string } = data;
-    localStorage.setItem('keys', JSON.stringify({...keys}));
-    return {...keys};
+    localStorage.setItem('keys', JSON.stringify({...data}));
+    return {...data};
   } catch (error) {
     throw (error as { response?: { data?: any } })?.response?.data || error;
   }

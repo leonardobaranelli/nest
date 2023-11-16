@@ -1,42 +1,59 @@
 'use client'
-import React, { useEffect } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { updateState } from "@/redux/features/GlobalSlice";
+import React, { useEffect, useState } from "react";
 import { useGetPostsByConditionQuery} from "@/redux/services/api";
-import { updateSelec } from "@/redux/features/SelecSlice";
 import axios from "axios";
-import dbResponse from './dbResponse.json';
-import { Property } from "@/redux/features/SelecSlice";
+import Swal from "sweetalert2";
+import { Post } from "@/redux/services/api";
 
 
 const Alquiler = () => {
-  const dispatch = useAppDispatch();
-  const { data: posts, isLoading, isError } = useGetPostsByConditionQuery("rent");
- // const response = new Promise ( async ()=>{
-   // let res = await dbResponse
-   // return })
-  //console.log(response);
+
+  const { data: posts } = useGetPostsByConditionQuery("rent");
+  const [property, setProperty] = useState<Post[]>([])
   
-  const forceEracerProperty = async ()=>{
-    await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/:id`)
+  const handleClick = async (id: string) => {
+    try {
+      // Elimina localmente la publicación
+      setProperty((prevProperties) =>
+        prevProperties.map((property) =>
+          property.id === id ? { ...property, deletedAt: new Date().toISOString() } : property
+        )
+      );
+      if (id) {
+        // Actualiza el estado local para marcar el usuario como eliminado
+        setProperty((prevpropertys) =>
+          prevpropertys.map((property) =>
+            property.id === id ? { ...property, deletedAt: new Date().toISOString() } : property
+            )
+            );
+            
+            await axios.delete(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/${id}`)
+      } else {
+        console.error("El valor del botón es undefined o null.");
+      }
+    } catch (error:any) {
+      // Si hubo un problema al eliminar
+      Swal.fire({
+        icon: "error",
+        title: "Error al eliminar",
+        text: error.message || "Ha ocurrido un error al intentar eliminar.",
+      });
     }
+  };
   
   useEffect(() => {
-    if (!isLoading && !isError) {
-      dispatch(updateState(posts || []));
-      dispatch(updateSelec(posts || []));
-    }
-  }, [posts, isLoading, isError]);
+    setProperty(posts || [])
+  }, [property]);
   
   return (
-    <div className="rounded-sm border border-stroke text-center bg-white pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+    <div className="rounded-sm border border-stroke text-center bg-white pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
+      <h4 className="mb-6 text-xl font-semibold text-black ">
         Alquiler
       </h4>
 
       <div className="flex flex-col overflow-scroll overflow-y-auto h-[600px]">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
+        <div className="grid grid-cols-3 rounded-sm bg-gray-2  sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm uppercase font-bold xsm:text-base">
               Propiedades
@@ -64,13 +81,12 @@ const Alquiler = () => {
           </div>
         </div>
 
-        {posts?.map((rent, key) => (
-        // {posts?.map((rent, key) => (
+        {property?.map((rent, key) => (
           <div
             className={`grid grid-cols-3 sm:grid-cols-5 ${
-              key === posts.length - 1
+              key === (posts && posts.length ? posts.length - 1 : undefined)
                 ? ""
-                : "border-b border-stroke dark:border-strokedark"
+                : "border-b border-stroke "
             }`}
             key={key}
           >
@@ -92,7 +108,7 @@ const Alquiler = () => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{rent.title}</p>
+              <p className="text-black ">{rent.title}</p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
@@ -100,12 +116,16 @@ const Alquiler = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">${rent.price}</p>
+              <p className="text-black ">${rent.price}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              {/* <p className="text-meta-5">{rent.type}</p> */}
-              {/* <button onClick={() => handleClick(rent.id)} className="hover:text-primary"> */}
+
+            {rent.deletedAt ? (
+                <p className="text-red-500">Eliminado el {new Date(rent.deletedAt).toLocaleDateString()}</p>
+              ) : (
+              <button onClick={() => handleClick(rent.id)} className="hover:text-primary">
+
                   <svg 
                     className="fill-current"
                     width="18"
@@ -131,7 +151,10 @@ const Alquiler = () => {
                       fill=""
                     />
                   </svg>
-              {/* </button> */}
+
+              </button>
+              )}
+
             </div>
           </div>
         ))}

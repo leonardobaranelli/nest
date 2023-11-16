@@ -118,8 +118,6 @@ function Detail() {
     }
   };
 
-
-
   const handleReserv = () => {
     Swal.fire({
       title: 'Con qué quieres reservar?',

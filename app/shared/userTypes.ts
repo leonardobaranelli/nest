@@ -32,8 +32,6 @@ export interface Register {
 export interface Login {
     email: string;
     password: string;
-    // token?:string;
-    // storedToken?:string;
 }
 
 export interface UserState {

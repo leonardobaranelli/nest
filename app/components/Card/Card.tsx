@@ -8,13 +8,6 @@ import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation, useGetFavorite
 import StarRating from '../StarRating/StarRating';
 import { getFavorite } from '@/redux/features/Favorite';
 
-// <!-- import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-// import { Property } from '@/redux/features/SelecSlice';
-
-// import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation} from '@/redux/services/favorite';
-// import StarRating from '../StarRating/StarRating';
-// import { getFavorite } from '@/redux/features/Favorite';
-//  -->
 
 interface CardsProps {  
   properties: Property;
@@ -40,7 +33,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
       setCurrentImage(currentImage - 1);
     }
   };
- 
+
   const { id, title, price, images } = properties;  
   
   const userId = user?.id;
@@ -75,13 +68,9 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   // Asegurarte de que userId no sea undefined antes de llamar a dispatch
   if (userId) {
     await dispatch(getFavorite(userId));
-  } else {
-    // Manejar el caso en que userId es undefined
-    console.error("userId is undefined");
-  }
-};
-      
-  
+
+  };  
+
 
 //     } else {
        
@@ -109,7 +98,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   
 
   return (
-    <div className="w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
+    <div className="w-80 sm:w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
       <div className="h-52 w-90 relative">
         {properties.images?.map((imagen, index) => (
           <img
