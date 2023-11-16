@@ -15,7 +15,6 @@ export const store = configureStore({
       posteo: postReducer,
       home: homeReducer,
       selec: selecReducer,
-      favorite: favoriteReducer,
       user: userReducer,
       favorites: favoriteReducer,
       scores: scoresReducer,
@@ -26,6 +25,6 @@ export const store = configureStore({
     getDefaultMiddleware().concat(postsApi.middleware, favoritesApi.middleware),
 });
 // store.subscribe(() => console.log('Nuevo estado:', store.getState()));
-
+setupListeners(store.dispatch);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

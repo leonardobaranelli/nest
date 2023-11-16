@@ -11,10 +11,10 @@ const Cards: React.FC<CardsProps> = ({ properties }) => {
 
   return (
     <div className="flex justify-center align-center gap-10 flex-wrap">
-      {propertiesArray?.map((property, index) => (
+      {propertiesArray.length > 0 ? ( propertiesArray?.map((property, index) => (
         <Card key={index} properties={property} />
 
-      ))}
+      ))):( <p> No hay propiedades con esas caracteristicas... </p>)}
     </div>
   );
 };

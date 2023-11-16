@@ -7,7 +7,6 @@ import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation, useGetFavorite
 import StarRating from '../StarRating/StarRating';
 import { getFavorite } from '@/redux/features/Favorite';
 
-
 interface CardsProps {  
   properties: Property;
 }
@@ -32,11 +31,8 @@ const Card: React.FC<CardsProps> = ({properties}) => {
       setCurrentImage(currentImage - 1);
     }
   };
-
-
   
-  const { id, title, price, images } = properties;
-  
+  const { id, title, price, images } = properties;  
   
   const userId = user?.id;
   const postId=id
@@ -59,15 +55,13 @@ const Card: React.FC<CardsProps> = ({properties}) => {
     }
 
     await dispatch(getFavorite(userId));
-  };
-      
-  
+  };  
 
   const favoriteImageUrl = '/dislike.png';
   const notFavoriteImageUrl = '/like.png';
 
   return (
-    <div className="w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
+    <div className="w-80 sm:w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
       <div className="h-52 w-90 relative">
         {properties.images?.map((imagen, index) => (
           <img

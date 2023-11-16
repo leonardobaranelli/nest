@@ -116,8 +116,6 @@ function Detail() {
     }
   };
 
-
-
   const handleReserv = () => {
     Swal.fire({
       title: 'Con qué quieres reservar?',
@@ -174,7 +172,7 @@ function Detail() {
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">${property.price}</h5>
                 <p className="mb-3 font-normal text-gray-700">{property.description}</p>
                 <p>{property.condition === "sell" ? "En Venta" : "En Alquiler"}</p>
-                <p>Dias: {property.days}</p>
+                
                 <p>Locacion: {property.country} {property.city}</p>
                 <p>Domicilio: {property.streetName} {property.streetNumber} {property.aptNumber}</p>
                 <div className="py-4 mt-7">

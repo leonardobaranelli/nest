@@ -19,6 +19,7 @@ export interface Post {
   images: string[];
   userId: string | null;
   score: number | null;
+  deletedAt:string
 }
 
 export interface Score {

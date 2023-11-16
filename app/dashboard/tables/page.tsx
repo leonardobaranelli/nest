@@ -11,7 +11,6 @@ import { authenticateUserWithTokenAsync, logout } from "../../../redux/features/
 import { AppDispatch, RootState } from "../../../redux/store";
 import { User } from "@/app/shared/userTypes";
 
-
 const TablesPage = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -24,16 +23,18 @@ const TablesPage = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-   if (!isAuthenticated)
-  //  if (false)
-      dispatch(authenticateUserWithTokenAsync());
-  else if ( user?.rol !== "admin") {
-  //    else if ( false) {
-      router.push("/notfound");
-    } else {
+  
+    if (isAuthenticated) {
       setShow(true);
+      if (user?.rol !== "admin") {
+        router.push("/notfound");
+      }
+    } else {
+      alert("No estas autenticado")
+      router.push("/");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user, router]);
+  
 
   if (show) {
     return (

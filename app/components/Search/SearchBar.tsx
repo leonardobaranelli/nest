@@ -11,8 +11,10 @@ function SearchBar() {
 
   const handleSearch = () => {
     const filteredPosts = posts.filter((post) => {
-      const values = Object.values(post).filter((value) => typeof value === 'string');      
-      return values.some((value) => value.includes(searchTerm));
+      const values = Object.values(post).filter((value) => typeof value === 'string');
+      const lowercaseSearchTerm = searchTerm.toLowerCase();
+      
+      return values.some((value) => value.toLowerCase().includes(lowercaseSearchTerm));
     });
 
     dispatch(updateState(filteredPosts || []))
