@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ScoreService } from './score.service';
 import { CreateScoreDto } from './dto/create-score.dto';
 import { UpdateScoreDto } from './dto/update-score.dto';
@@ -25,7 +33,7 @@ export class ScoreController {
   @Patch('update/:scoreId')
   update(
     @Param('scoreId') scoreId: string,
-    @Body() updateScoreDto: UpdateScoreDto
+    @Body() updateScoreDto: UpdateScoreDto,
   ) {
     return this.scoreService.update(scoreId, updateScoreDto);
   }
