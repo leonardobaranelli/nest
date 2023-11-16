@@ -675,7 +675,7 @@ export const htmlCreatedUser = (firstName, url) => {
                                         creada con éxito. Por favor, verifica tu
                                         dirección de correo electrónico haciendo
                                         clic en el siguiente enlace,
-                                        <a href="${url}">Clic Aquí</a>. Esto
+                                        <a href="${url}">Click Aquí</a>. Esto
                                         nos ayudará a mantener tu cuenta segura
                                         y te permitirá disfrutar de todas las
                                         funciones de Nest. Gracias por unirte a

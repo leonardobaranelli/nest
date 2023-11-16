@@ -71,11 +71,27 @@ export class PostService {
       });
   }
 
+  findActive() {
+    // Get all posts from the database on sequelize
+    return this.postsModel
+      .findAll({
+        include: ['scores'],
+      })
+      .then((posts) => {
+        return this.postsWithScore(posts);
+      })
+      .catch((e) => {
+        throw new InternalServerErrorException(
+          'Error obteniendo las publicaciones',
+        );
+      });
+  }
+
   findAll() {
     // Get all posts from the database on sequelize
     return this.postsModel
       .findAll({
-        // paranoid: false,
+        paranoid: false,
         include: ['scores'],
       })
       .then((posts) => {

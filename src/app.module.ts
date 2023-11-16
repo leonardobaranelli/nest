@@ -28,11 +28,6 @@ config();
       database: process.env.DB_NAME,
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
-      //#############################//
-      //host: process.env.DEV_DB_HOST,
-      //database: process.env.DEV_DB_NAME,
-      //username: process.env.DEV_DB_USER,
-      //password: process.env.DEV_DB_PASS,
       port: 5432,
       models: [User, Post, Rent, Comment, Score, Favorite, Sell],
       dialectOptions: {
