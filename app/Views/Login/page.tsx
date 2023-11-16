@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { loginUserAsync, authenticateUserWithTokenAsync, logout } from "../../../redux/features/UserSlice";
 import { useUserVerifyQuery } from "@/redux/services/authentication";
+import Cookie from "js-cookie";
 import Link from "next/link";
 import axios from 'axios';
-
 
 const Login = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -16,7 +16,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
-
 
   const handleLogin = () => {
     try {
@@ -33,10 +32,20 @@ const Login = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
-  
+
   useEffect(() => {
     if (!isAuthenticated) {
-     if(keys) dispatch(authenticateUserWithTokenAsync());
+      if(keys) dispatch(authenticateUserWithTokenAsync());
+      else {
+        console.log("Keys no definidas - Cookies?");
+        let cookieTkn = Cookie.get('token');
+        let cookieMail = Cookie.get('email');
+        console.log("COOKIES --> ",{ email: cookieMail, token: cookieTkn });
+        if(cookieTkn && cookieMail) {
+          console.log("HAY COOKIES :3 !!!!");
+          dispatch(authenticateUserWithTokenAsync({ email: cookieMail, token: cookieTkn }))
+        }
+      }
     }
   }, [isAuthenticated, keys]);
   

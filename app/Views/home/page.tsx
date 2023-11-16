@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useEffect, useState } from 'react';
 import Cards from '@/app/components/Cards/Cards';
 import Navbar from '@/app/components/Navbar/Navbar';
@@ -32,18 +33,16 @@ const Home = () => {
   const isAuthenticated = useAppSelector(
     (state: RootState) => state.user.isAuthenticated
   );
-
-
-  useEffect(()=>{
-    if(!isAuthenticated)
-      dispatch(authenticateUserWithTokenAsync())
-  },[isAuthenticated])
-  
   const user = useAppSelector((state) => state.user.user)
-
   const userId = user?.id;
 
-// <!--   const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f"; -->
+  
+  useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch(authenticateUserWithTokenAsync());
+    }
+  }, [isAuthenticated]);
+  
 
   useEffect(() => {
     if (!isLoading && !isError) {
@@ -57,36 +56,35 @@ const Home = () => {
     if(userId)
       dispatch(getFavorite(userId));
   };
-  console.log("este es  el  user",user);
-  
+
   return (
     <div>
       <Navbar />
       <div>
         <DisplayFilter />
       </div>
-
-      <div className="flex gap-10 justify-center">
-        {isLoading ? (
-          <img src="/Infinity-4.5s-224px.gif" alt="Cargando..." />
-        ) : posts && posts.length > 0 ? (
-          <div className="flex gap-10 justify-center">
-            <Cards properties={homeState} />
-          </div>
-        ) : (
-          <Errors />
-        )}
-      </div>
-
-      <img     
-        src="/dislike.png"  
-        alt="Mostrar Modal"
-        onClick={toggleFilterModal}
-        className="fixed bottom-4 right-4 cursor-pointer"
-        style={{ width: '50px', height: '50px' }}  
-      />
-
-      {showFilterModal && <FilterModal onClose={toggleFilterModal} />}
+        <div className="flex gap-10 justify-center">
+          {isLoading ? (
+            <img src="/Infinity-4.5s-224px.gif" alt="Cargando..." />
+          ) : posts && posts.length > 0 ? (
+            <div className="flex gap-10 justify-center">
+              <Cards properties={homeState} />
+            </div>
+          ) : (
+            <Errors />
+          )}
+        </div>
+        <img     
+          src="/dislike.png"  
+          alt="Mostrar Modal"
+          onClick={toggleFilterModal}
+          className="fixed bottom-4 right-4 cursor-pointer"
+          style={{ width: '50px', height: '50px' }}  
+        />
+        {
+          showFilterModal &&
+          <FilterModal onClose={toggleFilterModal} />
+        }
     </div>
   );
 };
