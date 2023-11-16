@@ -236,7 +236,7 @@ export default function Formulario() {
           icon: "error",
           title: "Error al Crear",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 1500,<<<<<<< preLanding
         });
       }
     } catch (error) {
@@ -275,6 +275,7 @@ export default function Formulario() {
     loged ? (keys = JSON.parse(loged)) : null;
 
     if (!isAuthenticated) {
+
       if (keys) {
         dispatch(authenticateUserWithTokenAsync());
       } else {
@@ -282,6 +283,7 @@ export default function Formulario() {
         router.push("/Views/Login");
       }
     } else setShow(true);
+
   }, [isAuthenticated]);
 
   if (show) {
@@ -315,6 +317,7 @@ export default function Formulario() {
                   </div>
                 </div>
 
+
                 <div className="mb-5">
                   <label className="block text-gray-700 font-bold mb-2">
                     Condicion:{" "}
@@ -338,9 +341,7 @@ export default function Formulario() {
                       <span className="text-red-500 text-sm">{errors.type}</span>
                     )}
                   </div>
-                </div>
-
-                
+                </div>                
 
                 <div className="mb-5">
                   <label className="block text-gray-800 font-bold mb-2">
@@ -354,6 +355,7 @@ export default function Formulario() {
                     onFocus={() => setFocused("country")}
                     onBlur={() => setFocused(null)}
                     className="border-2 border-gray-300 p-2 w-3/4 rounded-lg"
+
                   />
                   <div className="mb-2">
                     {errors.country && focused === "country" && (
@@ -582,44 +584,10 @@ export default function Formulario() {
           </div>
         </div>
       </div>
+
     );
   }
+
 }
 
-// if (isAuthenticated) setShow(true);
-// }, [isAuthenticated]);
 
-// if (show) {
-//   return (
-//     <div>
-//       <div className=" p-4 bg-[#fc9a84]">
-//         <nav className=" flex items-center justify-between sm:h-10">
-//           <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-//             <Link
-//               href="../../Views/home"
-//               className="font-medium text-gray-500 hover:text-gray-900"
-//             >
-//               Home
-//             </Link>
-//             <Link
-//               href="../../Views/Buy"
-//               className="font-medium text-gray-500 hover:text-gray-900"
-//             >
-//               Venta
-//             </Link>
-//             <Link
-//               href="../../Views/Rent"
-//               className="font-medium text-gray-500 hover:text-gray-900"
-//             >
-//               Alquiler
-//             </Link>
-//             <Link
-//               href=""
-//               className=" font-medium text-indigo-600 hover:text-indigo-500"
-//             >
-//               Log in
-//             </Link>
-
-//     </div>
-//   </nav>
-// </div>

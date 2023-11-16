@@ -120,6 +120,7 @@ const Ventas = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+
             {sell.deletedAt ? (
                 <p className="text-red-500">Eliminado el {new Date(sell.deletedAt).toLocaleDateString()}</p>
               ) : (
@@ -151,6 +152,7 @@ const Ventas = () => {
                   </svg>
               </button>
               )}
+
             </div>
           </div>
         ))}

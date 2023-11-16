@@ -4,7 +4,9 @@ import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useGetPostQuery } from "@/redux/services/api";
+ 
 import Navbar from "@/app/components/Navbar/Navbar";
+
 import Swal from "sweetalert2";
 import { Post } from "@/redux/services/getPost";
 import Link from "next/link";

@@ -120,10 +120,12 @@ const Alquiler = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+
             {rent.deletedAt ? (
                 <p className="text-red-500">Eliminado el {new Date(rent.deletedAt).toLocaleDateString()}</p>
               ) : (
               <button onClick={() => handleClick(rent.id)} className="hover:text-primary">
+
                   <svg 
                     className="fill-current"
                     width="18"
@@ -149,8 +151,10 @@ const Alquiler = () => {
                       fill=""
                     />
                   </svg>
+
               </button>
               )}
+
             </div>
           </div>
         ))}

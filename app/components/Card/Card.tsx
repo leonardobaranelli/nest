@@ -1,11 +1,13 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+
 import { useAppDispatch,useAppSelector } from '@/redux/hooks';
 import { Property } from '@/redux/features/SelecSlice';
 import { Post, useAddFavoriteMutation, useDeleteFavoriteMutation, useGetFavoritesQuery } from '@/redux/services/favorite';
 import StarRating from '../StarRating/StarRating';
 import { getFavorite } from '@/redux/features/Favorite';
+
 
 interface CardsProps {  
   properties: Property;
@@ -15,7 +17,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useAppDispatch();
-
+  
   const [deleteFavorite]=useDeleteFavoriteMutation()
   const [addFavorite]=useAddFavoriteMutation()
   const user = useAppSelector((state) => state.user.user);
@@ -31,34 +33,69 @@ const Card: React.FC<CardsProps> = ({properties}) => {
       setCurrentImage(currentImage - 1);
     }
   };
-  
+
   const { id, title, price, images } = properties;  
   
   const userId = user?.id;
+
+//   const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f";
+
   const postId=id
 
-  const toggleFavorite = async() => {
-    setIsFavorite(!isFavorite);
-    
-    if (isFavorite) {
-      deleteFavorite({ userId, postId })
-      // dispatch(getFavorite(userId));
-    } else { 
-      const post: Post = {
-        userId,
-        postId,
-        images,
-        title,
-        price,
-      };
-      addFavorite(post);
-    }
+  const toggleFavorite = async () => {
+  setIsFavorite(!isFavorite);
 
+  if (isFavorite) {
+    // Asegurarte de que userId no sea undefined
+    if (userId) {
+      deleteFavorite({ userId, postId });
+      // dispatch(getFavorite(userId));
+    } else {
+      // Manejar el caso en que userId es undefined
+      console.error("userId is undefined");
+    }
+  } else {
+    const post: Post = {
+      userId: userId || "",
+      postId,
+      images,
+      title,
+      price,
+    };
+    addFavorite(post);
+  }
+
+  // Asegurarte de que userId no sea undefined antes de llamar a dispatch
+  if (userId) {
     await dispatch(getFavorite(userId));
+
   };  
+
+
+//     } else {
+       
+//               const post: Post = {
+//                 userId,
+//                 postId,
+//                 images,
+//                 title,
+//                 price,
+//               };
+            
+//               addFavorite(post);
+              
+ 
+//     }
+
+//                await dispatch(getFavorite(userId));
+//   };
+      
+
 
   const favoriteImageUrl = '/dislike.png';
   const notFavoriteImageUrl = '/like.png';
+  console.log("user",user);
+  
 
   return (
     <div className="w-80 sm:w-96 p-4 bg-white rounded-3xl shadow-md transform hover:scale-105 transition-transform duration-300 ease-in-out">
@@ -109,7 +146,7 @@ const Card: React.FC<CardsProps> = ({properties}) => {
         </div>
         <div className="p-4">
           {/* Utiliza el componente StarRating para mostrar el puntaje como estrellas */}
-          <StarRating score={properties.score} />
+          <StarRating score={properties.score || 0} />
           {/* <p className="text-gray-600">{properties.condition}</p> */}
           <p className="text-gray-600 flex items-center">
             Dirección: {properties.streetName} {properties.floorNumber}

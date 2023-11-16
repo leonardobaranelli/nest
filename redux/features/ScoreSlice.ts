@@ -6,10 +6,13 @@ export const fetchScores = createAsyncThunk('fetchScores', async () => {
   return response.data;
 });
 
+
   const scoresSlice = createSlice({
     name: 'scores',
     initialState: { scores: [], status: 'idle', error: null as string | null },
   reducers: {   
+
+
   },
   extraReducers: (builder) => {
     builder
@@ -21,6 +24,7 @@ export const fetchScores = createAsyncThunk('fetchScores', async () => {
         state.scores = action.payload;
       })
       .addCase(fetchScores.rejected, (state, action) => {
+        // Utiliza el operador ?? para proporcionar un valor predeterminado en caso de que action.error.message sea undefined
         state.status = 'failed';
         state.error = action.error.message ?? null;
       });
@@ -28,3 +32,4 @@ export const fetchScores = createAsyncThunk('fetchScores', async () => {
 });
 
 export default scoresSlice.reducer;
+
