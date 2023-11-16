@@ -7,55 +7,55 @@ import { Post } from "@/redux/services/api";
 
 
 const Ventas = () => {
+  const [property, setProperty] = useState<Post[]>([]);
+  const [change, setChange] = useState<Boolean>(false);
+  let posts: Post[] = [];
+  let rentPosts: Post[] = [];
 
-  const { data: posts } = useGetPostsByConditionQuery("sell");
-  const [property, setProperty] = useState<Post[]>([])
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data }: { data: Post[] } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/all`);
+        rentPosts = data.filter((item) => item.condition === "sell");
+        setProperty(rentPosts);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setProperty(posts);
+      }
+    };
+    fetchData();
+  }, [change]);
+
   const handleClick = async (id: string) => {
     try {
-      // Elimina localmente la publicación
-      setProperty((prevProperties) =>
-        prevProperties.map((property) =>
-          property.id === id ? { ...property, deletedAt: new Date().toISOString() } : property
-        )
-      );
-      if (id) {
-        // Actualiza el estado local para marcar el usuario como eliminado
-        setProperty((prevpropertys) =>
-          prevpropertys.map((property) =>
-            property.id === id ? { ...property, deletedAt: new Date().toISOString() } : property
-            )
-            );
-            Swal.fire({
-              icon: "success",
-              title: "Eliminado exitosamente",
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-            });
-            await axios.delete(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/${id}`)
-      } else {
-        console.error("El valor del botón es undefined o null.");
-      }
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/${id}`);
+      setProperty((prevProp) =>
+          prevProp.map((prop) =>
+            prop.id === id ? { ...prop, deletedAt: new Date().toLocaleDateString() } : prop
+          )
+      )
+      setChange(true)
+      Swal.fire({
+        icon: "success",
+        title: "Eliminado exitosamente",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
     } catch (error:any) {
-      // Si hubo un problema al eliminar
+      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Error al eliminar",
         text: error.message || "Ha ocurrido un error al intentar eliminar.",
       });
     }
-  };
-  
-  useEffect(() => {
-    setProperty(posts || [])
-  }, [property]);
+  }
   
   return (
     <div className="rounded-sm border border-stroke text-center bg-white pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black ">
-        Ventas
+        Propiedades en Venta
       </h4>
 
       <div className="flex flex-col overflow-scroll overflow-y-auto h-[600px]">
@@ -126,8 +126,8 @@ const Ventas = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            {sell.deletedAt ? (
-                <p className="text-red-500">Eliminado el {new Date(sell.deletedAt).toLocaleDateString()}</p>
+            {sell.deleteAt ? (
+                <p className="text-red-500">Eliminado el {new Date(sell.deleteAt).toLocaleDateString()}</p>
               ) : (
               <button onClick={() => handleClick(sell.id)} className="hover:text-primary">
                   <svg 

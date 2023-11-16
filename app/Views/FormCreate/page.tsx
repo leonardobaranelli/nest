@@ -261,10 +261,10 @@ export default function Formulario() {
   const handleDeleteImage = (imagen: string)=>{
 
     const filteredImages = values.images.filter(image => image !== imagen);
-     setValues((imagen) => ({
-       ...values,
-       images: filteredImages,
-     }));
+      setValues((imagen) => ({
+        ...values,
+        images: filteredImages,
+      }));
 
   }
 

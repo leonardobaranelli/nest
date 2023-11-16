@@ -1,20 +1,18 @@
 'use client'
-import React, { useEffect, useState,} from "react";
+import { useEffect, useState,} from "react";
 import { useDeleteUserMutation, useGetUserQuery } from '@/redux/services/api';
-import {Users} from '@/redux/services/api'
+import { Users } from '@/redux/services/api'
 import Swal from "sweetalert2";
 
-
-
-
 const Usuarios = () => {
-
-  const { data: users} = useGetUserQuery("");
+  const { data } = useGetUserQuery("");
   const [deleteUser] = useDeleteUserMutation();
   const [user, setUser] = useState<Users[]>([])
   
   const handleClick = async (id: string) => {
     try {
+      await deleteUser(id);
+
       // Si la eliminación fue exitosa
       Swal.fire({
         icon: "success",
@@ -30,8 +28,6 @@ const Usuarios = () => {
             user.id === id ? { ...user, deletedAt: new Date().toISOString() } : user
           )
         );
-
-        await deleteUser(id);
       } else {
         console.error("El valor del botón es undefined o null.");
       }
@@ -45,13 +41,9 @@ const Usuarios = () => {
     }
   };
   
-  
-
   useEffect(() => {
-      
-      setUser(users || [])
-    
-  }, [users]);
+    setUser(data || [])
+  }, [data]);
 
   return (
     <div>
@@ -146,9 +138,6 @@ const Usuarios = () => {
               </button>
               )}
             </div>
-{/*             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{user.deletedAt}</p>
-        </div> */}
           </div>
         ))}
       </div>
@@ -158,63 +147,3 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
-
-
-{/* <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-<h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-  USUARIOS
-</h4>
-
-<div className="flex flex-col overflow-scroll overflow-y-auto h-[600px]">
-  <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
-    <div className="p-2.5 xl:p-5">
-      <h5 className="text-sm uppercase font-bold xsm:text-base">
-        Username
-      </h5>
-    </div>
-    <div className="p-2.5 text-center xl:p-5">
-      <h5 className="text-sm uppercase font-bold xsm:text-base">
-        Email
-      </h5>
-    </div>
-    <div className="p-2.5 text-center xl:p-5">
-      <h5 className="text-sm uppercase font-bold xsm:text-base">
-        Rol
-      </h5>
-    </div>
-    <div className="hidden p-2.5 text-center sm:block xl:p-5">
-      <h5 className="text-sm uppercase font-bold xsm:text-base">
-        Id
-      </h5>
-    </div>
-    
-
-      {users?.map((user, key) => (
-        <div className="flex items-center justify-center p-2.5 xl:p-5">
-          <p className="text-black dark:text-white">{user.username}</p>
-        </div>
-        
-        <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">{user.email}</p>
-          </div>
-          
-          <div className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-            <p
-              className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${user.rol === "Administrador"
-                  ? "text-success bg-success"
-                  : user.rol === "Usuario"
-                    ? "text-danger bg-danger"
-                    : "text-warning bg-warning"}`}
-            >
-              {user.rol}
-            </p>
-          </div><div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">{user.id}</p>
-          </div></>
-
-        ))}
-    
-
-</div>
-</div>
-</div> */}
