@@ -7,8 +7,8 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
-  DeletedAt,  
-  BelongsToMany  
+  DeletedAt,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { User, Comment, Score, Rent, Favorite } from '.';
 
@@ -28,15 +28,9 @@ export class Post extends Model {
 
   @Column({ allowNull: false, type: DataType.BOOLEAN, defaultValue: true })
   available: boolean;
-  
-  @Column({ allowNull: true, type: DataType.INTEGER })
-  days: number;
 
   @Column({ allowNull: false, type: DataType.STRING(255) })
   condition: conditionType;
-
-  @Column({ allowNull: false, type: DataType.STRING(255) })
-  type: string;
 
   @Column({ allowNull: false, type: DataType.ARRAY(DataType.STRING) })
   images: Array<string>;
@@ -87,6 +81,6 @@ export class Post extends Model {
   @HasMany(() => Rent) //Rent === Reservation !IMPORTANT -> Change the name of the model
   rents: Rent[];
 
-  @BelongsToMany(() => User, ()=> Favorite)
+  @BelongsToMany(() => User, () => Favorite)
   favorites: Favorite[];
 }

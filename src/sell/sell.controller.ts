@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { RentService } from './rent.service';
-import { CreateRentDto } from './dto/create-rent.dto';
+import { SellService } from './sell.service';
+import { CreateSellDto } from './dto/create-sell.dto';
 
-@Controller('rent')
-export class RentController {
-  constructor(private readonly rentService: RentService) {}
+@Controller('sell')
+export class SellController {
+  constructor(private readonly rentService: SellService) {}
 
   @Get()
   findAll() {
@@ -21,8 +21,8 @@ export class RentController {
   }
 
   @Post()
-  create(@Body() createRentDto: CreateRentDto) {
-    return this.rentService.create(createRentDto).catch((e) => {
+  create(@Body() createSellDto: CreateSellDto) {
+    return this.rentService.create(createSellDto).catch((e) => {
       throw e;
     });
   }
@@ -41,13 +41,6 @@ export class RentController {
     });
   }
 
-  @Get('count/now')
-  countNow() {
-    return this.rentService.countNow().catch((e) => {
-      throw e;
-    });
-  }
-
   @Get('amount')
   amount() {
     return this.rentService.amount().catch((e) => {
@@ -55,3 +48,4 @@ export class RentController {
     });
   }
 }
+
