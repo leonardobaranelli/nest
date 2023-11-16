@@ -34,24 +34,28 @@ const Card: React.FC<CardsProps> = ({ properties }) => {
       setCurrentImage(currentImage - 1);
     }
   };
+  
+  const { id, title, price, images } = properties;  
+  
+  const userId = user ? user?.id : null
+  const postId = id
 
-  const { id, title, price, images } = properties;    
-  const userId = user?.id;
+  const toggleFavorite = async() => {
+    if(!userId) return;
 
-//   const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f";
-
-  const postId=id
-  const toggleFavorite = async () => {
-  setIsFavorite(!isFavorite);
-
-  if (isFavorite) {
-    // Asegurarte de que userId no sea undefined
-    if (userId) {
-      deleteFavorite({ userId, postId });
-      // dispatch(getFavorite(userId));
-    } else {
-      // Manejar el caso en que userId es undefined
-      console.error("userId is undefined");
+    setIsFavorite(!isFavorite);
+    
+    if (isFavorite) {
+      deleteFavorite({ userId, postId })
+    } else { 
+      const post: Post = {
+        userId,
+        postId,
+        images,
+        title,
+        price,
+      };
+      addFavorite(post);
     }
   } else {
     const post: Post = {
@@ -131,21 +135,21 @@ const Card: React.FC<CardsProps> = ({ properties }) => {
       <div className='flex flex-col justify-around gap-8'>
         <div>
           <h2 className="text-xl font-bold text-center">
-            {/* <Link href={`/Views/${properties.id}`}> */}<p>{properties.title}</p>{/* </Link> */}
+            {/* <Link href={`/Views/${properties.id}`}> */}<p>{ properties.title }</p>{/* </Link> */}
           </h2>
-          <h2 className='text-center mt-5 text-xl font-semibold'>${properties.price}</h2>
+          <h2 className='text-center mt-5 text-xl font-semibold'>${ properties.price }</h2>
         </div>
         <div className="p-4">
           {/* Utiliza el componente StarRating para mostrar el puntaje como estrellas */}
-          <StarRating score={properties.score || 0} />
+          <StarRating score={ properties.score ? properties.score : 0 } />
           {/* <p className="text-gray-600">{properties.condition}</p> */}
           <p className="text-gray-600 flex items-center">
-            Dirección: {properties.streetName} {properties.floorNumber}
+            Dirección: { properties.streetName } { properties.floorNumber }
           </p>
-          <p className="text-gray-600">Ubicación: {properties.country}, {properties.city}</p>
+          <p className="text-gray-600">Ubicación: { properties.country }, { properties.city }</p>
           <div className="flex justify-between items-center mt-5">
-            <Link href={`/Views/${properties.id}`}><button className="text-white bg-[#FD8974] hover:bg-[#E07564] font-medium rounded-lg text-sm px-5 py-2.5 text-center rounded-full">Mas Detalle</button></Link>
-            <button onClick={toggleFavorite} className={`favorite-button ${isFavorite ? 'favorite' : ''}`}>
+            <Link href={ `/Views/${properties.id}` }><button className="text-white bg-[#FD8974] hover:bg-[#E07564] font-medium rounded-lg text-sm px-5 py-2.5 text-center rounded-full">Mas Detalle</button></Link>
+            <button onClick={ toggleFavorite } className={ `favorite-button ${isFavorite ? 'favorite' : ''}` }>
               {isFavorite ? (
                 <img src={favoriteImageUrl} width={40} height={40} alt="Favorito" />
               ) : (

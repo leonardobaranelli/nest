@@ -37,14 +37,10 @@ const Login = () => {
     if (!isAuthenticated) {
       if(keys) dispatch(authenticateUserWithTokenAsync());
       else {
-        console.log("Keys no definidas - Cookies?");
         let cookieTkn = Cookie.get('token');
         let cookieMail = Cookie.get('email');
-        console.log("COOKIES --> ",{ email: cookieMail, token: cookieTkn });
-        if(cookieTkn && cookieMail) {
-          console.log("HAY COOKIES :3 !!!!");
-          dispatch(authenticateUserWithTokenAsync({ email: cookieMail, token: cookieTkn }))
-        }
+        if(cookieTkn && cookieMail)
+          dispatch(authenticateUserWithTokenAsync({ email: cookieMail, token: cookieTkn }));
       }
     }
   }, [isAuthenticated, keys]);

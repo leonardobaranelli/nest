@@ -46,8 +46,6 @@ const TablesPage = () => {
     }
   }, [isAuthenticated, user?.rol]);
 
-  
-
   if (show) {
     return (
       <>
