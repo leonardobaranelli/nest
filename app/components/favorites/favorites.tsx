@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { useGetFavoritesQuery } from '@/redux/services/favorite';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '@/redux/hooks';
+
 
 interface Property {
   userId: string;
@@ -36,9 +36,6 @@ function FavoriteCard() {
   }, [favoriteProperties]);
 
   console.log("lo de fav",favoriteProperties);
-  
-
-
 
   return (
     <div className="bg-gray-100 p-4">
@@ -48,39 +45,21 @@ function FavoriteCard() {
           <div className="flex flex-row space-x-4">
             {favoriteProperties.map((property, index) => (
               <div key={property.postId} className={`transition-transform transform ${index === currentPropertyIndex ? 'scale-100' : 'scale-90'}`}>
-<div className="grid grid-cols-3 gap-2">
-  {property?.images.length > 0 && ( 
-    <img
-      src={property.images[0]}  
-      className="rounded-md"
-      alt={`Property Image 0`} 
-    />
-  )}
-</div>
-
+                <div className="grid grid-cols-3 gap-2">
+                  {property?.images.length > 0 && ( 
+                    <img
+                      src={property.images[0]}  
+                      className="rounded-md"
+                      alt={`Property Image 0`} 
+                    />
+                  )}
+                </div>
                 <Link href={`/Views/${property.postId}`}>
                   <h1 className="text-xl font-bold text-blue-500 cursor-pointer hover:underline">{property.title}</h1>
                 </Link>
                 <p className="text-gray-700">Precio: ${property.price}</p>
               </div>
             ))}
-
-<!--           <Link href={`/Views/${favoriteProperties[currentPropertyIndex]?.postId}`}>
-            <h1>{favoriteProperties[currentPropertyIndex]?.title}</h1>
-          </Link>
-          <p>Precio: ${favoriteProperties[currentPropertyIndex]?.price}</p>
-          <div className="property-images">
-            {/* {favoriteProperties[currentPropertyIndex]?.images.map((image, imageIndex) => ( */}
-              {/* <img
-                key={imageIndex}
-                src={image}
-                width={25}
-                height={25}
-                alt={`Property Image ${imageIndex}`}
-                style={{ display: imageIndex === currentImageIndex ? 'block' : 'none' }}
-              />
-            ))} */} -->
-
           </div>
           <div className="flex justify-between mt-4">
             <button
@@ -108,3 +87,19 @@ function FavoriteCard() {
 
 export default FavoriteCard;
 
+
+{/* <Link href={`/Views/${favoriteProperties[currentPropertyIndex]?.postId}`}>
+<h1>{favoriteProperties[currentPropertyIndex]?.title}</h1>
+</Link>
+<p>Precio: ${favoriteProperties[currentPropertyIndex]?.price}</p>
+<div className="property-images">
+{/* {favoriteProperties[currentPropertyIndex]?.images.map((image, imageIndex) => ( */}
+  {/* <img
+    key={imageIndex}
+    src={image}
+    width={25}
+    height={25}
+    alt={`Property Image ${imageIndex}`}
+    style={{ display: imageIndex === currentImageIndex ? 'block' : 'none' }}
+  />
+))} */} 

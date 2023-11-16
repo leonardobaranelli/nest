@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { updateState } from '@/redux/features/GlobalSlice';
 import { useGetPostsQuery } from '@/redux/services/api';
 import { updateSelec } from '@/redux/features/SelecSlice';
-import FavoriteCard from '@/app/components/favorites/favorites';
+//import FavoriteCard from '@/app/components/favorites/favorites';
 import FilterModal from '@/app/components/favorites/FilterModal';
 import { useGetFavoritesQuery } from '@/redux/services/favorite';
 import DisplayFilter from '@/app/components/Filters/DisplayFilter';
@@ -43,7 +43,7 @@ const Home = () => {
 
   const userId = user?.id;
 
-<!--   const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f"; -->
+// <!--   const userId = "e28a65e9-82e6-4dc9-8997-ddcfdc671c7f"; -->
 
   useEffect(() => {
     if (!isLoading && !isError) {
@@ -65,15 +65,6 @@ const Home = () => {
       <div>
         <DisplayFilter />
       </div>
-
-<!--     dispatch(getFavorite(userId));
-  };
-  console.log("user",user);
-  return (
-    <div>
-      <Navbar />
-      <DisplayFilter/> -->
-
 
       <div className="flex gap-10 justify-center">
         {isLoading ? (
@@ -102,3 +93,10 @@ const Home = () => {
 
 export default Home;
 
+// dispatch(getFavorite(userId));
+// };
+// console.log("user",user);
+// return (
+//   <div>
+//     <Navbar />
+//     <DisplayFilter/> 

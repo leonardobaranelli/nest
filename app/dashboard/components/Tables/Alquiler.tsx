@@ -105,7 +105,7 @@ const Alquiler = () => {
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
               {/* <p className="text-meta-5">{rent.type}</p> */}
-              <button onClick={() => handleClick(rent.id)} className="hover:text-primary">
+              {/* <button onClick={() => handleClick(rent.id)} className="hover:text-primary"> */}
                   <svg 
                     className="fill-current"
                     width="18"
@@ -131,7 +131,7 @@ const Alquiler = () => {
                       fill=""
                     />
                   </svg>
-              </button>
+              {/* </button> */}
             </div>
           </div>
         ))}

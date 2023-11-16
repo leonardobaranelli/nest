@@ -1,4 +1,4 @@
-require('dotenv').config();
+
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -125,7 +125,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ postId }) => {
               pattern="[0-9]|10"
 
 
-<!--               maxLength={2} -->
+// <!--               maxLength={2} -->
 
               value={reviewData.score}
               onChange={handleScoreChange}
