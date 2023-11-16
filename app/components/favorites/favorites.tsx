@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { useGetFavoritesQuery } from '@/redux/services/favorite';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +16,9 @@ interface Property {
 
 function FavoriteCard() {
   const favoriteProperties = useAppSelector((state) => state.favorites.posts);
+
+//   const { data: posts, isLoading, isError } =  useGetFavoritesQuery({ userId: 'c30e0fed-a0c0-4882-9495-356a6e82b0bd' });
+
   const [currentPropertyIndex, setCurrentPropertyIndex] = useState(0);
   const dispatch = useAppDispatch();
 
@@ -27,6 +30,7 @@ function FavoriteCard() {
     setCurrentPropertyIndex((prevIndex) => (prevIndex - 1 + favoriteProperties.length) % favoriteProperties.length);
   };
 
+
   useEffect(() => {
     setCurrentPropertyIndex(0);
   }, [favoriteProperties]);
@@ -34,10 +38,13 @@ function FavoriteCard() {
   console.log("lo de fav",favoriteProperties);
   
 
+
+
   return (
     <div className="bg-gray-100 p-4">
       {favoriteProperties && favoriteProperties.length > 0 ? (
         <div>
+
           <div className="flex flex-row space-x-4">
             {favoriteProperties.map((property, index) => (
               <div key={property.postId} className={`transition-transform transform ${index === currentPropertyIndex ? 'scale-100' : 'scale-90'}`}>
@@ -57,6 +64,23 @@ function FavoriteCard() {
                 <p className="text-gray-700">Precio: ${property.price}</p>
               </div>
             ))}
+
+<!--           <Link href={`/Views/${favoriteProperties[currentPropertyIndex]?.postId}`}>
+            <h1>{favoriteProperties[currentPropertyIndex]?.title}</h1>
+          </Link>
+          <p>Precio: ${favoriteProperties[currentPropertyIndex]?.price}</p>
+          <div className="property-images">
+            {/* {favoriteProperties[currentPropertyIndex]?.images.map((image, imageIndex) => ( */}
+              {/* <img
+                key={imageIndex}
+                src={image}
+                width={25}
+                height={25}
+                alt={`Property Image ${imageIndex}`}
+                style={{ display: imageIndex === currentImageIndex ? 'block' : 'none' }}
+              />
+            ))} */} -->
+
           </div>
           <div className="flex justify-between mt-4">
             <button

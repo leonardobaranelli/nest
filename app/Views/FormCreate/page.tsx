@@ -263,6 +263,7 @@ export default function Formulario() {
       alert("Debes iniciar sesion para poder publicar")
       router.push("/Views/Login");
     }
+
     if (isAuthenticated) setShow(true)
   }, [isAuthenticated]);
 
@@ -271,6 +272,8 @@ if (show) {
   return (
     <div>
       <Navbar/>
+
+
       <div className="flex items-center justify-center min-h-screen p-5 md:p-10 mt-0 z-10">
         <div className="md:flex md:items-center z-10">
           <form
@@ -559,7 +562,11 @@ if (show) {
         </div>
       </div>
     </div>    
+
   )};
+
+
+
 }
 
   // if (isAuthenticated) setShow(true);

@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import axios from "axios"; 
+
+
 
 export interface Post {
   userId: string;
@@ -25,7 +28,9 @@ export const getFavorite = createAsyncThunk(
   "favorites/getFavorite",
   async (userId: string, { dispatch, rejectWithValue }) => {
     try {
+
       const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/favorites/${userId}`);
+
       return response.data;
     } catch (error) {
       console.error('Error en la solicitud GET:', error);
@@ -55,4 +60,6 @@ const favoritesSlice = createSlice({
   },
 });
 
+
 export default favoritesSlice.reducer;
+

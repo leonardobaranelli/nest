@@ -18,6 +18,7 @@ const Login = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const handleLogin = async () => {
+
     try {
       setLoginError(null);
       await dispatch(loginUserAsync({
@@ -34,6 +35,7 @@ const Login = () => {
       setLoginError((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Error desconocido");
     }
   };
+
 
   const handleLogout = () => {
     dispatch(logout());
