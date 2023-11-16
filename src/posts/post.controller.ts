@@ -19,6 +19,13 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Get()
+  findActive() {
+    return this.postService.findActive().catch((e) => {
+      throw e;
+    });
+  }
+
+  @Get('all')
   findAll() {
     return this.postService.findAll().catch((e) => {
       throw e;

@@ -19,6 +19,7 @@ export class UserService {
   create(createUserDto: CreateUserDto) {
     // Create a new user on the database on sequelize
     return this.userModel.create({ ...createUserDto }).catch((e) => {
+      console.log(e);
       throw new InternalServerErrorException('Error creando el usuario');
     });
   }
@@ -59,6 +60,30 @@ export class UserService {
       throw new InternalServerErrorException('Error eliminando usuario');
     });
 
+    return 'Borradado correctamente';
+  }
+
+  async forceRemove(id: string) {
+    // Delete a user from the database on sequelize
+    const user = await this.userModel
+      .findOne({
+        where: { id },
+        paranoid: false,
+      })
+      .catch((e) => {
+        throw new InternalServerErrorException('Error obteniendo usuario');
+      })
+      .then((user) => {
+        if (!user) {
+          throw new NotFoundException('Usuario no encontrado');
+        }
+        return user;
+      });
+
+    await user.destroy({ force: true }).catch((e) => {
+      throw new InternalServerErrorException('Error eliminando usuario');
+    });
+    
     return 'Borradado correctamente';
   }
 

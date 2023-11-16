@@ -68,4 +68,11 @@ export class UserController {
       throw e;
     });
   }
+
+  @Delete('force/:id')
+  forceRemove(@Param('id') id: string) {
+    return this.userService.forceRemove(id).catch((e) => {
+      throw e;
+    });
+  }
 }
