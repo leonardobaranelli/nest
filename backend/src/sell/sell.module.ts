@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SellService } from './sell.service';
 import { SellController } from './sell.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Sell } from 'src/shared/models/sell.model';
+import { Sell } from '../shared/models';
 
 @Module({
   imports: [SequelizeModule.forFeature([Sell])],

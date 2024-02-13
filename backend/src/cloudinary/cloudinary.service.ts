@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryResponse } from './cloudinary-response';
-import * as streamifier from 'streamifier'; // esta libreria se usa para que cloudinary pueda leer los archivos
+import * as streamifier from 'streamifier';
 
 @Injectable()
 export class CloudinaryService {

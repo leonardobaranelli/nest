@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ScoreController } from './score.controller';
 import { ScoreService } from './score.service';
-import { Score } from 'src/shared/models';
+import { Score } from '../shared/models';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Post, Rent } from 'src/shared/models';
+import { Post, Rent } from '../shared/models';
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';

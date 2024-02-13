@@ -2,7 +2,7 @@ import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
-import { User, Post, Rent, Comment, Score, Favorite } from './shared/models';
+import { User, Post, Rent, Comment, Score, Favorite, Sell } from './shared/models';
 import { config } from 'dotenv';
 import { PostModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
@@ -14,7 +14,6 @@ import { AppMailerModule } from './mailer/mailer.module';
 import { ScoreModule } from './score/score.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { RentModule } from './rent/rent.module';
-import { Sell } from './shared/models/sell.model';
 import { SellModule } from './sell/sell.module';
 import { CommentModule } from './comment/comment.module';
 

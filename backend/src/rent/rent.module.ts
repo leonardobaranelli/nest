@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { RentController } from './rent.controller';
-import { Rent } from 'src/shared/models';
+import { Rent } from '../shared/models';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
