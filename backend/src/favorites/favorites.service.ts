@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
-import { Favorite } from 'src/shared/models/favorite.model';
+import { Favorite } from '../shared/models/favorite.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { DeleteFavoriteDto } from './dto/delete-favorite.dto';
 

@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Comment } from 'src/shared/models';
+import { Comment } from '../shared/models';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Injectable()
