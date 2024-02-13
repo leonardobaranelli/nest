@@ -6,12 +6,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { UserService } from 'src/users/user.service';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { UserService } from '../users/user.service';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginUserDto } from './dto/loginUserDto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
-import { AppMailerService } from 'src/mailer/mailer.service';
+import { AppMailerService } from '../mailer/mailer.service';
 
 interface FacebookData {
   id: string;
