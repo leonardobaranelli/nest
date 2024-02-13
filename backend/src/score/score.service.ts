@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Score } from 'src/shared/models';
+import { Score } from '../shared/models';
 import { UpdateScoreDto } from './dto/update-score.dto';
 import { CreateScoreDto } from './dto/create-score.dto';
 

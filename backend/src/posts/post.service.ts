@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { Post } from '../shared/models';
 import { CreatePostDto } from './dto/create-post.dto';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 export interface PostWithScore extends Post {
   score: number;

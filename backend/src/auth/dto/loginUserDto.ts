@@ -2,8 +2,7 @@ import { Transform } from 'class-transformer';
 import {
   IsString,
   IsEmail,
-  IsNotEmpty,
-  IsOptional,
+  IsNotEmpty,  
   MinLength,
 } from 'class-validator';
 

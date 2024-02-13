@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Sell } from 'src/shared/models/sell.model';
+import { Sell } from '../shared/models/sell.model';
 import { CreateSellDto } from './dto/create-sell.dto';
 
 @Injectable()

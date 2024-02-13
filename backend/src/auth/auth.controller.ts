@@ -11,7 +11,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginUserDto } from './dto/loginUserDto';
 import { Request, Response } from 'express';
 
