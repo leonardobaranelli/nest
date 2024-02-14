@@ -19,10 +19,5 @@
                 "DELETE"
             ]
         }
-    ],
-    "functions": {
-        "include": {
-            "src/node_modules/pg/**/*": true
-        }
-    }
+    ]
 }
