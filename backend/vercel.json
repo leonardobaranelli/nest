@@ -1,23 +1,28 @@
 {
-    "version":2,
-    "builds":[
+    "version": 2,
+    "builds": [
         {
-            "src":"src/main.ts",
-            "use":"@vercel/node"
+            "src": "src/main.ts",
+            "use": "@vercel/node"
         }
     ],
-    "routes":[
+    "routes": [
         {
-            "src":"/(.*)",
-            "dest":"src/main.ts",
-            "methods":[
+            "src": "/(.*)",
+            "dest": "src/main.ts",
+            "methods": [
                 "GET",
                 "HEAD",
                 "PUT",
                 "PATCH",
                 "POST",
-                "DELETE"                
+                "DELETE"
             ]
         }
-    ]
+    ],
+    "functions": {
+        "include": {
+            "src/node_modules/pg/**/*": true
+        }
+    }
 }
