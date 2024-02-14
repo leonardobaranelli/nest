@@ -2,7 +2,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Sequelize } from 'sequelize-typescript';
-import * as cookieParser from 'cookie-parser';
+//import * as cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 import { execSync } from 'child_process';
 
 function getCurrentGitBranch(): string {
