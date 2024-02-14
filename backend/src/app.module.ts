@@ -31,6 +31,7 @@ config();
           password: process.env.DB_PASS,
           port: 5432,
           models: [User, Post, Rent, Comment, Score, Favorite, Sell],
+          dialectModule: require('pg'),
           dialectOptions: {
             ssl: {
               require: true,
