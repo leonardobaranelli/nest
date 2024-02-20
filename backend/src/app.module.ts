@@ -1,5 +1,3 @@
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
 import { User, Post, Rent, Comment, Score, Favorite, Sell } from './shared/models';
@@ -54,7 +52,7 @@ config();
     SellModule,
     CommentModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
