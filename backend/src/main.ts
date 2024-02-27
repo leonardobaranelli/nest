@@ -38,7 +38,7 @@ async function bootstrap() {
   );
   app.enableCors({
     origin: frontUrl,
-    methods: '*',
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
     credentials: true,
     optionsSuccessStatus: 204,
   });
