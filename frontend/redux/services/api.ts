@@ -56,7 +56,7 @@ export const postsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL }),
   endpoints: (builder) => ({
     getPostsByCondition: builder.query<Post[], string>({
-      query: (condition) => `/posts/${condition}`,
+      query: (condition) => `/posts/condition/${condition}`,
     }),
     getPosts: builder.query<Post[], string>({
       query: () => "/posts",
