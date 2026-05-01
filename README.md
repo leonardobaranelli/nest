@@ -1,6 +1,6 @@
 <h3 align="center">NEST</h3> 
   
-<p align="center">Final Group Project of the Full Stack Developer bootcamp at Soy Henry.</p>
+<p align="center">Platform that simplifies buying and renting properties</p>
 <hr/>
 
 **<p align="center">Main technologies used</p>**
